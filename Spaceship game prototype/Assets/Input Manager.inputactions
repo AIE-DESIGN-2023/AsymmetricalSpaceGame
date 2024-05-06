@@ -1,0 +1,22 @@
+{
+    "name": "Input Manager",
+    "maps": [
+        {
+            "name": "Player1",
+            "id": "43c73b9d-dbe9-4b7e-8ec0-76f508372bc0",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "36096cde-de0d-4656-8c59-926140fded71",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": []
+        }
+    ],
+    "controlSchemes": []
+}
