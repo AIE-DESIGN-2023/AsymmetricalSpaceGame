@@ -17,6 +17,8 @@ public class TopDownCharacterMover : MonoBehaviour
     [SerializeField]
     private float RotationSpeed;
 
+    [SerializeField]
+    private Camera Camera;
 
     private Vector2 inputVec;
 
