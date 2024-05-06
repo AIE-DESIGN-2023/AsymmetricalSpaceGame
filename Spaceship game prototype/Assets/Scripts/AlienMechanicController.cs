@@ -13,11 +13,22 @@ public class AlienMechanicController : MonoBehaviour
 
     public GameObject eggToLay;
 
+    public bool isDestroyingCable;
+    public float cableDestroyTime;
+    public float currentCableDestroyTime;
+    [Header("Active Cables:")]
+    public bool redCable1;
+    public bool redCable2;
+    public bool redCable3;
+    public bool blueCable1;
+    public bool blueCable2;
+    public bool blueCable3;
+
     // Start is called before the first frame update
     void Start()
     {
-        currentEggLayingTime = eggLayingTime;
-
+        currentEggLayingTime = 0;
+        currentCableDestroyTime = 0;
 
 
     }
@@ -26,18 +37,22 @@ public class AlienMechanicController : MonoBehaviour
     void Update()
     {
         if (isLayingEgg == true)
-        { currentEggLayingTime -= Time.deltaTime; }
+        { currentEggLayingTime += Time.deltaTime; }
+        if (isDestroyingCable == true)
+        { currentCableDestroyTime += Time.deltaTime; }
+
+        //check for cable dead or nah
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collider.gameObject.tag == "Human" && isHoldingFlesh == false)
+        if (other.gameObject.tag == "Human" && isHoldingFlesh == false)
         { isHoldingFlesh = true; }
 
         //for Alien 2
-        if (collider.gameObject.tag == "Alien01" && isHoldingFlesh == true && eggPriority == 2)
+        if (other.gameObject.tag == "Alien01" && isHoldingFlesh == true && eggPriority == 2)
         {
-            AlienMechanicController alienMechanicController = collider.gameObject.GetComponent<AlienMechanicController>();
+            AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
                 isLayingEgg = true;
@@ -46,9 +61,9 @@ public class AlienMechanicController : MonoBehaviour
         }
 
         //For Alien 1
-        if (collider.gameObject.tag == "Alien02" && isHoldingFlesh == true && eggPriority == 1)
+        if (other.gameObject.tag == "Alien02" && isHoldingFlesh == true && eggPriority == 1)
         {
-            AlienMechanicController alienMechanicController = collider.gameObject.GetComponent<AlienMechanicController>();
+            AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
             {
                 isLayingEgg = true;
@@ -57,9 +72,9 @@ public class AlienMechanicController : MonoBehaviour
         }
 
         //if both aliens have flesh
-        if (collider.gameObject.tag == "Alien01" && isHoldingFlesh == true && eggPriority == 2)
+        if (other.gameObject.tag == "Alien01" && isHoldingFlesh == true && eggPriority == 2)
         {
-            AlienMechanicController alienMechanicController = collider.gameObject.GetComponent<AlienMechanicController>();
+            AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
             {
                 isLayingEgg = true;
@@ -67,16 +82,38 @@ public class AlienMechanicController : MonoBehaviour
                 Invoke("CheckForSecondFlesh", eggLayingTime + 0.5f);
             }
         }
+
+        if (other.gameObject.tag == "RedCable01" && redCable1 == true)
+        {
+            isDestroyingCable = true;
+
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Alien01")
+        {
+            isLayingEgg = false;
+            currentEggLayingTime = 0;
+        }
+
+        if (other.tag == "Alien02")
+        {
+            isLayingEgg = false;
+            currentEggLayingTime = 0;
+        }
     }
 
     void CheckForEggLayingTime()
     {
-        if (currentEggLayingTime <= 0)
+        if (currentEggLayingTime >= eggLayingTime)
         {
             LayEgg();
             isHoldingFlesh = false;
             isLayingEgg = false;
-            currentEggLayingTime = eggLayingTime;
+            currentEggLayingTime = 0;
         }
     }
 
