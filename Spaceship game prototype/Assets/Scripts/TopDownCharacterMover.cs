@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(InputHandler))]
 public class TopDownCharacterMover : MonoBehaviour
@@ -16,8 +17,8 @@ public class TopDownCharacterMover : MonoBehaviour
     [SerializeField]
     private float RotationSpeed;
 
-    [SerializeField]
-    private Camera Camera;
+
+    private Vector2 inputVec;
 
     private void Awake()
     {
@@ -27,7 +28,7 @@ public class TopDownCharacterMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         var targetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
         var movementVector = MoveTowardTarget(targetVector);
 
@@ -39,7 +40,8 @@ public class TopDownCharacterMover : MonoBehaviour
         {
             RotateFromMouseVector();
         }
-
+        
+        //transform.position += new Vector3(inputVect.x, 0, inputVector.y) * Time.deltaTime;
     }
 
     private void RotateFromMouseVector()
@@ -72,4 +74,10 @@ public class TopDownCharacterMover : MonoBehaviour
         var rotation = Quaternion.LookRotation(movementDirection);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, RotationSpeed);
     }
+
+        /*public void OnMove(InputValue context)
+    {
+        Vector2 inputVector = context.Get<Vector2>();
+        inputVec = inputVector;
+    }*/
 }
