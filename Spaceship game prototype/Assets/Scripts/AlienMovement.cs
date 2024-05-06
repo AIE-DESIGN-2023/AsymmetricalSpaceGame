@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class AlienMovement : MonoBehaviour
 {
     public float speed;
     public float rotationSpeed;
 
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal2");
+        float verticalInput = Input.GetAxis("Vertical2");
 
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         movementDirection.Normalize();
