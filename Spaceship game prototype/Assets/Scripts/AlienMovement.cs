@@ -16,9 +16,13 @@ public class AlienMovement : MonoBehaviour
 
     private Vector2 inputVec;
 
+    AlienMechanicController alienMechanicController;
+
     // Start is called before the first frame update
     void Start()
     {
+        alienMechanicController = GetComponentInChildren<AlienMechanicController>();
+
         rb = GetComponent<Rigidbody>();
     }
 

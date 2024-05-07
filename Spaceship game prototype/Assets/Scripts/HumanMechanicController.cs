@@ -19,16 +19,26 @@ public class HumanMechanicController : MonoBehaviour
     public bool terminal3Complete;
     public bool terminal4Complete;
 
+    [Space]
 
     public float timeToDisable;
     public float currentDisablingTime;
     public bool isDisabling;
 
-    //chainsaw
+    [Space]
+
+    public bool chainsawActive;
+    public float chainsawDuration;
+    public float currentChainsawDuration;
+    public GameObject heldChainsaw;
+
+    [Space]
 
     public bool isImmuneToKnockdown;
     public float knockdownTime;
     public float invincibilityFrameTime;
+
+    [Space]
 
     public bool reactorMeltdown;
     public GameObject reactorNormal;
@@ -44,6 +54,7 @@ public class HumanMechanicController : MonoBehaviour
     void Start()
     {
         currentHackTime = 0;
+        currentChainsawDuration = chainsawDuration;
         invincibilityFrameTime = invincibilityFrameTime + knockdownTime; //this may need a different variable like invincDuration
 
         hackLoadingBarObject.SetActive(false);
@@ -77,6 +88,18 @@ public class HumanMechanicController : MonoBehaviour
             { CompleteTerminal03(); terminal3Complete = true; CheckForReactorMeltdown(); hackLoadingBarObject.SetActive(false); }
             if (terminal4 == true)
             { CompleteTerminal04(); terminal4Complete = true; CheckForReactorMeltdown(); hackLoadingBarObject.SetActive(false); }
+        }
+
+        if (chainsawActive == true)
+        {
+            currentChainsawDuration -= Time.deltaTime;
+            //should we have something to show chainsaw timer? maybe blinking if possible, could be gasoline jug
+        }
+        if (currentChainsawDuration >= 0)
+        {
+            Debug.Log("Deactivating chainsaw");
+            chainsawActive = false;
+            heldChainsaw.SetActive(false);
         }
     }
 
@@ -130,6 +153,14 @@ public class HumanMechanicController : MonoBehaviour
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
             isImmuneToKnockdown = true;
+        }
+
+        if (other.tag == "ChainsawPickup")
+        {
+            Debug.Log("Picked up chainsaw");
+            chainsawActive = true;
+            Destroy(other.gameObject);
+            heldChainsaw.SetActive(true);
         }
 
         if (other.tag == "Dropship" && reactorMeltdown == true)

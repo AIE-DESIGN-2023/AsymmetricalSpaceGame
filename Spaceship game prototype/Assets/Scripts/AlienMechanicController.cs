@@ -15,8 +15,11 @@ public class AlienMechanicController : MonoBehaviour
     public float eggLayingTime;
     public float currentEggLayingTime;
 
+    public bool isMoving;
+
     public Image eggLoadingBarImage;
 
+    public GameObject heldFlesh;
     public GameObject eggToLay;
 
     [Space]
@@ -37,7 +40,7 @@ public class AlienMechanicController : MonoBehaviour
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
 
-
+        heldFlesh.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,6 +50,8 @@ public class AlienMechanicController : MonoBehaviour
 
         if (isLayingEgg == true)
         { currentEggLayingTime += Time.deltaTime; }
+        if (isMoving == true)
+        { currentEggLayingTime -= Time.deltaTime; }
         if (isDestroyingCable == true)
         { currentCableDestroyTime += Time.deltaTime; }
 
@@ -56,7 +61,7 @@ public class AlienMechanicController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Human" && isHoldingFlesh == false)
-        { isHoldingFlesh = true; Debug.Log("Hit Human"); }
+        { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
         //For Alien 1
         if (other.gameObject.tag == "Alien02" && isHoldingFlesh == true && isAlien01 == true)
@@ -142,6 +147,7 @@ public class AlienMechanicController : MonoBehaviour
 
     void LayEgg()
     {
-        Instantiate(eggToLay);
+        heldFlesh.SetActive(false);
+        Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
     }
 }
