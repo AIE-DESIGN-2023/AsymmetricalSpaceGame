@@ -14,16 +14,28 @@ public class HumanMechanicController : MonoBehaviour
     public bool terminal3;
     public bool terminal4;
 
+    public bool terminal1Complete;
+    public bool terminal2Complete;
+    public bool terminal3Complete;
+    public bool terminal4Complete;
+
+
     public float timeToDisable;
     public float currentDisablingTime;
     public bool isDisabling;
+
+    //chainsaw
 
     public bool isImmuneToKnockdown;
     public float knockdownTime;
     public float invincibilityFrameTime;
 
     public bool reactorMeltdown;
+    public GameObject reactorNormal;
+    public GameObject reactorMelting;
+    public GameObject temporaryWinStatus;
 
+    public GameObject hackLoadingBarObject;
     public Image hackLoadingBarImage;
 
     //get movement script for knockdown
@@ -33,6 +45,12 @@ public class HumanMechanicController : MonoBehaviour
     {
         currentHackTime = 0;
         invincibilityFrameTime = invincibilityFrameTime + knockdownTime; //this may need a different variable like invincDuration
+
+        hackLoadingBarObject.SetActive(false);
+
+        reactorNormal.SetActive(true);
+        reactorMelting.SetActive(false);
+        temporaryWinStatus.SetActive(false);
     }
 
     // Update is called once per frame
@@ -43,6 +61,7 @@ public class HumanMechanicController : MonoBehaviour
         if (isHacking == true)
         {
             currentHackTime += Time.deltaTime;
+            hackLoadingBarObject.SetActive(true);
         }
 
         if (currentHackTime >= timeToHack)
@@ -51,23 +70,44 @@ public class HumanMechanicController : MonoBehaviour
             isHacking = false;
 
             if (terminal1 == true)
-            { CompleteTerminal01(); }
+            { CompleteTerminal01(); terminal1Complete = true; CheckForReactorMeltdown(); hackLoadingBarObject.SetActive(false); }
             if (terminal2 == true)
-            { CompleteTerminal02(); }
+            { CompleteTerminal02(); terminal2Complete = true; CheckForReactorMeltdown(); hackLoadingBarObject.SetActive(false); }
             if (terminal3 == true)
-            { CompleteTerminal03(); }
+            { CompleteTerminal03(); terminal3Complete = true; CheckForReactorMeltdown(); hackLoadingBarObject.SetActive(false); }
             if (terminal4 == true)
-            { CompleteTerminal04(); }
+            { CompleteTerminal04(); terminal4Complete = true; CheckForReactorMeltdown(); hackLoadingBarObject.SetActive(false); }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Terminal01") //&& Input.GetKeyDown(KeyCode.E)     //change to controller input
+        if (other.tag == "Terminal01")
         {
             Debug.Log("Begin Hacking Terminal 01");
             isHacking = true;
             terminal1 = true;
+        }
+
+        if (other.tag == "Terminal02")
+        {
+            Debug.Log("Begin Hacking Terminal 02");
+            isHacking = true;
+            terminal2 = true;
+        }
+
+        if (other.tag == "Terminal03")
+        {
+            Debug.Log("Begin Hacking Terminal 03");
+            isHacking = true;
+            terminal3 = true;
+        }
+
+        if (other.tag == "Terminal04")
+        {
+            Debug.Log("Begin Hacking Terminal 04");
+            isHacking = true;
+            terminal4 = true;
         }
 
         if (other.tag == "TerminalAI")
@@ -106,6 +146,34 @@ public class HumanMechanicController : MonoBehaviour
             isHacking = false;
             currentHackTime = 0;
             terminal1 = false;
+            hackLoadingBarObject.SetActive(false);
+        }
+
+        if (other.tag == "Terminal02")
+        {
+            Debug.Log("Stopped Hacking Terminal 02");
+            isHacking = false;
+            currentHackTime = 0;
+            terminal2 = false;
+            hackLoadingBarObject.SetActive(false);
+        }
+
+        if (other.tag == "Terminal03")
+        {
+            Debug.Log("Stopped Hacking Terminal 03");
+            isHacking = false;
+            currentHackTime = 0;
+            terminal3 = false;
+            hackLoadingBarObject.SetActive(false);
+        }
+
+        if (other.tag == "Terminal04")
+        {
+            Debug.Log("Stopped Hacking Terminal 04");
+            isHacking = false;
+            currentHackTime = 0;
+            terminal4 = false;
+            hackLoadingBarObject.SetActive(false);
         }
 
         if (other.tag == "TerminalAI")
@@ -113,6 +181,13 @@ public class HumanMechanicController : MonoBehaviour
             Debug.Log("Stopped Hacking SHIP AI");
             isDisabling = false;
             currentDisablingTime = 0;
+            hackLoadingBarObject.SetActive(false);
+        }
+
+        if (other.tag == "Egg")
+        {
+            Debug.Log("Stepped on egg");
+            Destroy(other.gameObject);
         }
     }
 
@@ -140,8 +215,19 @@ public class HumanMechanicController : MonoBehaviour
         isImmuneToKnockdown = false;
     }
 
+    void CheckForReactorMeltdown()
+    {
+        if (terminal1Complete == true && terminal2Complete == true && terminal3Complete == true && terminal4Complete == true)
+        {
+            reactorMeltdown = true;
+            reactorNormal.SetActive(false);
+            reactorMelting.SetActive(true);
+        }
+    }
+
     void HumanWinsGame()
     {
-
+        Debug.Log("human won the game");
+        temporaryWinStatus.SetActive(true);
     }
 }

@@ -30,9 +30,4 @@ public class HumanMovement : MonoBehaviour
         inputMovementVector3 = new Vector3(inputMovementVector.x, 0, inputMovementVector.y);
     }
 
-    public void OnMove(InputValue context)
-    {
-        Vector2 inputVector = context.Get<Vector2>();
-        inputVec = inputVector;
-    }
 }

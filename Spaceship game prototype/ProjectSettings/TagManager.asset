@@ -7,6 +7,14 @@ TagManager:
   - Terminal01
   - Human
   - long
+  - Enemy
+  - Alien01
+  - Alien02
+  - Terminal02
+  - Terminal03
+  - Terminal04
+  - Dropship
+  - Egg
   layers:
   - Default
   - TransparentFX
