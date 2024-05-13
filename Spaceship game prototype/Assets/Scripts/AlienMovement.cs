@@ -20,10 +20,15 @@ public class AlienMovement : MonoBehaviour
     public Rigidbody rb_alien1;
     public Rigidbody rb_alien2;
 
+    public bool alien1CanMove;
+    public bool alien2CanMove;
+
     // Start is called before the first frame update
     void Start()
     {
         alienMechanicController = GetComponentInChildren<AlienMechanicController>();
+        alien1CanMove = true;
+        alien2CanMove = true;
 
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();
@@ -34,8 +39,15 @@ public class AlienMovement : MonoBehaviour
     {
         //alien0.transform.position += inputMovementVector3_1 * movementSpeed * Time.deltaTime;
         //alien2.transform.position += inputMovementVector3_2 * movementSpeed * Time.deltaTime;
-        rb_alien1.AddForce(inputMovementVector3_1 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
-        rb_alien2.AddForce(inputMovementVector3_2 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+        if (alien1CanMove == true)
+        {
+            rb_alien1.AddForce(inputMovementVector3_1 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+        }
+        if (alien2CanMove == true)
+        {
+            rb_alien2.AddForce(inputMovementVector3_2 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+        }
+
     }
 
     public void MoveLeftJoysick(InputAction.CallbackContext context)

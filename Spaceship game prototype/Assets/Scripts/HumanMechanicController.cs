@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class HumanMechanicController : MonoBehaviour
 {
+    HumanMovement humanMovement;
+
     public float timeToHack;
     public float currentHackTime;
     public bool isHacking;
@@ -53,6 +55,8 @@ public class HumanMechanicController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HumanMovement humanMovement = GetComponent<HumanMovement>();
+
         currentHackTime = 0;
         currentChainsawDuration = chainsawDuration;
         invincibilityFrameTime = invincibilityFrameTime + knockdownTime; //this may need a different variable like invincDuration
@@ -237,11 +241,13 @@ public class HumanMechanicController : MonoBehaviour
     void GetKnockdown()
     {
         //pause movement
+        humanMovement.canMove = false;
     }
 
     void KnockdownRecovery()
     {
         //unpause movement
+        humanMovement.canMove = true;
     }
 
     void RemoveKnockdownImmunity()
