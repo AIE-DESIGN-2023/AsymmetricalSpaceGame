@@ -25,6 +25,7 @@ public class AlienMechanicController : MonoBehaviour
 
     public bool isMoving;
 
+    public GameObject eggLoadBarObject;
     public Image eggLoadingBarImage;
 
     public GameObject heldFlesh;
@@ -56,6 +57,7 @@ public class AlienMechanicController : MonoBehaviour
 
         heldFlesh.SetActive(false);
 
+        eggLoadBarObject.SetActive(false);
         cableLoadBarObject.SetActive(false);
     }
 
@@ -105,6 +107,7 @@ public class AlienMechanicController : MonoBehaviour
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
+                eggLoadBarObject.SetActive(true);
                 Debug.Log("Alien01 laying egg, Alien02 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -117,6 +120,7 @@ public class AlienMechanicController : MonoBehaviour
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
+                eggLoadBarObject.SetActive(true);
                 Debug.Log("Alien02 laying egg, Alien01 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -129,6 +133,7 @@ public class AlienMechanicController : MonoBehaviour
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
             {
+                eggLoadBarObject.SetActive(true);
                 Debug.Log("Both Aliens have flesh, Alien01 laying egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
