@@ -5,10 +5,17 @@ using UnityEngine.UI;
 
 public class AlienMechanicController : MonoBehaviour
 {
+    public CableScript cableScript;
+
     public bool isAlien01;
     public bool isAlien02;
     [Space]
 
+    public Transform spawnpoint;
+    public float respawnTime;
+    public bool isDead;
+
+    [Space]
     //get the human knockdown script
     public bool isHoldingFlesh;
     public bool isLayingEgg;
@@ -23,6 +30,8 @@ public class AlienMechanicController : MonoBehaviour
     public GameObject eggToLay;
 
     [Space]
+    public GameObject cableLoadBarObject;
+    public Image cableLoadBarImage;
     public bool isDestroyingCable;
     public float cableDestroyTime;
     public float currentCableDestroyTime;
@@ -34,19 +43,25 @@ public class AlienMechanicController : MonoBehaviour
     public bool blueCable2;
     public bool blueCable3;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        CableScript cableScript = GetComponentInParent<CableScript>();
+
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
 
         heldFlesh.SetActive(false);
+
+        cableLoadBarObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         eggLoadingBarImage.fillAmount = currentEggLayingTime / eggLayingTime;
+        cableLoadBarImage.fillAmount = currentCableDestroyTime / cableDestroyTime;
 
         if (isLayingEgg == true)
         { currentEggLayingTime += Time.deltaTime; }
@@ -54,6 +69,25 @@ public class AlienMechanicController : MonoBehaviour
         { currentEggLayingTime -= Time.deltaTime; }
         if (isDestroyingCable == true)
         { currentCableDestroyTime += Time.deltaTime; }
+
+        if (currentCableDestroyTime >= cableDestroyTime)
+        {
+            currentCableDestroyTime = 0;
+            isDestroyingCable = false;
+
+            if (redCable1 == true)
+            { cableScript.DestroyRedCable1(); cableLoadBarObject.SetActive(false); ResetCables(); }
+            if (redCable2 == true)
+            { cableScript.DestroyRedCable2(); cableLoadBarObject.SetActive(false); ResetCables(); }
+            if (redCable3 == true)
+            { cableScript.DestroyRedCable3(); cableLoadBarObject.SetActive(false); ResetCables(); }
+            if (blueCable1 == true)
+            { cableScript.DestroyBlueCable1(); cableLoadBarObject.SetActive(false); ResetCables(); }
+            if (blueCable2 == true)
+            { cableScript.DestroyBlueCable2(); cableLoadBarObject.SetActive(false); ResetCables(); }
+            if (blueCable3 == true)
+            { Debug.Log("1"); cableScript.DestroyBlueCable3(); Debug.Log("2"); cableLoadBarObject.SetActive(false); ResetCables(); }
+        }
 
         //check for cable dead or nah
     }
@@ -100,12 +134,65 @@ public class AlienMechanicController : MonoBehaviour
             }
         }
 
-        if (other.gameObject.tag == "RedCable01" && redCable1 == true)
+        if (other.tag == "Chainsaw")
+        {
+            Debug.Log("Alien has been slain");
+            isDead = true;
+            isHoldingFlesh = false;
+            heldFlesh.SetActive(false);
+            this.gameObject.SetActive(false);
+            this.gameObject.transform.position = spawnpoint.position;
+            Invoke("Respawn", respawnTime);
+        }
+
+        if (other.tag == "AlphaCable01")
         {
             isDestroyingCable = true;
+            redCable1 = true;
             Debug.Log("Destroying Red Cable 01");
+            cableLoadBarObject.SetActive(true);
         }
-        
+
+        if (other.tag == "AlphaCable02")
+        {
+            isDestroyingCable = true;
+            redCable2 = true;
+            Debug.Log("Destroying Red Cable 02");
+            cableLoadBarObject.SetActive(true);
+        }
+
+        if (other.tag == "AlphaCable03")
+        {
+            isDestroyingCable = true;
+            redCable3 = true;
+            Debug.Log("Destroying Red Cable 03");
+            cableLoadBarObject.SetActive(true);
+        }
+
+        if (other.tag == "BetaCable01")
+        {
+            isDestroyingCable = true;
+            blueCable1 = true;
+            Debug.Log("Destroying Blue Cable 01");
+            cableLoadBarObject.SetActive(true);
+        }
+
+        if (other.tag == "BetaCable02")
+        {
+            isDestroyingCable = true;
+            blueCable2 = true;
+            Debug.Log("Destroying Blue Cable 02");
+            cableLoadBarObject.SetActive(true);
+        }
+
+        if (other.tag == "BetaCable03")
+        {
+            isDestroyingCable = true;
+            blueCable3 = true;
+            Debug.Log("Destroying Blue Cable 03");
+            cableLoadBarObject.SetActive(true);
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -121,6 +208,65 @@ public class AlienMechanicController : MonoBehaviour
             isLayingEgg = false;
             currentEggLayingTime = 0;
         }
+
+        if (other.tag == "AlphaCable01")
+        {
+            Debug.Log("Stopped destroying red cable 1");
+            isDestroyingCable = false;
+            currentCableDestroyTime = 0;
+            redCable1 = false;
+            cableLoadBarObject.SetActive(false);
+        }
+        if (other.tag == "AlphaCable02")
+        {
+            Debug.Log("Stopped destroying red cable 2");
+            isDestroyingCable = false;
+            currentCableDestroyTime = 0;
+            redCable2 = false;
+            cableLoadBarObject.SetActive(false);
+        }
+        if (other.tag == "AlphaCable03")
+        {
+            Debug.Log("Stopped destroying red cable 3");
+            isDestroyingCable = false;
+            currentCableDestroyTime = 0;
+            redCable3 = false;
+            cableLoadBarObject.SetActive(false);
+        }
+        if (other.tag == "BetaCable01")
+        {
+            Debug.Log("Stopped destroying blue cable 1");
+            isDestroyingCable = false;
+            currentCableDestroyTime = 0;
+            blueCable1 = false;
+            cableLoadBarObject.SetActive(false);
+        }
+        if (other.tag == "BetaCable02")
+        {
+            Debug.Log("Stopped destroying blue cable 2");
+            isDestroyingCable = false;
+            currentCableDestroyTime = 0;
+            blueCable2 = false;
+            cableLoadBarObject.SetActive(false);
+        }
+        if (other.tag == "BetaCable03")
+        {
+            Debug.Log("Stopped destroying blue cable 3");
+            isDestroyingCable = false;
+            currentCableDestroyTime = 0;
+            blueCable3 = false;
+            cableLoadBarObject.SetActive(false);
+        }
+    }
+
+    void ResetCables()
+    {
+        redCable1 = false;
+        redCable2 = false;
+        redCable3 = false;
+        blueCable1 = false;
+        blueCable2 = false;
+        blueCable3 = false;
     }
 
     void CheckForEggLayingTime()
@@ -149,5 +295,12 @@ public class AlienMechanicController : MonoBehaviour
     {
         heldFlesh.SetActive(false);
         Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
+    }
+
+    void Respawn()
+    {
+        Debug.Log("Alien is respawning");
+        isDead = false;
+        this.gameObject.SetActive(true);
     }
 }

@@ -15,6 +15,14 @@ TagManager:
   - Terminal04
   - Dropship
   - Egg
+  - ChainsawPickup
+  - Chainsaw
+  - AlphaCable01
+  - AlphaCable02
+  - AlphaCable03
+  - BetaCable01
+  - BetaCable02
+  - BetaCable03
   layers:
   - Default
   - TransparentFX

@@ -59,6 +59,8 @@ public class HumanMechanicController : MonoBehaviour
 
         hackLoadingBarObject.SetActive(false);
 
+        heldChainsaw.SetActive(false);
+
         reactorNormal.SetActive(true);
         reactorMelting.SetActive(false);
         temporaryWinStatus.SetActive(false);
@@ -95,11 +97,12 @@ public class HumanMechanicController : MonoBehaviour
             currentChainsawDuration -= Time.deltaTime;
             //should we have something to show chainsaw timer? maybe blinking if possible, could be gasoline jug
         }
-        if (currentChainsawDuration >= 0)
+        if (currentChainsawDuration <= 0)
         {
             Debug.Log("Deactivating chainsaw");
             chainsawActive = false;
             heldChainsaw.SetActive(false);
+            currentChainsawDuration = chainsawDuration;
         }
     }
 
