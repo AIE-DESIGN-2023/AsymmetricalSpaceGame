@@ -52,13 +52,21 @@ public class AlienMovement : MonoBehaviour
 
     public void MoveLeftJoysick(InputAction.CallbackContext context)
     {
+        if (alien1CanMove)
+        {
         inputMovementVector_1 = context.ReadValue<Vector2>();
         inputMovementVector3_1 = new Vector3(inputMovementVector_1.x, 0, inputMovementVector_1.y);
+        }
+
     }
 
     public void MoveRightJoysick(InputAction.CallbackContext context)
     {
+        if (alien2CanMove)
+        {
         inputMovementVector_2 = context.ReadValue<Vector2>();
         inputMovementVector3_2 = new Vector3(inputMovementVector_2.x, 0, inputMovementVector_2.y);
+        }
+
     }
 }

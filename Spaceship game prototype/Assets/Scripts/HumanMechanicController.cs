@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HumanMechanicController : MonoBehaviour
 {
-    HumanMovement humanMovement;
+    public HumanMovement humanMovement;
 
     public float timeToHack;
     public float currentHackTime;
@@ -240,14 +240,19 @@ public class HumanMechanicController : MonoBehaviour
 
     void GetKnockdown()
     {
+        
+        humanMovement.PauseMovement();
         //pause movement
-        humanMovement.canMove = false;
+        //humanMovement.canMove = false;
+        Debug.Log("Knocked by alien");
     }
 
     void KnockdownRecovery()
     {
+        humanMovement.ResumeMovement();
+        Debug.Log("Recovering from knopckdown");
         //unpause movement
-        humanMovement.canMove = true;
+        //humanMovement.canMove = true;
     }
 
     void RemoveKnockdownImmunity()

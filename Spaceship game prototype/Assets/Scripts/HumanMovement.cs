@@ -34,10 +34,24 @@ public class HumanMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (canMove)
+        {
         inputMovementVector = context.ReadValue<Vector2>();
         inputMovementVector3 = new Vector3(inputMovementVector.x, 0, inputMovementVector.y);
+        }
+
         //Debug.LogError("nah id win");
-        Debug.Log(context);
+        //Debug.Log(context);
+    }
+
+    public void PauseMovement()
+    {
+        canMove = false;
+    }
+
+    public void ResumeMovement()
+    {
+        canMove = true;
     }
 
 }
