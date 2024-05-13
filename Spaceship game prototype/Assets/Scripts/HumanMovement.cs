@@ -19,15 +19,18 @@ public class HumanMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position += inputMovementVector3 * movementSpeed * Time.deltaTime;
+        //transform.position += inputMovementVector3 * movementSpeed * Time.deltaTime;
+        rb.AddForce(inputMovementVector3 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         inputMovementVector = context.ReadValue<Vector2>();
         inputMovementVector3 = new Vector3(inputMovementVector.x, 0, inputMovementVector.y);
+        //Debug.LogError("nah id win");
+        Debug.Log(context);
     }
 
 }
