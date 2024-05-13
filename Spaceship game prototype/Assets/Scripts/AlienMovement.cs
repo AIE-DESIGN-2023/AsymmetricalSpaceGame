@@ -9,7 +9,7 @@ public class AlienMovement : MonoBehaviour
     private Vector3 inputMovementVector3_1;
     private Vector2 inputMovementVector_2;
     private Vector3 inputMovementVector3_2;
-    private Rigidbody rb;
+    //private Rigidbody rb;
     public float movementSpeed;
     public GameObject alien0;
     public GameObject alien2;
@@ -17,20 +17,25 @@ public class AlienMovement : MonoBehaviour
     private Vector2 inputVec;
 
     AlienMechanicController alienMechanicController;
+    public Rigidbody rb_alien1;
+    public Rigidbody rb_alien2;
 
     // Start is called before the first frame update
     void Start()
     {
         alienMechanicController = GetComponentInChildren<AlienMechanicController>();
 
-        rb = GetComponent<Rigidbody>();
+        //rb_alien1 = GetComponentInChildren<Rigidbody>();
+        //rb_alien2 = GetComponentInChildren<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        alien0.transform.position += inputMovementVector3_1 * movementSpeed * Time.deltaTime;
-        alien2.transform.position += inputMovementVector3_2 * movementSpeed * Time.deltaTime;
+        //alien0.transform.position += inputMovementVector3_1 * movementSpeed * Time.deltaTime;
+        //alien2.transform.position += inputMovementVector3_2 * movementSpeed * Time.deltaTime;
+        rb_alien1.AddForce(inputMovementVector3_1 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+        rb_alien2.AddForce(inputMovementVector3_2 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
     }
 
     public void MoveLeftJoysick(InputAction.CallbackContext context)
