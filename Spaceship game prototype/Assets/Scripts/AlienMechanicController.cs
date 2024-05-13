@@ -1,93 +1,153 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AlienMechanicController : MonoBehaviour
 {
+    public bool isAlien01;
+    public bool isAlien02;
+    [Space]
+
     //get the human knockdown script
     public bool isHoldingFlesh;
     public bool isLayingEgg;
-    public int eggPriority;
     public float eggLayingTime;
     public float currentEggLayingTime;
 
+    public bool isMoving;
+
+    public Image eggLoadingBarImage;
+
+    public GameObject heldFlesh;
     public GameObject eggToLay;
+
+    [Space]
+    public bool isDestroyingCable;
+    public float cableDestroyTime;
+    public float currentCableDestroyTime;
+    [Header("Active Cables:")]
+    public bool redCable1;
+    public bool redCable2;
+    public bool redCable3;
+    public bool blueCable1;
+    public bool blueCable2;
+    public bool blueCable3;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentEggLayingTime = eggLayingTime;
+        currentEggLayingTime = 0;
+        currentCableDestroyTime = 0;
 
-
-
+        heldFlesh.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        eggLoadingBarImage.fillAmount = currentEggLayingTime / eggLayingTime;
+
         if (isLayingEgg == true)
+        { currentEggLayingTime += Time.deltaTime; }
+        if (isMoving == true)
         { currentEggLayingTime -= Time.deltaTime; }
+        if (isDestroyingCable == true)
+        { currentCableDestroyTime += Time.deltaTime; }
+
+        //check for cable dead or nah
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collider.gameObject.tag == "Human" && isHoldingFlesh == false)
-        { isHoldingFlesh = true; }
+        if (other.gameObject.tag == "Human" && isHoldingFlesh == false)
+        { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
-        //for Alien 2
-        if (collider.gameObject.tag == "Alien01" && isHoldingFlesh == true && eggPriority == 2)
+        //For Alien 1
+        if (other.gameObject.tag == "Alien02" && isHoldingFlesh == true && isAlien01 == true)
         {
-            AlienMechanicController alienMechanicController = collider.gameObject.GetComponent<AlienMechanicController>();
+            AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
+                Debug.Log("Alien01 laying egg, Alien02 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
             }
         }
 
-        //For Alien 1
-        if (collider.gameObject.tag == "Alien02" && isHoldingFlesh == true && eggPriority == 1)
+        //for Alien 2
+        if (other.gameObject.tag == "Alien01" && isHoldingFlesh == true && isAlien02 == true)
         {
-            AlienMechanicController alienMechanicController = collider.gameObject.GetComponent<AlienMechanicController>();
-            if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
+            AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
+            if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
+                Debug.Log("Alien02 laying egg, Alien01 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
             }
         }
 
         //if both aliens have flesh
-        if (collider.gameObject.tag == "Alien01" && isHoldingFlesh == true && eggPriority == 2)
+        if (other.gameObject.tag == "Alien02" && isHoldingFlesh == true)
         {
-            AlienMechanicController alienMechanicController = collider.gameObject.GetComponent<AlienMechanicController>();
+            AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
             {
+                Debug.Log("Both Aliens have flesh, Alien01 laying egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
-                Invoke("CheckForSecondFlesh", eggLayingTime + 0.5f);
+                alienMechanicController.Invoke("CheckForSecondFlesh", eggLayingTime + 0.5f);
             }
+        }
+
+        if (other.gameObject.tag == "RedCable01" && redCable1 == true)
+        {
+            isDestroyingCable = true;
+            Debug.Log("Destroying Red Cable 01");
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Alien01")
+        {
+            isLayingEgg = false;
+            currentEggLayingTime = 0;
+        }
+
+        if (other.tag == "Alien02")
+        {
+            isLayingEgg = false;
+            currentEggLayingTime = 0;
         }
     }
 
     void CheckForEggLayingTime()
     {
-        if (currentEggLayingTime <= 0)
+        if (currentEggLayingTime >= eggLayingTime && isHoldingFlesh == true)
         {
             LayEgg();
             isHoldingFlesh = false;
             isLayingEgg = false;
-            currentEggLayingTime = eggLayingTime;
+            currentEggLayingTime = 0;
+            Debug.Log("Egg has been laid, resetting timer");
         }
     }
 
     void CheckForSecondFlesh()
     {
-        isLayingEgg = true;
-        Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
+        if (isAlien02 == true && isHoldingFlesh == true)
+        {
+                Debug.Log("Alien02 also has egg, laying second egg");
+                isLayingEgg = true;
+                Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
+        }
     }
 
     void LayEgg()
     {
-        Instantiate(eggToLay);
+        heldFlesh.SetActive(false);
+        Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
     }
 }

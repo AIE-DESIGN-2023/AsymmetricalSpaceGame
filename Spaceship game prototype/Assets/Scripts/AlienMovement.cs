@@ -1,24 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AlienMovement : MonoBehaviour
 {
-    public float speed;
-    public float rotationSpeed;
+    private Vector2 inputMovementVector_1;
+    private Vector3 inputMovementVector3_1;
+    private Vector2 inputMovementVector_2;
+    private Vector3 inputMovementVector3_2;
+    private Rigidbody rb;
+    public float movementSpeed;
+    public GameObject alien0;
+    public GameObject alien2;
 
+    private Vector2 inputVec;
+
+    AlienMechanicController alienMechanicController;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        alienMechanicController = GetComponentInChildren<AlienMechanicController>();
+
+        rb = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal2");
-        float verticalInput = Input.GetAxis("Vertical2");
+        alien0.transform.position += inputMovementVector3_1 * movementSpeed * Time.deltaTime;
+        alien2.transform.position += inputMovementVector3_2 * movementSpeed * Time.deltaTime;
+    }
 
-        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
-        movementDirection.Normalize();
+    public void MoveLeftJoysick(InputAction.CallbackContext context)
+    {
+        inputMovementVector_1 = context.ReadValue<Vector2>();
+        inputMovementVector3_1 = new Vector3(inputMovementVector_1.x, 0, inputMovementVector_1.y);
+    }
 
-        transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
-
-        if (movementDirection != Vector3.zero)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-        }
+    public void MoveRightJoysick(InputAction.CallbackContext context)
+    {
+        inputMovementVector_2 = context.ReadValue<Vector2>();
+        inputMovementVector3_2 = new Vector3(inputMovementVector_2.x, 0, inputMovementVector_2.y);
     }
 }

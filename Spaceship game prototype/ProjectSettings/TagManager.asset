@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Terminal01
+  - Human
+  - long
+  - Enemy
+  - Alien01
+  - Alien02
+  - Terminal02
+  - Terminal03
+  - Terminal04
+  - Dropship
+  - Egg
   layers:
   - Default
   - TransparentFX
@@ -11,7 +22,7 @@ TagManager:
   - 
   - Water
   - UI
-  - Terminal
+  - Terminal01
   - Human
   - 
   - 
