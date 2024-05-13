@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class AlienMechanicController : MonoBehaviour
 {
     public CableScript cableScript;
+    AlienMovement alienMovement;
 
     public bool isAlien01;
     public bool isAlien02;
@@ -48,6 +49,7 @@ public class AlienMechanicController : MonoBehaviour
     void Start()
     {
         CableScript cableScript = GetComponentInParent<CableScript>();
+        AlienMovement alienMovement = GetComponent<AlienMovement>();
 
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
@@ -143,6 +145,10 @@ public class AlienMechanicController : MonoBehaviour
             this.gameObject.SetActive(false);
             this.gameObject.transform.position = spawnpoint.position;
             Invoke("Respawn", respawnTime);
+            if (isAlien01 == true)
+            { alienMovement.alien1CanMove = false; }
+            if (isAlien02 == true)
+            { alienMovement.alien2CanMove = false; }
         }
 
         if (other.tag == "AlphaCable01")
@@ -302,5 +308,13 @@ public class AlienMechanicController : MonoBehaviour
         Debug.Log("Alien is respawning");
         isDead = false;
         this.gameObject.SetActive(true);
+        if (isAlien01 == true)
+        {
+            alienMovement.alien1CanMove = true;
+        }
+        if (isAlien02 == true)
+        {
+            alienMovement.alien2CanMove = true;
+        }
     }
 }
