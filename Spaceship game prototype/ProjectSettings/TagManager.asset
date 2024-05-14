@@ -23,6 +23,8 @@ TagManager:
   - BetaCable01
   - BetaCable02
   - BetaCable03
+  - Alien01EggProximity
+  - Alien02EggProximity
   layers:
   - Default
   - TransparentFX

@@ -7,6 +7,7 @@ public class AlienMechanicController : MonoBehaviour
 {
     public CableScript cableScript;
     AlienMovement alienMovement;
+    public HumanMechanicController humanMechanicController;
 
     public bool isAlien01;
     public bool isAlien02;
@@ -25,8 +26,13 @@ public class AlienMechanicController : MonoBehaviour
 
     public bool isMoving;
 
+    private bool eggFadeIn;
+    private bool eggFadeOut;
+    private float eggTimeToFade = 5f;
+
     public GameObject eggLoadBarObject;
     public Image eggLoadingBarImage;
+    public CanvasGroup eggLoadCanvas;
 
     public GameObject heldFlesh;
     public GameObject eggToLay;
@@ -57,7 +63,8 @@ public class AlienMechanicController : MonoBehaviour
 
         heldFlesh.SetActive(false);
 
-        eggLoadBarObject.SetActive(false);
+        //eggLoadBarObject.SetActive(false);
+        eggLoadCanvas.alpha = 0;
         cableLoadBarObject.SetActive(false);
     }
 
@@ -93,21 +100,45 @@ public class AlienMechanicController : MonoBehaviour
             { Debug.Log("1"); cableScript.DestroyBlueCable3(); Debug.Log("2"); cableLoadBarObject.SetActive(false); ResetCables(); }
         }
 
+        if (eggFadeIn)
+        {
+            if (eggLoadCanvas.alpha < 1)
+            {
+                eggLoadCanvas.alpha += eggTimeToFade * Time.deltaTime;
+                if (eggLoadCanvas.alpha >= 1)
+                {
+                    eggFadeIn = false;
+                }
+            }
+        }
+        if (eggFadeOut)
+        {
+            if (eggLoadCanvas.alpha >= 0)
+            {
+                eggLoadCanvas.alpha -= eggTimeToFade * Time.deltaTime;
+                if (eggLoadCanvas.alpha <= 0)
+                {
+                    eggFadeOut = false;
+                }
+            }
+        }
+
         //check for cable dead or nah
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Human" && isHoldingFlesh == false)
+        if (other.gameObject.tag == "Human" && isHoldingFlesh == false && humanMechanicController.isImmuneToKnockdown == false)
         { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
         //For Alien 1
-        if (other.gameObject.tag == "Alien02" && isHoldingFlesh == true && isAlien01 == true)
+        if (other.gameObject.tag == "Alien02EggProximity" && isHoldingFlesh == true && isAlien01 == true)
         {
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
-                eggLoadBarObject.SetActive(true);
+                //eggLoadBarObject.SetActive(true);
+                eggFadeIn = true;
                 Debug.Log("Alien01 laying egg, Alien02 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -115,12 +146,13 @@ public class AlienMechanicController : MonoBehaviour
         }
 
         //for Alien 2
-        if (other.gameObject.tag == "Alien01" && isHoldingFlesh == true && isAlien02 == true)
+        if (other.gameObject.tag == "Alien01EggProximity" && isHoldingFlesh == true && isAlien02 == true)
         {
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
-                eggLoadBarObject.SetActive(true);
+                //eggLoadBarObject.SetActive(true);
+                eggFadeIn = true;
                 Debug.Log("Alien02 laying egg, Alien01 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -128,12 +160,13 @@ public class AlienMechanicController : MonoBehaviour
         }
 
         //if both aliens have flesh
-        if (other.gameObject.tag == "Alien02" && isHoldingFlesh == true)
+        if (other.gameObject.tag == "Alien02EggProximity" && isHoldingFlesh == true)
         {
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
             {
-                eggLoadBarObject.SetActive(true);
+                //eggLoadBarObject.SetActive(true);
+                eggFadeIn = true;
                 Debug.Log("Both Aliens have flesh, Alien01 laying egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -208,16 +241,16 @@ public class AlienMechanicController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Alien01")
+        if (other.tag == "Alien01EggProximity")
         {
-            isLayingEgg = false;
-            currentEggLayingTime = 0;
+            eggFadeOut = true;
+            ResetEggLaying();
         }
 
-        if (other.tag == "Alien02")
+        if (other.tag == "Alien02EggProximity")
         {
-            isLayingEgg = false;
-            currentEggLayingTime = 0;
+            eggFadeOut = true;
+            ResetEggLaying();
         }
 
         if (other.tag == "AlphaCable01")
@@ -270,6 +303,14 @@ public class AlienMechanicController : MonoBehaviour
         }
     }
 
+    public void ResetEggLaying()
+    {
+        isLayingEgg = false;
+        currentEggLayingTime = 0;
+        //eggLoadBarObject.SetActive(false);
+        eggFadeOut = true;
+    }
+
     void ResetCables()
     {
         redCable1 = false;
@@ -304,6 +345,7 @@ public class AlienMechanicController : MonoBehaviour
 
     void LayEgg()
     {
+        eggFadeOut = true;
         heldFlesh.SetActive(false);
         Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
     }
