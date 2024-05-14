@@ -34,7 +34,7 @@ public class AlienMovement : MonoBehaviour
 
         input = GetComponent<PlayerInput>();
 
-        
+        FindAnyObjectByType<InputManagerController>().Swap(false);
 
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();
@@ -47,7 +47,7 @@ public class AlienMovement : MonoBehaviour
         //alien2.transform.position += inputMovementVector3_2 * movementSpeed * Time.deltaTime;
         if (alien1CanMove == true)
         {
-            //use the saved input to move
+            //use the input to move
             rb_alien1.AddForce(inputMovementVector3_1 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
         }
         if (alien2CanMove == true)

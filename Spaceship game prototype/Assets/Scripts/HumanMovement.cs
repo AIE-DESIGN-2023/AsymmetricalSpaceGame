@@ -19,6 +19,8 @@ public class HumanMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         canMove = true;
+
+        FindAnyObjectByType<InputManagerController>().Swap(true);
     }
 
     // Update is called once per frame

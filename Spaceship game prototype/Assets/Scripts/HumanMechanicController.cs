@@ -55,9 +55,9 @@ public class HumanMechanicController : MonoBehaviour
     [Space]
 
     public bool reactorMeltdown;
-    public GameObject reactorNormal;
-    public GameObject reactorMelting;
-    public GameObject temporaryWinStatus;
+    //public GameObject reactorNormal;
+    //public GameObject reactorMelting;
+    //public GameObject temporaryWinStatus;
 
 
     //get movement script for knockdown
@@ -78,9 +78,9 @@ public class HumanMechanicController : MonoBehaviour
 
         heldChainsaw.SetActive(false);
 
-        reactorNormal.SetActive(true);
-        reactorMelting.SetActive(false);
-        temporaryWinStatus.SetActive(false);
+        //reactorNormal.SetActive(true);
+        //reactorMelting.SetActive(false);
+        //temporaryWinStatus.SetActive(false);
     }
 
     // Update is called once per frame
@@ -342,15 +342,15 @@ public class HumanMechanicController : MonoBehaviour
         if (terminal1Complete == true && terminal2Complete == true && terminal3Complete == true && terminal4Complete == true)
         {
             reactorMeltdown = true;
-            reactorNormal.SetActive(false);
-            reactorMelting.SetActive(true);
+            //reactorNormal.SetActive(false);
+            //reactorMelting.SetActive(true);
         }
     }
 
     void HumanWinsGame()
     {
         Debug.Log("human won the game");
-        temporaryWinStatus.SetActive(true);
+        //temporaryWinStatus.SetActive(true);
     }
 
     void ResetChainsaw()

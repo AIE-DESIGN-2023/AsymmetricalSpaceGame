@@ -7,7 +7,7 @@ public class AlienMechanicController : MonoBehaviour
 {
     public CableScript cableScript;
     AlienMovement alienMovement;
-    public HumanMechanicController humanMechanicController;
+    HumanMechanicController humanMechanicController;
 
     public bool isAlien01;
     public bool isAlien02;
@@ -57,6 +57,7 @@ public class AlienMechanicController : MonoBehaviour
     {
         CableScript cableScript = GetComponentInParent<CableScript>();
         AlienMovement alienMovement = GetComponent<AlienMovement>();
+        HumanMechanicController humanMechanicController = GetComponent<HumanMechanicController>();
 
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
