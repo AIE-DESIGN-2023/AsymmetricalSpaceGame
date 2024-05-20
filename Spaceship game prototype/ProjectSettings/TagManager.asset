@@ -15,11 +15,38 @@ TagManager:
   - Terminal04
   - Dropship
   - Egg
+  - ChainsawPickup
+  - Chainsaw
+  - AlphaCable01
+  - AlphaCable02
+  - AlphaCable03
+  - BetaCable01
+  - BetaCable02
+  - BetaCable03
+  - Alien01EggProximity
+  - Alien02EggProximity
+  - Player1
+  - Player2
+  - Player3
+  - Alien01Spawnpoint
+  - Alien02Spawnpoint
+  - RCA1
+  - RCA2
+  - RCA3
+  - BCA1
+  - BCA2
+  - BCA3
+  - RCD1
+  - RCD2
+  - RCD3
+  - BCD1
+  - BCD2
+  - BCD3
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcess
   - Water
   - UI
   - Terminal01
