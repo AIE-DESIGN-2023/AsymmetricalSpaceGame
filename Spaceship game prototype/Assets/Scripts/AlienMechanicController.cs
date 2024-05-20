@@ -13,7 +13,7 @@ public class AlienMechanicController : MonoBehaviour
     public bool isAlien02;
     [Space]
 
-    public Transform spawnpoint;
+    public GameObject spawnpoint;
     public float respawnTime;
     public bool isDead;
 
@@ -55,6 +55,16 @@ public class AlienMechanicController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (isAlien01)
+        {
+            spawnpoint = GameObject.FindGameObjectWithTag("Alien01Spawnpoint");
+        }
+        if (isAlien02)
+        {
+            spawnpoint = GameObject.FindGameObjectWithTag("Alien02Spawnpoint");
+        }
+        
+
         CableScript cableScript = GetComponentInParent<CableScript>();
         AlienMovement alienMovement = GetComponent<AlienMovement>();
         HumanMechanicController humanMechanicController = GetComponent<HumanMechanicController>();
@@ -182,7 +192,7 @@ public class AlienMechanicController : MonoBehaviour
             isHoldingFlesh = false;
             heldFlesh.SetActive(false);
             this.gameObject.SetActive(false);
-            this.gameObject.transform.position = spawnpoint.position;
+            this.gameObject.transform.position = spawnpoint.transform.position;
             Invoke("Respawn", respawnTime);
             if (isAlien01 == true)
             { alienMovement.alien1CanMove = false; }

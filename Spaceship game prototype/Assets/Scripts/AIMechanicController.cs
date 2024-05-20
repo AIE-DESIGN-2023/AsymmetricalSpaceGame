@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class AIMechanicController : MonoBehaviour
 {
+    DoorScript doorScript;
+    public GameObject[] alphaDoors;
+
     public GameObject doorAlpha;
     public Transform doorAMovePoint1;
     public Transform doorAMovepoint2;
@@ -36,7 +39,19 @@ public class AIMechanicController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (alphaDoors == null)
+        {
+            alphaDoors = GameObject.FindGameObjectsWithTag("AlphaDoor");
+        }
+        foreach (GameObject alphaDoor in alphaDoors)
+        {
+            alphaDoor.GetComponent<DoorScript>();
+        }
+
+
         currentAlphaDoorDuration = alphaDoorActiveDuration;
+
+
     }
 
     // Update is called once per frame
@@ -60,6 +75,7 @@ public class AIMechanicController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L) && alphaDoorOnCooldown == false)
         {
             //do the doors
+            //invoke doors, telegraph duration
 
 
             Debug.Log("activated door group alpha");
@@ -71,5 +87,20 @@ public class AIMechanicController : MonoBehaviour
         Debug.Log("womp womp");
     }*/
 
+    void ActivateAlphaDoors()
+    {
+        foreach (GameObject alphaDoor in alphaDoors)
+        {
+            alphaDoor.GetComponent<DoorScript>().Open();
+        }
+    }
+
+    void DeactivateAlphaDoors()
+    {
+        foreach (GameObject alphaDoor in alphaDoors)
+        {
+            alphaDoor.GetComponent<DoorScript>().Close();
+        }
+    }
 
 }

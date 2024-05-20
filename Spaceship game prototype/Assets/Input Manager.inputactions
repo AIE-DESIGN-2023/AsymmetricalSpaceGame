@@ -248,12 +248,12 @@
             "actions": [
                 {
                     "name": "ActivateDoorsA",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "6b45f72f-87af-48ab-9f62-13e60c2afddc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Integer",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ActivateDoorsB",
