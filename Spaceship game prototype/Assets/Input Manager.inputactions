@@ -241,6 +241,54 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Player3",
+            "id": "9fca4416-8778-46a8-9e16-c138766ba620",
+            "actions": [
+                {
+                    "name": "ActivateDoorsA",
+                    "type": "Value",
+                    "id": "6b45f72f-87af-48ab-9f62-13e60c2afddc",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ActivateDoorsB",
+                    "type": "Button",
+                    "id": "4a78c83e-405e-4393-bc43-b4dcfed3b396",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4948b3cf-9035-4b76-987f-5a16be1d51d2",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActivateDoorsA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40dcc665-3e71-4284-8ae3-9c10b96fcbc7",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActivateDoorsB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
