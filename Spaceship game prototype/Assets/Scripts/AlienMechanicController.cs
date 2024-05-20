@@ -61,11 +61,13 @@ public class AlienMechanicController : MonoBehaviour
         {
             spawnpoint = GameObject.FindGameObjectWithTag("Alien01Spawnpoint");
             Debug.Log("found spawnpoint1");
+            this.gameObject.transform.position = spawnpoint.transform.position;
         }
         if (isAlien02)
         {
             spawnpoint = GameObject.FindGameObjectWithTag("Alien02Spawnpoint");
             Debug.Log("found spawnpoint2");
+            this.gameObject.transform.position = spawnpoint.transform.position;
         }
         
 
@@ -144,7 +146,7 @@ public class AlienMechanicController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Human" && isHoldingFlesh == false && humanMechanicController.isImmuneToKnockdown == false)
+        if (other.gameObject.tag == "Human" && isHoldingFlesh == false /*&& humanMechanicController.isImmuneToKnockdown == false*/)
         { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
         //For Alien 1
