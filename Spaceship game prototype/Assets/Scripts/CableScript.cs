@@ -43,12 +43,7 @@ public class CableScript : MonoBehaviour
     void Start()
     {
         //get AI script to disable
-
-        currentDisablingTime = 0;
-        ResetBlueCables();
-        ResetRedCables();
-
-        red_Cable1_Active = GameObject.FindGameObjectWithTag("RCA1");
+        red_Cable1_Active = GameObject.FindGameObjectWithTag("RCA1"); //GameObject.FindGameObjectWithTag("RCA1");
         red_Cable2_Active = GameObject.FindGameObjectWithTag("RCA2");
         red_Cable3_Active = GameObject.FindGameObjectWithTag("RCA3");
         blue_Cable1_Active = GameObject.FindGameObjectWithTag("BCA1");
@@ -60,6 +55,11 @@ public class CableScript : MonoBehaviour
         blue_Cable1_Destroyed = GameObject.FindGameObjectWithTag("BCD1");
         blue_Cable2_Destroyed = GameObject.FindGameObjectWithTag("BCD2");
         blue_Cable3_Destroyed = GameObject.FindGameObjectWithTag("BCD3");
+
+        currentDisablingTime = 0;
+        ResetBlueCables();
+        ResetRedCables();
+
     }
 
     // Update is called once per frame

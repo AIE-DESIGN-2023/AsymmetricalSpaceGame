@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class HumanMovement : MonoBehaviour
 {
+    GameObject humanSpawnpoint;
     private Vector2 inputMovementVector;
     private Vector3 inputMovementVector3;
     private Rigidbody rb;
@@ -19,6 +20,9 @@ public class HumanMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         canMove = true;
+
+        humanSpawnpoint = GameObject.FindGameObjectWithTag("HumanSpawnpoint");
+        this.gameObject.transform.position = humanSpawnpoint.transform.position;
 
         FindAnyObjectByType<InputManagerController>().Swap(true);
     }

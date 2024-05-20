@@ -42,6 +42,7 @@ TagManager:
   - BCD1
   - BCD2
   - BCD3
+  - HumanSpawnpoint
   layers:
   - Default
   - TransparentFX
