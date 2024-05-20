@@ -289,7 +289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dd6ef905a6b29246bd83bbd8e51fac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!225 &978299155593490836
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -522,6 +521,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9e542bdf-03d5-45c3-8d63-331c2a8b1348
     m_ActionName: Player2/Move 3[/XInputControllerWindows1/rightStick,/XInputControllerWindows/rightStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b45f72f-87af-48ab-9f62-13e60c2afddc
+    m_ActionName: Player3/ActivateDoorsA[/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4a78c83e-405e-4393-bc43-b4dcfed3b396
+    m_ActionName: Player3/ActivateDoorsB[/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -539,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f77a63c38c524c459cb3fa91d7d3fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 500
+  movementSpeed: 650
   canMove: 0
 --- !u!114 &3205012497632842441
 MonoBehaviour:
@@ -929,7 +936,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dd6ef905a6b29246bd83bbd8e51fac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!225 &978299155390412048
 CanvasGroup:
   m_ObjectHideFlags: 0

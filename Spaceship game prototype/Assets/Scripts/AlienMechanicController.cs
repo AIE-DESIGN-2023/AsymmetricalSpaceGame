@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 
 public class AlienMechanicController : MonoBehaviour
@@ -8,6 +9,7 @@ public class AlienMechanicController : MonoBehaviour
     public CableScript cableScript;
     AlienMovement alienMovement;
     HumanMechanicController humanMechanicController;
+    GameObject human;
 
     public bool isAlien01;
     public bool isAlien02;
@@ -58,16 +60,21 @@ public class AlienMechanicController : MonoBehaviour
         if (isAlien01)
         {
             spawnpoint = GameObject.FindGameObjectWithTag("Alien01Spawnpoint");
+            Debug.Log("found spawnpoint1");
+            this.gameObject.transform.position = spawnpoint.transform.position;
         }
         if (isAlien02)
         {
             spawnpoint = GameObject.FindGameObjectWithTag("Alien02Spawnpoint");
+            Debug.Log("found spawnpoint2");
+            this.gameObject.transform.position = spawnpoint.transform.position;
         }
         
 
         CableScript cableScript = GetComponentInParent<CableScript>();
         AlienMovement alienMovement = GetComponent<AlienMovement>();
-        HumanMechanicController humanMechanicController = GetComponent<HumanMechanicController>();
+        human = GameObject.FindGameObjectWithTag("Human");
+        humanMechanicController = human.GetComponent<HumanMechanicController>();
 
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
@@ -139,7 +146,7 @@ public class AlienMechanicController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Human" && isHoldingFlesh == false && humanMechanicController.isImmuneToKnockdown == false)
+        if (other.gameObject.tag == "Human" && isHoldingFlesh == false /*&& humanMechanicController.isImmuneToKnockdown == false*/)
         { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
         //For Alien 1
