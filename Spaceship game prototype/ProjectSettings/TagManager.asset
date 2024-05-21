@@ -43,6 +43,7 @@ TagManager:
   - BCD2
   - BCD3
   - HumanSpawnpoint
+  - AlphaDoor
   layers:
   - Default
   - TransparentFX
