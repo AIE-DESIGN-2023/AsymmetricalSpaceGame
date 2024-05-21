@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class HumanMovement : MonoBehaviour
 {
+    GameObject humanSpawnpoint;
     private Vector2 inputMovementVector;
     private Vector3 inputMovementVector3;
     private Rigidbody rb;
@@ -12,22 +13,51 @@ public class HumanMovement : MonoBehaviour
 
     private Vector2 inputVec;
 
+    public bool canMove;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        canMove = true;
+
+        humanSpawnpoint = GameObject.FindGameObjectWithTag("HumanSpawnpoint");
+        this.gameObject.transform.position = humanSpawnpoint.transform.position;
+
+        FindAnyObjectByType<InputManagerController>().Swap(true);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position += inputMovementVector3 * movementSpeed * Time.deltaTime;
+        //transform.position += inputMovementVector3 * movementSpeed * Time.deltaTime;
+        if (canMove == true)
+        {
+            rb.AddForce(inputMovementVector3 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+        }
+        
     }
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (canMove)
+        {
         inputMovementVector = context.ReadValue<Vector2>();
         inputMovementVector3 = new Vector3(inputMovementVector.x, 0, inputMovementVector.y);
+        }
+
+        //Debug.LogError("nah id win");
+        //Debug.Log(context);
+    }
+
+    public void PauseMovement()
+    {
+        canMove = false;
+    }
+
+    public void ResumeMovement()
+    {
+        canMove = true;
     }
 
 }
