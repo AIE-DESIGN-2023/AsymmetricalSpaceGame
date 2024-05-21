@@ -24,13 +24,31 @@ Material:
         m_Texture: {fileID: 2800000, guid: 17e526d3f2315fd45968a3c961859ada, type: 3}
         m_Scale: {x: 1.04, y: 0.32}
         m_Offset: {x: 1.08, y: 1.67}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: a79cc0218318ddf49bb0dc162a80439a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BUILTIN_AlphaClip: 1
+    - _BUILTIN_Blend: 0
+    - _BUILTIN_CullMode: 1
+    - _BUILTIN_DstBlend: 10
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 5
+    - _BUILTIN_Surface: 1
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 0
+    - _BUILTIN_ZWriteControl: 0
+    - _fade_distance: 75
+    - _thicc_outline: 0.01
     m_Colors:
+    - _Color: {r: 0.20441148, g: 0.6509434, b: 0.13203096, a: 0}
     - _Scroll: {r: 2.45, g: 2.18, b: 0, a: 0}
-    - _base_colour: {r: 0.21258119, g: 0, b: 0.2924528, a: 0.42745098}
+    - _Vector2: {r: 0.1, g: 0, b: 0, a: 0}
+    - _base_colour: {r: 0.08163634, g: 0.13333334, b: 0.059407253, a: 0.57254905}
+    - _outline_colour: {r: 0.15739927, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2945733359482373476
 MonoBehaviour:
