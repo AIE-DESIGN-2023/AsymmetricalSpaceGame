@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class AlienMechanicController : MonoBehaviour
 {
     public CableScript cableScript;
-    AlienMovement alienMovement;
+    public AlienMovement alienMovement;
     HumanMechanicController humanMechanicController;
     GameObject human;
 
@@ -72,7 +72,7 @@ public class AlienMechanicController : MonoBehaviour
         
 
         CableScript cableScript = GetComponentInParent<CableScript>();
-        AlienMovement alienMovement = GetComponent<AlienMovement>();
+        AlienMovement alienMovement = GetComponentInParent<AlienMovement>();
         human = GameObject.FindGameObjectWithTag("Human");
         humanMechanicController = human.GetComponent<HumanMechanicController>();
 
