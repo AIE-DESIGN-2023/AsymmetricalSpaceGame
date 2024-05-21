@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cableScript: {fileID: 3002232216639498641}
-  alienMovement: {fileID: 0}
+  alienMovement: {fileID: 3002232216639498652}
   isAlien01: 1
   isAlien02: 0
   spawnpoint: {fileID: 0}
@@ -513,8 +513,8 @@ Transform:
   m_GameObject: {fileID: 3002232215176719130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.9103718, y: 2.9103718, z: 2.9103718}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.2, y: 2.2, z: 2.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3002232215424437045}
   m_RootOrder: 1
@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cableScript: {fileID: 3002232216639498641}
-  alienMovement: {fileID: 0}
+  alienMovement: {fileID: 3002232216639498652}
   isAlien01: 0
   isAlien02: 1
   spawnpoint: {fileID: 0}
@@ -1810,8 +1810,8 @@ Transform:
   m_GameObject: {fileID: 3002232216867807786}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.9103718, y: 2.9103718, z: 2.9103718}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.2, y: 2.2, z: 2.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3002232214964889320}
   m_RootOrder: 1
