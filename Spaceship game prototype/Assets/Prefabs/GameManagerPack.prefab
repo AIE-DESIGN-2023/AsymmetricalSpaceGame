@@ -671,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8291ebcf634e56043b0f64cfb8f4c497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alienExists: 0
   humanPrefab: {fileID: 3205012497632842443, guid: afe3846bd1353a7438264f6a1ff54071, type: 3}
   alienPrefab: {fileID: 3002232216639498653, guid: 3a3fa547abed0ab459b3d04860ea24f3, type: 3}
   shipAIPrefab: {fileID: 2005924468357979718, guid: 906dccf347ed4b24e9c8bab3a2b0c561, type: 3}
@@ -1273,7 +1274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5043127082237614470
 Transform:
   m_ObjectHideFlags: 0
@@ -3568,7 +3569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5043127083001457692
 Transform:
   m_ObjectHideFlags: 0
@@ -4616,9 +4617,10 @@ GameObject:
   - component: {fileID: 5043127083585692586}
   - component: {fileID: 5043127083585692597}
   - component: {fileID: 5043127083585692596}
+  - component: {fileID: 6451097330106869185}
   m_Layer: 5
   m_Name: GameManager_Canvas
-  m_TagString: Untagged
+  m_TagString: HumanWinStatus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4705,6 +4707,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6451097330106869185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5043127083585692599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913d5d89c33221b469a09d21f133254f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5043127083610675425
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class AlienMechanicController : MonoBehaviour
     HumanMechanicController humanMechanicController;
     GameObject human;
 
+
     public bool isAlien01;
     public bool isAlien02;
     [Space]

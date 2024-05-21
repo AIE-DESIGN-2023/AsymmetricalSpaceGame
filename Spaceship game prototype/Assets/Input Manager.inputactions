@@ -248,17 +248,26 @@
             "actions": [
                 {
                     "name": "ActivateDoorsA",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "6b45f72f-87af-48ab-9f62-13e60c2afddc",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ActivateDoorsB",
                     "type": "Button",
                     "id": "4a78c83e-405e-4393-bc43-b4dcfed3b396",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChargeBatteryPress",
+                    "type": "Button",
+                    "id": "42f9fc76-f29e-49de-b009-cf972e3889c6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -285,6 +294,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ActivateDoorsB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "508056e3-ef3f-47a8-8f68-1eb54d0f8562",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeBatteryPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

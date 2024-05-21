@@ -57,7 +57,7 @@ public class HumanMechanicController : MonoBehaviour
     public bool reactorMeltdown;
     //public GameObject reactorNormal;
     //public GameObject reactorMelting;
-    //public GameObject temporaryWinStatus;
+    public GameObject temporaryWinStatus;
 
 
     //get movement script for knockdown
@@ -66,6 +66,8 @@ public class HumanMechanicController : MonoBehaviour
     void Start()
     {
         HumanMovement humanMovement = GetComponent<HumanMovement>();
+        temporaryWinStatus = GameObject.FindGameObjectWithTag("HumanWinStatus");
+        temporaryWinStatus.SetActive(false);
 
         currentHackTime = 0;
         currentChainsawDuration = chainsawDuration;
@@ -220,6 +222,10 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            isHacking = false;
+            currentHackTime = 0;
+            hackFadeOut = true;
+            terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
 
@@ -228,6 +234,10 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            isHacking = false;
+            currentHackTime = 0;
+            hackFadeOut = true;
+            terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
 
@@ -350,7 +360,7 @@ public class HumanMechanicController : MonoBehaviour
     void HumanWinsGame()
     {
         Debug.Log("human won the game");
-        //temporaryWinStatus.SetActive(true);
+        temporaryWinStatus.SetActive(true);
     }
 
     void ResetChainsaw()

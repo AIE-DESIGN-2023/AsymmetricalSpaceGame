@@ -11,9 +11,10 @@ public class AIMechanicController : MonoBehaviour
     PlayerInput input;
 
     [Header("Battery")]
-    [SerializeField] float currentBattery;
+    public float currentBattery;
     public float batteryCapacity;
     public float batteryChargeSpeed;
+    public float chargePerPress;
 
     public Image batteryImage;
     public TextMeshProUGUI batteryText;
@@ -30,12 +31,19 @@ public class AIMechanicController : MonoBehaviour
     public float alphaDoorCooldownDuration;
     public float alphaDoorTelegraphDuration;
     [Space]
-    /*public float betaDoorActiveDuration;
-    private float currentBetaDoorActiveDuration;
+
+    public GameObject[] betaDoors;
+
+    public bool betaDoorOnCooldown;
+    public bool betaDoorsActive;
+
+    [SerializeField] float currentBetaDoorDuration;
+    public float betaDoorActiveDuration;
     public float betaDoorCooldownDuration;
-    public float abetaDoorTelegraphDuration;*/
+    public float betaDoorTelegraphDuration;
 
     public Image alphaDoorFillImage;
+    public Image betaDoorFillImage;
 
     //transition stuff
     [Space]
@@ -55,19 +63,22 @@ public class AIMechanicController : MonoBehaviour
         currentBattery = batteryCapacity;
 
         alphaDoors = GameObject.FindGameObjectsWithTag("AlphaDoor");
-        /*Debug.Log("found alpha doors"); 
-        if (alphaDoors.Length == 0)
-        {
-        }*/
         foreach (GameObject alphaDoor in alphaDoors)
         {
             alphaDoor.GetComponent<DoorScript>();
             Debug.Log("Found doorscript in alphadoors");
         }
 
+        betaDoors = GameObject.FindGameObjectsWithTag("BetaDoor");
+        foreach (GameObject betaDoor in betaDoors)
+        {
+            betaDoor.GetComponent<DoorScript>();
+            Debug.Log("Found doorscript in betadoors");
+        }
+
         currentBattery = batteryCapacity;
         currentAlphaDoorDuration = alphaDoorActiveDuration;
-
+        currentBetaDoorDuration = betaDoorActiveDuration;
 
     }
 
@@ -98,14 +109,23 @@ public class AIMechanicController : MonoBehaviour
         { alphaDoorOnCooldown = false; currentAlphaDoorDuration = alphaDoorActiveDuration; }
 
 
+        if (betaDoorOnCooldown) //change image fills 
+        { betaDoorFillImage.fillAmount = currentBetaDoorDuration / betaDoorCooldownDuration; }
+        else
+        { betaDoorFillImage.fillAmount = currentBetaDoorDuration / betaDoorActiveDuration; }
 
 
-        /*if (Input.GetKeyDown(KeyCode.K) && currentBattery >= 30)
-        {
-            currentBattery -= 30;
-            Debug.Log("Drained batery");
+        if (betaDoorsActive == true && betaDoorOnCooldown == false)  //if doors are active
+        { currentBetaDoorDuration -= Time.deltaTime; }
 
-        }*/
+        if (currentBetaDoorDuration <= 0.05 && betaDoorOnCooldown == false) //if active timer runs out, start cooldown - timer only goes back up if hits 0 or below
+        { betaDoorOnCooldown = true; currentBetaDoorDuration += Time.deltaTime; }
+
+        if (betaDoorOnCooldown == true) { currentBetaDoorDuration += Time.deltaTime; }
+
+        if (currentBetaDoorDuration >= betaDoorCooldownDuration) //once cooldown ends set timer back to active timer
+        { betaDoorOnCooldown = false; currentBetaDoorDuration = betaDoorActiveDuration; }
+
     }
 
     public void ActivateDoorA(InputAction.CallbackContext value)
@@ -115,11 +135,27 @@ public class AIMechanicController : MonoBehaviour
         {
             //do the doors
             //invoke doors, telegraph duration
+            currentBattery -= 10;
             Debug.Log("after if");
             ActivateAlphaDoors();
             alphaDoorsActive = true;
             Debug.Log("activated door group alpha");
             Invoke("DeactivateAlphaDoors", alphaDoorActiveDuration + 0.05f);
+        }
+    }
+
+    public void ActivateDoorB(InputAction.CallbackContext value)
+    {
+        if (value.started && betaDoorOnCooldown == false && currentBattery >= 10)
+        {
+            //do the doors
+            //invoke doors, telegraph duration
+            currentBattery -= 10;
+            Debug.Log("after if");
+            ActivateBetaDoors();
+            betaDoorsActive = true;
+            Debug.Log("activated door group beta");
+            Invoke("DeactivateBetaDoors", betaDoorActiveDuration + 0.05f);
         }
     }
 
@@ -143,4 +179,33 @@ public class AIMechanicController : MonoBehaviour
         Debug.Log("Deactivated alpha doors");
     }
 
+
+    void ActivateBetaDoors()
+    {
+        Debug.Log("Activating beta doors phase1");
+        foreach (GameObject betaDoor in betaDoors)
+        {
+            betaDoor.GetComponent<DoorScript>().Open();
+        }
+        Debug.Log("Successfully activated beta doors");
+    }
+
+    void DeactivateBetaDoors()
+    {
+        betaDoorsActive = false;
+        foreach (GameObject betaDoor in betaDoors)
+        {
+            betaDoor.GetComponent<DoorScript>().Close();
+        }
+        Debug.Log("Deactivated beta doors");
+    }
+
+    public void ChargeBatteryPress(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            currentBattery += chargePerPress;
+            Debug.Log("Adding batytyery from mash");
+        }
+    }
 }

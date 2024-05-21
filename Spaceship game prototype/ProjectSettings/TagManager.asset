@@ -44,6 +44,8 @@ TagManager:
   - BCD3
   - HumanSpawnpoint
   - AlphaDoor
+  - HumanWinStatus
+  - BetaDoor
   layers:
   - Default
   - TransparentFX
