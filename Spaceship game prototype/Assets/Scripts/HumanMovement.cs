@@ -24,7 +24,7 @@ public class HumanMovement : MonoBehaviour
         humanSpawnpoint = GameObject.FindGameObjectWithTag("HumanSpawnpoint");
         this.gameObject.transform.position = humanSpawnpoint.transform.position;
 
-        FindAnyObjectByType<InputManagerController>().Swap(true);
+        FindAnyObjectByType<InputManagerController>().Swap(1);
     }
 
     // Update is called once per frame

@@ -8,6 +8,7 @@ using TMPro;
 public class AIMechanicController : MonoBehaviour
 {
     DoorScript doorScript;
+    PlayerInput input;
 
     [Header("Battery")]
     [SerializeField] float currentBattery;
@@ -48,6 +49,8 @@ public class AIMechanicController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        input = GetComponent<PlayerInput>();
+        FindAnyObjectByType<InputManagerController>().Swap(3);
 
         currentBattery = batteryCapacity;
 
@@ -95,28 +98,30 @@ public class AIMechanicController : MonoBehaviour
         { alphaDoorOnCooldown = false; currentAlphaDoorDuration = alphaDoorActiveDuration; }
 
 
-        if (Input.GetKeyDown(KeyCode.L) && alphaDoorOnCooldown == false && currentBattery >= 10)
+
+
+        /*if (Input.GetKeyDown(KeyCode.K) && currentBattery >= 30)
+        {
+            currentBattery -= 30;
+            Debug.Log("Drained batery");
+
+        }*/
+    }
+
+    public void ActivateDoorA(InputAction.CallbackContext value)
+    {
+        
+        if (value.started && alphaDoorOnCooldown == false && currentBattery >= 10)
         {
             //do the doors
             //invoke doors, telegraph duration
+            Debug.Log("after if");
             ActivateAlphaDoors();
             alphaDoorsActive = true;
             Debug.Log("activated door group alpha");
             Invoke("DeactivateAlphaDoors", alphaDoorActiveDuration + 0.05f);
         }
-
-        if (Input.GetKeyDown(KeyCode.K) && currentBattery >= 30)
-        {
-            currentBattery -= 30;
-            Debug.Log("Drained batery");
-
-        }
     }
-
-    /*public void ActivateDoorA(InputAction.CallbackContext context)
-    {
-        Debug.Log("womp womp");
-    }*/
 
     void ActivateAlphaDoors()
     {
