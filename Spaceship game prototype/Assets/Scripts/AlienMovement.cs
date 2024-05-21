@@ -34,7 +34,8 @@ public class AlienMovement : MonoBehaviour
 
         input = GetComponent<PlayerInput>();
 
-        FindAnyObjectByType<InputManagerController>().Swap(false);
+        FindAnyObjectByType<InputManagerController>().Swap(2);
+        
 
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();

@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: 2
+  m_MaxPlayerCount: 3
   m_AllowJoining: 1
   m_JoinBehavior: 0
   m_PlayerJoinedEvent:
@@ -673,6 +673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   humanPrefab: {fileID: 3205012497632842443, guid: afe3846bd1353a7438264f6a1ff54071, type: 3}
   alienPrefab: {fileID: 3002232216639498653, guid: 3a3fa547abed0ab459b3d04860ea24f3, type: 3}
+  shipAIPrefab: {fileID: 2005924468357979718, guid: 906dccf347ed4b24e9c8bab3a2b0c561, type: 3}
   inputManager: {fileID: 1436124665}
 --- !u!1 &440879691983937863
 GameObject:
@@ -1007,7 +1008,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4931571751907081508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

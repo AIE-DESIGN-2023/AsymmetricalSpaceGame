@@ -8,10 +8,11 @@ public class InputManagerController : MonoBehaviour
     //private List<Gamepad> m_controllers;
 
     //public GameObject playerPrefab;
-
+    public bool alienExists;
    
     public GameObject humanPrefab;
     public GameObject alienPrefab;
+    public GameObject shipAIPrefab;
 
     public PlayerInputManager inputManager;
 
@@ -24,15 +25,15 @@ public class InputManagerController : MonoBehaviour
         }*/
     }
 
-    public void Swap(bool human)
+    public void Swap(int human)
     {
-        if(human)
+        if(human == 1)
         {
             GetComponent<PlayerInputManager>().playerPrefab = alienPrefab;
-        } else
+        } else if (human == 2)
         {
-            GetComponent<PlayerInputManager>().playerPrefab = humanPrefab;
-        }
+            GetComponent<PlayerInputManager>().playerPrefab = shipAIPrefab;
+        } 
     }
 
         // Update is called once per frame
