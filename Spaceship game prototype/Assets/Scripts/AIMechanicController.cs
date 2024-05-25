@@ -21,6 +21,8 @@ public class AIMechanicController : MonoBehaviour
 
 
     [Header("Doors")]
+
+    public float doorActivationCost;
     public GameObject[] alphaDoors;
 
     public bool alphaDoorOnCooldown;
@@ -45,6 +47,24 @@ public class AIMechanicController : MonoBehaviour
     public Image alphaDoorFillImage;
     public Image betaDoorFillImage;
 
+    [Header("Stun Gun")]
+    private Vector2 inputMovementVectorA;
+    private Vector3 inputMovementVector3A;
+    public float crosshairMovementSpeed;
+    public int stunLauncherAmmoCount;
+    public float stunLauncherCost;
+    public bool crosshairCanMove;
+    public bool stunLauncherActive;
+
+    public Rigidbody rb_crosshair;
+    public GameObject stunLauncherCrosshair;
+    public Transform stunLauncherSpawnpoint;
+    public GameObject stunProjectile;
+    public TextMeshProUGUI stunLauncherCount_Text;
+
+
+
+
     //transition stuff
     [Space]
     private bool aDFadeIn;
@@ -59,6 +79,8 @@ public class AIMechanicController : MonoBehaviour
     {
         input = GetComponent<PlayerInput>();
         FindAnyObjectByType<InputManagerController>().Swap(3);
+
+        stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.position;
 
         currentBattery = batteryCapacity;
 
@@ -83,7 +105,7 @@ public class AIMechanicController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         currentBattery += batteryChargeSpeed * Time.deltaTime;
         if (currentBattery > batteryCapacity) { currentBattery = batteryCapacity; }
@@ -126,16 +148,23 @@ public class AIMechanicController : MonoBehaviour
         if (currentBetaDoorDuration >= betaDoorCooldownDuration) //once cooldown ends set timer back to active timer
         { betaDoorOnCooldown = false; currentBetaDoorDuration = betaDoorActiveDuration; }
 
+
+        if (crosshairCanMove == true)
+        {
+            
+            rb_crosshair.AddForce(inputMovementVectorA * crosshairMovementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+        }
+
     }
 
     public void ActivateDoorA(InputAction.CallbackContext value)
     {
         
-        if (value.started && alphaDoorOnCooldown == false && currentBattery >= 10)
+        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost)
         {
             //do the doors
             //invoke doors, telegraph duration
-            currentBattery -= 10;
+            currentBattery -= doorActivationCost;
             Debug.Log("after if");
             ActivateAlphaDoors();
             alphaDoorsActive = true;
@@ -146,11 +175,11 @@ public class AIMechanicController : MonoBehaviour
 
     public void ActivateDoorB(InputAction.CallbackContext value)
     {
-        if (value.started && betaDoorOnCooldown == false && currentBattery >= 10)
+        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost)
         {
             //do the doors
             //invoke doors, telegraph duration
-            currentBattery -= 10;
+            currentBattery -= doorActivationCost;
             Debug.Log("after if");
             ActivateBetaDoors();
             betaDoorsActive = true;
@@ -205,7 +234,45 @@ public class AIMechanicController : MonoBehaviour
         if (value.started)
         {
             currentBattery += chargePerPress;
-            Debug.Log("Adding batytyery from mash");
+            Debug.Log("Adding battery from mash");
+        }
+    }
+
+    public void MoveCrosshair(InputAction.CallbackContext context)
+    {
+        if (crosshairCanMove)
+        {
+            //take the current input
+            inputMovementVectorA = context.ReadValue<Vector2>();
+            inputMovementVector3A = new Vector3(inputMovementVectorA.x, 0, inputMovementVectorA.y);
+        }
+
+    }
+
+    public void TriggerCrosshair(InputAction.CallbackContext value)
+    {
+        if (value.started && currentBattery >= stunLauncherCost && stunLauncherActive == false) //turn the launcher ON
+        {
+            crosshairCanMove = true;
+            stunLauncherActive = true;
+            stunLauncherCrosshair.SetActive(true);
+            stunLauncherAmmoCount = 3;
+            //crosshair fires 3 rounds //must stun players
+        }
+
+        if (value.started && stunLauncherActive && stunLauncherAmmoCount >= 2) //fire a shot now that crosshair is activated
+        {
+            //fire stun bomb with delay
+            Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
+            stunLauncherAmmoCount -= 1;
+        }
+        else if (value.started && stunLauncherActive && stunLauncherAmmoCount == 1) //turn off crosshair after firing last round
+        {
+            Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
+            stunLauncherAmmoCount -= 1;
+            crosshairCanMove = false;
+            stunLauncherActive = false;
+            stunLauncherCrosshair.SetActive(false);
         }
     }
 }

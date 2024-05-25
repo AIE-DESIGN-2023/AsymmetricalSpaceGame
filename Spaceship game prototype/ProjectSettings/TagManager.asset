@@ -46,6 +46,7 @@ TagManager:
   - AlphaDoor
   - HumanWinStatus
   - BetaDoor
+  - StunProjectile
   layers:
   - Default
   - TransparentFX
@@ -55,7 +56,7 @@ TagManager:
   - UI
   - Terminal01
   - Human
-  - 
+  - Crosshair
   - 
   - 
   - 

@@ -272,6 +272,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerCrosshair",
+                    "type": "Button",
+                    "id": "65a6747f-49b2-47d6-ba8e-b521b4980e05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveCrosshair",
+                    "type": "Value",
+                    "id": "23dbb83b-e4a3-4d77-b658-91f68a36d94c",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -305,6 +323,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChargeBatteryPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "117eed43-f319-42a2-9f6b-dca5849ae113",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerCrosshair",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b61094c3-8267-4dad-a1e9-5300510a6eba",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveCrosshair",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
