@@ -527,6 +527,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4a78c83e-405e-4393-bc43-b4dcfed3b396
     m_ActionName: Player3/ActivateDoorsB[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42f9fc76-f29e-49de-b009-cf972e3889c6
+    m_ActionName: Player3/ChargeBatteryPress
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65a6747f-49b2-47d6-ba8e-b521b4980e05
+    m_ActionName: Player3/TriggerCrosshair
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 23dbb83b-e4a3-4d77-b658-91f68a36d94c
+    m_ActionName: Player3/MoveCrosshair
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -589,9 +601,10 @@ MonoBehaviour:
   hackLoadingBarObject: {fileID: 3205012497072138886}
   hackLoadingBarImage: {fileID: 3205012498170983876}
   hackLoadCanvas: {fileID: 978299155593490836}
+  isDisabling: 0
   timeToDisable: 5
   currentDisablingTime: 0
-  isDisabling: 0
+  ai_DisableTime: 15
   chainsawActive: 0
   chainsawDuration: 10
   currentChainsawDuration: 0

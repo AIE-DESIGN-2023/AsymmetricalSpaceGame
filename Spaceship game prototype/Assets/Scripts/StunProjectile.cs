@@ -31,4 +31,9 @@ public class StunProjectile : MonoBehaviour
     {
         hitbox.SetActive(true);
     }
+
+    void DestroyGameObject()
+    {
+        Destroy(this.gameObject);
+    }
 }

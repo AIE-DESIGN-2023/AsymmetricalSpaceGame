@@ -8,6 +8,9 @@ public class HumanMechanicController : MonoBehaviour
 {
     public HumanMovement humanMovement;
 
+    AIMechanicController aiMechanicController;
+    GameObject shipAI;
+
     public float timeToHack;
     public float currentHackTime;
     public bool isHacking;
@@ -30,9 +33,10 @@ public class HumanMechanicController : MonoBehaviour
 
     [Space]
 
+    public bool isDisabling;
     public float timeToDisable;
     public float currentDisablingTime;
-    public bool isDisabling;
+    public float ai_DisableTime;
 
     [Space]
 
@@ -69,6 +73,10 @@ public class HumanMechanicController : MonoBehaviour
         temporaryWinStatus = GameObject.FindGameObjectWithTag("HumanWinStatus");
         temporaryWinStatus.SetActive(false);
 
+        shipAI = GameObject.FindGameObjectWithTag("ShipAI");
+        aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
+
+        currentDisablingTime = 0;
         currentHackTime = 0;
         currentChainsawDuration = chainsawDuration;
         invincibilityFrameTime = invincibilityFrameTime + knockdownTime; //this may need a different variable like invincDuration
@@ -90,6 +98,9 @@ public class HumanMechanicController : MonoBehaviour
     {
         hackLoadingBarImage.fillAmount = currentHackTime / timeToHack;
         chainsawDurationImage.fillAmount = currentChainsawDuration / chainsawDuration;
+
+        if (isDisabling) { currentDisablingTime += Time.deltaTime; } //disable AI
+        if (currentDisablingTime >= timeToDisable) { aiMechanicController.DeactivateAI(); aiMechanicController.rebootTime += ai_DisableTime; currentDisablingTime = 0; isDisabling = false; }
 
         if (isHacking == true)
         {
@@ -213,8 +224,9 @@ public class HumanMechanicController : MonoBehaviour
 
         if (other.tag == "TerminalAI")
         {
-            Debug.Log("Begin Disabling SHIP AI");
+            hackFadeIn = true;
             isDisabling = true;
+            Debug.Log("Begin Disabling SHIP AI");
         }
 
         if (other.tag == "Alien01" && isImmuneToKnockdown == false)
@@ -302,11 +314,12 @@ public class HumanMechanicController : MonoBehaviour
 
         if (other.tag == "TerminalAI")
         {
-            Debug.Log("Stopped Hacking SHIP AI");
+            
             isDisabling = false;
             currentDisablingTime = 0;
-            hackLoadingBarObject.SetActive(false);
-
+            //hackLoadingBarObject.SetActive(false);
+            hackFadeOut = true;
+            Debug.Log("Stopped Hacking SHIP AI");
         }
 
         if (other.tag == "Egg")

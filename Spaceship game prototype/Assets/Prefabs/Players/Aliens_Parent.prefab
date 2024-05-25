@@ -1624,6 +1624,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4a78c83e-405e-4393-bc43-b4dcfed3b396
     m_ActionName: Player3/ActivateDoorsB
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42f9fc76-f29e-49de-b009-cf972e3889c6
+    m_ActionName: Player3/ChargeBatteryPress
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65a6747f-49b2-47d6-ba8e-b521b4980e05
+    m_ActionName: Player3/TriggerCrosshair
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 23dbb83b-e4a3-4d77-b658-91f68a36d94c
+    m_ActionName: Player3/MoveCrosshair
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player2
@@ -1662,7 +1674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529153692579a13489359bff964bf7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disablingTime: 5
+  disablingTime: 10
   currentDisablingTime: 0
   redCableResetTime: 15
   blueCableResetTime: 15

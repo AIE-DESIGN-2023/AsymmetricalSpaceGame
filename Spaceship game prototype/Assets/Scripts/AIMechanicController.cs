@@ -10,6 +10,17 @@ public class AIMechanicController : MonoBehaviour
     DoorScript doorScript;
     PlayerInput input;
 
+    public bool ai_isDeactivated;
+    public float rebootTime;
+    public float currentRebootTime;
+    public float rebootChargeMultiplier;
+    public GameObject deactivationCanvas;
+    public GameObject rebootParticles;
+    public Transform rebootParticleSpawnpoint1;
+    public Transform rebootParticleSpawnpoint2;
+    public Image rebootImage;
+    public TextMeshProUGUI rebootText;
+
     [Header("Battery")]
     public float currentBattery;
     public float batteryCapacity;
@@ -18,6 +29,8 @@ public class AIMechanicController : MonoBehaviour
 
     public Image batteryImage;
     public TextMeshProUGUI batteryText;
+    public GameObject chargeParticle;
+    public Transform chargeParticle_spawnpoint;
 
 
     [Header("Doors")]
@@ -47,11 +60,13 @@ public class AIMechanicController : MonoBehaviour
     public Image alphaDoorFillImage;
     public Image betaDoorFillImage;
 
+    [Space]
     [Header("Stun Gun")]
     private Vector2 inputMovementVectorA;
     private Vector3 inputMovementVector3A;
     public float crosshairMovementSpeed;
     public int stunLauncherAmmoCount;
+    public int currentStunAmmo;
     public float stunLauncherCost;
     public bool crosshairCanMove;
     public bool stunLauncherActive;
@@ -61,6 +76,9 @@ public class AIMechanicController : MonoBehaviour
     public Transform stunLauncherSpawnpoint;
     public GameObject stunProjectile;
     public TextMeshProUGUI stunLauncherCount_Text;
+    public GameObject crosshairActivationParticle;
+    public GameObject crosshairFiringParticle;
+    public Image stunLauncherImage;
 
 
 
@@ -82,6 +100,7 @@ public class AIMechanicController : MonoBehaviour
 
         stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.position;
 
+        currentRebootTime = 0;
         currentBattery = batteryCapacity;
 
         alphaDoors = GameObject.FindGameObjectsWithTag("AlphaDoor");
@@ -101,23 +120,31 @@ public class AIMechanicController : MonoBehaviour
         currentBattery = batteryCapacity;
         currentAlphaDoorDuration = alphaDoorActiveDuration;
         currentBetaDoorDuration = betaDoorActiveDuration;
-
+        currentStunAmmo = stunLauncherAmmoCount;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        currentBattery += batteryChargeSpeed * Time.deltaTime;
+        if (ai_isDeactivated) { currentRebootTime += Time.deltaTime; }
+        if (currentRebootTime >= rebootTime) { ReactivateAI();  }
+        rebootImage.fillAmount = currentRebootTime / rebootTime;
+        rebootText.text = (currentRebootTime / rebootTime).ToString("P");
+
+        if (ai_isDeactivated == false) { currentBattery += batteryChargeSpeed * Time.deltaTime; }
         if (currentBattery > batteryCapacity) { currentBattery = batteryCapacity; }
         batteryImage.fillAmount = currentBattery / batteryCapacity;
         batteryText.text = (currentBattery / batteryCapacity).ToString("P");
 
+        stunLauncherImage.fillAmount = currentStunAmmo / stunLauncherAmmoCount;
 
         if (alphaDoorOnCooldown) //change image fills 
         { alphaDoorFillImage.fillAmount = currentAlphaDoorDuration / alphaDoorCooldownDuration; }
         else
         { alphaDoorFillImage.fillAmount = currentAlphaDoorDuration / alphaDoorActiveDuration; }
 
+
+        //DO THE DEACTIVATION THING
 
         if (alphaDoorsActive == true && alphaDoorOnCooldown == false)  //if doors are active
         { currentAlphaDoorDuration -= Time.deltaTime; }
@@ -159,8 +186,8 @@ public class AIMechanicController : MonoBehaviour
 
     public void ActivateDoorA(InputAction.CallbackContext value)
     {
-        
-        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost)
+
+        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -175,7 +202,7 @@ public class AIMechanicController : MonoBehaviour
 
     public void ActivateDoorB(InputAction.CallbackContext value)
     {
-        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost)
+        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -231,10 +258,19 @@ public class AIMechanicController : MonoBehaviour
 
     public void ChargeBatteryPress(InputAction.CallbackContext value)
     {
-        if (value.started)
+        if (value.started && ai_isDeactivated == false)
         {
             currentBattery += chargePerPress;
+            Instantiate(chargeParticle, chargeParticle_spawnpoint.position, chargeParticle_spawnpoint.rotation, null);
             Debug.Log("Adding battery from mash");
+        }
+
+        if (value.started && ai_isDeactivated)
+        {
+            currentRebootTime += chargePerPress * rebootChargeMultiplier;
+            Instantiate(rebootParticles, rebootParticleSpawnpoint1.position, rebootParticleSpawnpoint1.rotation, null);
+            Instantiate(rebootParticles, rebootParticleSpawnpoint2.position, rebootParticleSpawnpoint2.rotation, null);
+            Debug.Log("Charging the reboot battery");
         }
     }
 
@@ -251,28 +287,52 @@ public class AIMechanicController : MonoBehaviour
 
     public void TriggerCrosshair(InputAction.CallbackContext value)
     {
-        if (value.started && currentBattery >= stunLauncherCost && stunLauncherActive == false) //turn the launcher ON
+        if (value.started && currentBattery >= stunLauncherCost && stunLauncherActive == false && ai_isDeactivated == false) //turn the launcher ON
         {
             crosshairCanMove = true;
             stunLauncherActive = true;
             stunLauncherCrosshair.SetActive(true);
-            stunLauncherAmmoCount = 3;
+            Instantiate(crosshairActivationParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
+            crosshairActivationParticle.transform.parent = stunLauncherCrosshair.transform;
+            currentStunAmmo = stunLauncherAmmoCount;
             //crosshair fires 3 rounds //must stun players
         }
 
-        if (value.started && stunLauncherActive && stunLauncherAmmoCount >= 2) //fire a shot now that crosshair is activated
+        if (value.started && stunLauncherActive && currentStunAmmo >= 2 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
         {
             //fire stun bomb with delay
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            stunLauncherAmmoCount -= 1;
+            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
+            crosshairFiringParticle.transform.parent = stunLauncherCrosshair.transform;
+            currentStunAmmo -= 1;
         }
-        else if (value.started && stunLauncherActive && stunLauncherAmmoCount == 1) //turn off crosshair after firing last round
+        else if (value.started && stunLauncherActive && currentStunAmmo == 1 && ai_isDeactivated == false) //turn off crosshair after firing last round
         {
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            stunLauncherAmmoCount -= 1;
+            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
+            crosshairFiringParticle.transform.parent = stunLauncherCrosshair.transform;
+            currentStunAmmo -= 1;
             crosshairCanMove = false;
             stunLauncherActive = false;
             stunLauncherCrosshair.SetActive(false);
         }
+    }
+
+    public void DeactivateAI()
+    {
+        ai_isDeactivated = true;
+        deactivationCanvas.SetActive(true);
+        DeactivateAlphaDoors();
+        DeactivateBetaDoors();
+        currentRebootTime = 0;
+    }
+
+    public void ReactivateAI()
+    {
+        //access cables and reset those
+        ai_isDeactivated = false;
+        deactivationCanvas.SetActive(false);
+        currentRebootTime = 0;
+        rebootTime = 0;
     }
 }

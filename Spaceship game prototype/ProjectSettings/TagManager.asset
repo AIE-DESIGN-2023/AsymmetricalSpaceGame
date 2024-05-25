@@ -47,6 +47,7 @@ TagManager:
   - HumanWinStatus
   - BetaDoor
   - StunProjectile
+  - ShipAI
   layers:
   - Default
   - TransparentFX
