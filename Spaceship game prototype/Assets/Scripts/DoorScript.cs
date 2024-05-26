@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    public Transform closePoint;
+    /*public Transform closePoint;
     public Transform openPoint;
 
     public float doorSpeed;
-    float sinTime;
+    float sinTime;*/
+
+    private Animation anim;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = openPoint.position;
+        //transform.position = openPoint.position;
+
+        anim = gameObject.GetComponent<Animation>();
     }
 
     // Update is called once per frame
@@ -25,22 +30,26 @@ public class DoorScript : MonoBehaviour
 
     public void Open()
     {
-        sinTime += Time.deltaTime * doorSpeed;
+        anim.Play("DoorOpen");
+
+        /*sinTime += Time.deltaTime * doorSpeed;
         sinTime = Mathf.Clamp(sinTime, 0, Mathf.PI);
         float t = evaluate(sinTime);
-        transform.position = Vector3.Lerp(closePoint.position, openPoint.position, t);
+        transform.position = Vector3.Lerp(closePoint.position, openPoint.position, t);*/
     }
 
     public void Close()
     {
-        sinTime += Time.deltaTime * doorSpeed;
+        anim.Play("DoorClose");
+
+        /*sinTime += Time.deltaTime * doorSpeed;
         sinTime = Mathf.Clamp(sinTime, 0, Mathf.PI);
         float t = evaluate(sinTime);
-        transform.position = Vector3.Lerp(openPoint.position, closePoint.position, t);
+        transform.position = Vector3.Lerp(openPoint.position, closePoint.position, t);*/
     }
 
-    public float evaluate(float x)
+    /*public float evaluate(float x)
     {
         return 0.5f * Mathf.Sin(x - Mathf.PI / 2f) + 0.5f;
-    }
+    }*/
 }
