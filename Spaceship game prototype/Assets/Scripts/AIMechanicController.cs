@@ -187,7 +187,7 @@ public class AIMechanicController : MonoBehaviour
     public void ActivateDoorA(InputAction.CallbackContext value)
     {
 
-        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false)
+        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && betaDoorsActive == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -202,7 +202,7 @@ public class AIMechanicController : MonoBehaviour
 
     public void ActivateDoorB(InputAction.CallbackContext value)
     {
-        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false)
+        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && alphaDoorsActive == false)
         {
             //do the doors
             //invoke doors, telegraph duration

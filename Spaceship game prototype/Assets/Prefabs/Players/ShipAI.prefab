@@ -948,7 +948,7 @@ GameObject:
   - component: {fileID: 2005924468357979717}
   m_Layer: 0
   m_Name: ShipAI
-  m_TagString: Untagged
+  m_TagString: ShipAI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1103,6 +1103,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 23dbb83b-e4a3-4d77-b658-91f68a36d94c
     m_ActionName: Player3/MoveCrosshair
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 01e20b63-1443-47f2-9de0-08632f62c737
+    m_ActionName: Player2/SwapControls
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player3
@@ -1123,8 +1127,13 @@ MonoBehaviour:
   ai_isDeactivated: 0
   rebootTime: 0
   currentRebootTime: 0
-  deactivationCanvas: {fileID: 0}
-  rebootImage: {fileID: 0}
+  rebootChargeMultiplier: 0.5
+  deactivationCanvas: {fileID: 2090486800650386055}
+  rebootParticles: {fileID: 4364462974609401906, guid: 2ef15f4774247b249928bcdf8aba2d25, type: 3}
+  rebootParticleSpawnpoint1: {fileID: 7912983648344242718}
+  rebootParticleSpawnpoint2: {fileID: 1612828150007053040}
+  rebootImage: {fileID: 1634474687921409264}
+  rebootText: {fileID: 1959518078902460159}
   currentBattery: 0
   batteryCapacity: 100
   batteryChargeSpeed: 1

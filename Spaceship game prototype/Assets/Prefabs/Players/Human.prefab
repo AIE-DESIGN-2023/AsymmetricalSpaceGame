@@ -203,7 +203,7 @@ RectTransform:
   m_GameObject: {fileID: 3205012497072138886}
   m_LocalRotation: {x: -0, y: 0.86602515, z: 0.5000004, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 1.433013}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3205012497375792916}
@@ -539,6 +539,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 23dbb83b-e4a3-4d77-b658-91f68a36d94c
     m_ActionName: Player3/MoveCrosshair
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 01e20b63-1443-47f2-9de0-08632f62c737
+    m_ActionName: Player2/SwapControls
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -833,7 +837,7 @@ RectTransform:
   m_GameObject: {fileID: 3357817152871665042}
   m_LocalRotation: {x: -0, y: 0.86602515, z: 0.5000004, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2285872668314817163}
@@ -915,7 +919,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3357817152871665042}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dd6ef905a6b29246bd83bbd8e51fac0, type: 3}
   m_Name: 

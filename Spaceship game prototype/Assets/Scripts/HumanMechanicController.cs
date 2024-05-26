@@ -73,8 +73,7 @@ public class HumanMechanicController : MonoBehaviour
         temporaryWinStatus = GameObject.FindGameObjectWithTag("HumanWinStatus");
         temporaryWinStatus.SetActive(false);
 
-        shipAI = GameObject.FindGameObjectWithTag("ShipAI");
-        aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
+
 
         currentDisablingTime = 0;
         currentHackTime = 0;
@@ -87,10 +86,14 @@ public class HumanMechanicController : MonoBehaviour
         chainsawLoadCanvas.alpha = 0;
 
         heldChainsaw.SetActive(false);
-
+        hackFadeOut = true;
+        Debug.Log("fading out hacking bar");
         //reactorNormal.SetActive(true);
         //reactorMelting.SetActive(false);
         //temporaryWinStatus.SetActive(false);
+
+        shipAI = GameObject.FindGameObjectWithTag("ShipAI");
+        aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
     }
 
     // Update is called once per frame
@@ -182,7 +185,7 @@ public class HumanMechanicController : MonoBehaviour
             heldChainsaw.SetActive(false);
             //chainsawCanvasObject.SetActive(false);
             chainsawFadeOut = true;
-            Invoke("ResetChainsaw", 1f);
+            Invoke("ResetChainsaw", 0.1f);
             Debug.Log("Deactivating chainsaw");
             //could drop the chainsaw
         }
@@ -274,42 +277,55 @@ public class HumanMechanicController : MonoBehaviour
     {
         if (other.tag == "Terminal01")
         {
-            Debug.Log("Stopped Hacking Terminal 01");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal1 = false;
             //hackLoadingBarObject.SetActive(false);
             hackFadeOut = true;
+            Debug.Log("Stopped Hacking Terminal 01");
         }
 
         if (other.tag == "Terminal02")
         {
-            Debug.Log("Stopped Hacking Terminal 02");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal2 = false;
             //hackLoadingBarObject.SetActive(false);
             hackFadeOut = true;
+            Debug.Log("Stopped Hacking Terminal 02");
         }
 
         if (other.tag == "Terminal03")
         {
-            Debug.Log("Stopped Hacking Terminal 03");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal3 = false;
             //hackLoadingBarObject.SetActive(false);
             hackFadeOut = true;
+            Debug.Log("Stopped Hacking Terminal 03");
         }
 
         if (other.tag == "Terminal04")
         {
-            Debug.Log("Stopped Hacking Terminal 04");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal4 = false;
             //hackLoadingBarObject.SetActive(false);
-            hackFadeOut = true;
+            if (hackFadeOut)
+            {
+                hackLoadCanvas.alpha = 0;
+                hackFadeOut = false;
+            }
+            else
+            {
+                hackFadeOut = true;
+            }
+
+            Debug.Log("Stopped Hacking Terminal 04");
         }
 
         if (other.tag == "TerminalAI")
