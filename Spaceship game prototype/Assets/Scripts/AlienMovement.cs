@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 public class AlienMovement : MonoBehaviour
 {
     public bool controlsSwapped;
+    public Transform alien1ParticleSpawnpoint;
+    public Transform alien2ParticleSpawnpoint;
+    public GameObject r_JSparticle;
+    public GameObject l_JSparticle;
 
     private Vector2 inputMovementVector_1;
     private Vector3 inputMovementVector3_1;
@@ -98,11 +102,17 @@ public class AlienMovement : MonoBehaviour
         if (value.started && controlsSwapped == false)
         { 
             controlsSwapped = true; //show the current keybinds above alien
+            Instantiate(r_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            //r_JSparticle.transform.parent = alien1ParticleSpawnpoint.transform;
+            Instantiate(l_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            //l_JSparticle.transform.parent = alien2ParticleSpawnpoint.transform;
                                  
         }
         if (value.started && controlsSwapped)
         { 
             controlsSwapped = false;
+            Instantiate(l_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            Instantiate(r_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
         }
     }
 }
