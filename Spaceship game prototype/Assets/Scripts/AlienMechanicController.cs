@@ -11,7 +11,7 @@ public class AlienMechanicController : MonoBehaviour
     HumanMechanicController humanMechanicController;
     GameObject human;
 
-    public GameObject alienWinCanvas;
+
 
     public bool isAlien01;
     public bool isAlien02;
@@ -42,8 +42,7 @@ public class AlienMechanicController : MonoBehaviour
     public GameObject heldFlesh;
     public GameObject eggToLay;
 
-    public int eggsToLay;
-    public int laidEggs = 0;
+
     
 
     [Space]
@@ -77,8 +76,7 @@ public class AlienMechanicController : MonoBehaviour
             this.gameObject.transform.position = spawnpoint.transform.position;
         }
 
-        alienWinCanvas = GameObject.FindGameObjectWithTag("AlienWinCanvas");
-        alienWinCanvas.SetActive(false);
+
         
 
         CableScript cableScript = GetComponentInParent<CableScript>();
@@ -396,20 +394,14 @@ public class AlienMechanicController : MonoBehaviour
             Debug.Log("Found doorscript in alphadoors");
         }*/
 
-        laidEggs += 1;
+        alienMovement.laidEggs += 1;
         eggFadeOut = true;
         heldFlesh.SetActive(false);
         Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
-        CheckForEggs();
+        alienMovement.CheckForEggs();
     }
 
-    void CheckForEggs()
-    {
-        if (laidEggs >= eggsToLay)
-        {
-            AliensWinGame();
-        }
-    }
+
 
     void Respawn()
     {
@@ -426,8 +418,4 @@ public class AlienMechanicController : MonoBehaviour
         }
     }
 
-    void AliensWinGame()
-    {
-        alienWinCanvas.SetActive(true);
-    }
 }

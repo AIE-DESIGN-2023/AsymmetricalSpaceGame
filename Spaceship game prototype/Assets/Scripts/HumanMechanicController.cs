@@ -12,6 +12,7 @@ public class HumanMechanicController : MonoBehaviour
     GameObject shipAI;
 
     AlienMechanicController alienMechanicController;
+    AlienMovement alienMovement;
     GameObject alien;
 
     public float timeToHack;
@@ -212,6 +213,7 @@ public class HumanMechanicController : MonoBehaviour
         {
             alien = GameObject.FindGameObjectWithTag("AlienParent");
             alienMechanicController = alien.GetComponentInParent<AlienMechanicController>();
+            alienMovement = alien.GetComponentInParent<AlienMovement>();
         }
     }
 
@@ -311,7 +313,7 @@ public class HumanMechanicController : MonoBehaviour
         if (other.tag == "Egg")
         {           
             Destroy(other.gameObject);
-            alienMechanicController.laidEggs -= 1;
+            alienMovement.laidEggs -= 1;
             Debug.Log("Stepped on egg");
         }
     }

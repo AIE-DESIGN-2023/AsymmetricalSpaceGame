@@ -7,6 +7,7 @@ public class EggScript : MonoBehaviour
     public GameObject splatImage;
     public Transform splatImageSpawnpoint;
 
+    public bool eggArmed;
     [SerializeField] float currentEggArmingTime;
     public float eggArmingTime;
 
@@ -19,17 +20,35 @@ public class EggScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentEggArmingTime += Time.deltaTime;
-
-        /*if (currentEggArmingTime >= eggArmingTime)
+        if (eggArmed == false)
         {
+            currentEggArmingTime += Time.deltaTime;
+        }
 
-        }*/
+
+        if (currentEggArmingTime >= eggArmingTime)
+        {
+            eggArmed = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "StunBomb")
+        {
+            GoSplat();
+        }
+    }
+
+    void GoSplat()
+    {
+        Instantiate(splatImage, splatImageSpawnpoint.position, splatImageSpawnpoint.rotation, null);
+        Destroy(this.gameObject);
     }
 
     private void OnDestroy()
     {
         //play splat sound
-        Instantiate(splatImage, splatImageSpawnpoint.position, splatImageSpawnpoint.rotation, null);
+        
     }
 }

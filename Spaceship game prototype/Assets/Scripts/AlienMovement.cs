@@ -30,7 +30,12 @@ public class AlienMovement : MonoBehaviour
     public bool alien1CanMove;
     public bool alien2CanMove;
 
+    public GameObject alienWinCanvas;
+
     private PlayerInput input;
+
+    public int eggsToLay;
+    public int laidEggs = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -41,8 +46,9 @@ public class AlienMovement : MonoBehaviour
         input = GetComponent<PlayerInput>();
 
         FindAnyObjectByType<InputManagerController>().Swap(2);
-        
 
+        alienWinCanvas = GameObject.FindGameObjectWithTag("AlienWinStatus"); Debug.Log("Found alien win canvus");
+        alienWinCanvas.SetActive(false);
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();
     }
@@ -129,5 +135,18 @@ public class AlienMovement : MonoBehaviour
 
 
 
+    }
+
+    public void CheckForEggs()
+    {
+        if (laidEggs >= eggsToLay)
+        {
+            AliensWinGame();
+        }
+    }
+
+    public void AliensWinGame()
+    {
+        alienWinCanvas.SetActive(true);
     }
 }
