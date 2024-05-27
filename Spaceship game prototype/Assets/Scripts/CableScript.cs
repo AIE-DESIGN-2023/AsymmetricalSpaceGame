@@ -45,8 +45,7 @@ public class CableScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shipAI = GameObject.FindGameObjectWithTag("ShipAI");
-        aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
+
 
         //get AI script to disable
         red_Cable1_Active = GameObject.FindGameObjectWithTag("RCA1"); //GameObject.FindGameObjectWithTag("RCA1");
@@ -99,6 +98,12 @@ public class CableScript : MonoBehaviour
             blueCable2Destroyed = false;
             blueCable3Destroyed = false;
             Invoke("ResetBlueCables", blueCableResetTime);
+        }
+
+        if (shipAI == null)
+        {
+            shipAI = GameObject.FindGameObjectWithTag("ShipAI");
+            aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
         }
 
     }

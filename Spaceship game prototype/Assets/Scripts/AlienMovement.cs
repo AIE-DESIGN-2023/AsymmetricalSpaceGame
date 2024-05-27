@@ -99,6 +99,8 @@ public class AlienMovement : MonoBehaviour
 
     public void SwapAlienControls(InputAction.CallbackContext value)
     {
+
+
         if (value.started && controlsSwapped == false)
         { 
             controlsSwapped = true; //show the current keybinds above alien
@@ -106,13 +108,26 @@ public class AlienMovement : MonoBehaviour
             //r_JSparticle.transform.parent = alien1ParticleSpawnpoint.transform;
             Instantiate(l_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
             //l_JSparticle.transform.parent = alien2ParticleSpawnpoint.transform;
-                                 
+            Debug.Log("controls swapped to true");
+            return;
         }
+
+
         if (value.started && controlsSwapped)
         { 
             controlsSwapped = false;
             Instantiate(l_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
             Instantiate(r_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            Debug.Log("controls swapped to false");
+            return;
+        } 
+
+        if (value.started)
+        {
+            Debug.Log("Value started is true");
         }
+
+
+
     }
 }

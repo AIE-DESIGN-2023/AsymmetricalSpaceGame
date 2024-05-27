@@ -9,6 +9,8 @@ public class AIMechanicController : MonoBehaviour
 {
     DoorScript doorScript;
     PlayerInput input;
+    public GameObject human;
+    HumanMechanicController humanMechanicController;
 
     public bool ai_isDeactivated;
     public float rebootTime;
@@ -79,7 +81,10 @@ public class AIMechanicController : MonoBehaviour
     public GameObject crosshairActivationParticle;
     public GameObject crosshairFiringParticle;
     public Image stunLauncherImage;
-
+    private bool crosshairFadeIn;
+    private bool crosshairFadeOut;
+    private float crosshairTimeToFade = 3f;
+    public CanvasGroup crosshairCanvasGroup;
 
 
 
@@ -98,7 +103,12 @@ public class AIMechanicController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         FindAnyObjectByType<InputManagerController>().Swap(3);
 
+        human = GameObject.FindGameObjectWithTag("Human");
+        humanMechanicController = human.GetComponentInParent<HumanMechanicController>();
+
         stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.position;
+        //stunLauncherCrosshair.SetActive(false);
+        crosshairCanvasGroup.alpha = 0;
 
         currentRebootTime = 0;
         currentBattery = batteryCapacity;
@@ -178,10 +188,31 @@ public class AIMechanicController : MonoBehaviour
 
         if (crosshairCanMove == true)
         {
-            
-            rb_crosshair.AddForce(inputMovementVectorA * crosshairMovementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            rb_crosshair.AddForce(inputMovementVector3A * crosshairMovementSpeed * Time.fixedDeltaTime, ForceMode.Force);
         }
 
+        if (crosshairFadeIn)
+        {
+            if (crosshairCanvasGroup.alpha < 1)
+            {
+                crosshairCanvasGroup.alpha += crosshairTimeToFade * Time.deltaTime;
+                if (crosshairCanvasGroup.alpha >= 1)
+                {
+                    crosshairFadeIn = false;
+                }
+            }
+        }
+        if (crosshairFadeOut)
+        {
+            if (crosshairCanvasGroup.alpha >= 0)
+            {
+                crosshairCanvasGroup.alpha -= crosshairTimeToFade * Time.deltaTime;
+                if (crosshairCanvasGroup.alpha <= 0)
+                {
+                    crosshairFadeOut = false;
+                }
+            }
+        }
     }
 
     public void ActivateDoorA(InputAction.CallbackContext value)
@@ -281,6 +312,7 @@ public class AIMechanicController : MonoBehaviour
             //take the current input
             inputMovementVectorA = context.ReadValue<Vector2>();
             inputMovementVector3A = new Vector3(inputMovementVectorA.x, 0, inputMovementVectorA.y);
+
         }
 
     }
@@ -289,41 +321,52 @@ public class AIMechanicController : MonoBehaviour
     {
         if (value.started && currentBattery >= stunLauncherCost && stunLauncherActive == false && ai_isDeactivated == false) //turn the launcher ON
         {
+            stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.transform.position;
+            currentBattery -= stunLauncherCost;
             crosshairCanMove = true;
             stunLauncherActive = true;
-            stunLauncherCrosshair.SetActive(true);
-            Instantiate(crosshairActivationParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            crosshairActivationParticle.transform.parent = stunLauncherCrosshair.transform;
+            //stunLauncherCrosshair.SetActive(true);
+            crosshairFadeIn = true;
+            Instantiate(crosshairActivationParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
+
             currentStunAmmo = stunLauncherAmmoCount;
             //crosshair fires 3 rounds //must stun players
+            return;
         }
 
         if (value.started && stunLauncherActive && currentStunAmmo >= 2 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
         {
             //fire stun bomb with delay
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            crosshairFiringParticle.transform.parent = stunLauncherCrosshair.transform;
+            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
             currentStunAmmo -= 1;
+            stunLauncherCount_Text.text = "" + stunLauncherAmmoCount;
+            Debug.Log("Updating ammo count");
+            return;
         }
         else if (value.started && stunLauncherActive && currentStunAmmo == 1 && ai_isDeactivated == false) //turn off crosshair after firing last round
         {
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
-            crosshairFiringParticle.transform.parent = stunLauncherCrosshair.transform;
+            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
             currentStunAmmo -= 1;
             crosshairCanMove = false;
             stunLauncherActive = false;
-            stunLauncherCrosshair.SetActive(false);
+            Invoke("TurnOffCrosshair", 0.5f);
+            return;
         }
+    }
+
+    void TurnOffCrosshair()
+    {
+        crosshairFadeOut = true;
     }
 
     public void DeactivateAI()
     {
         ai_isDeactivated = true;
         deactivationCanvas.SetActive(true);
-        DeactivateAlphaDoors();
-        DeactivateBetaDoors();
+        if (alphaDoorsActive) { DeactivateAlphaDoors(); }
+        if (betaDoorsActive) { DeactivateBetaDoors(); }
         currentRebootTime = 0;
     }
 

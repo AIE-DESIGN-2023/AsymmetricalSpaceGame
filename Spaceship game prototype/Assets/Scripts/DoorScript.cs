@@ -11,7 +11,7 @@ public class DoorScript : MonoBehaviour
     public float doorSpeed;
     float sinTime;*/
 
-    private Animation anim;
+    public Animator anim;
 
 
     // Start is called before the first frame update
@@ -19,7 +19,7 @@ public class DoorScript : MonoBehaviour
     {
         //transform.position = openPoint.position;
 
-        anim = gameObject.GetComponent<Animation>();
+        anim = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class DoorScript : MonoBehaviour
     public void Open()
     {
         anim.Play("DoorOpen");
-
+        
         /*sinTime += Time.deltaTime * doorSpeed;
         sinTime = Mathf.Clamp(sinTime, 0, Mathf.PI);
         float t = evaluate(sinTime);
@@ -41,7 +41,7 @@ public class DoorScript : MonoBehaviour
     public void Close()
     {
         anim.Play("DoorClose");
-
+        Debug.Log("Closing door");
         /*sinTime += Time.deltaTime * doorSpeed;
         sinTime = Mathf.Clamp(sinTime, 0, Mathf.PI);
         float t = evaluate(sinTime);

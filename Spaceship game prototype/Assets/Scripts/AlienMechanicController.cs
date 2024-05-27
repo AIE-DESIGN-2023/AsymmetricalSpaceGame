@@ -11,12 +11,14 @@ public class AlienMechanicController : MonoBehaviour
     HumanMechanicController humanMechanicController;
     GameObject human;
 
+    public GameObject alienWinCanvas;
 
     public bool isAlien01;
     public bool isAlien02;
     [Space]
 
     public GameObject spawnpoint;
+    public GameObject deathParticles;
     public float respawnTime;
     public bool isDead;
 
@@ -39,6 +41,10 @@ public class AlienMechanicController : MonoBehaviour
 
     public GameObject heldFlesh;
     public GameObject eggToLay;
+
+    public int eggsToLay;
+    public int laidEggs = 0;
+    
 
     [Space]
     public GameObject cableLoadBarObject;
@@ -70,6 +76,9 @@ public class AlienMechanicController : MonoBehaviour
             Debug.Log("found spawnpoint2");
             this.gameObject.transform.position = spawnpoint.transform.position;
         }
+
+        alienWinCanvas = GameObject.FindGameObjectWithTag("AlienWinCanvas");
+        alienWinCanvas.SetActive(false);
         
 
         CableScript cableScript = GetComponentInParent<CableScript>();
@@ -142,7 +151,6 @@ public class AlienMechanicController : MonoBehaviour
             }
         }
 
-        //check for cable dead or nah
     }
 
     private void OnTriggerEnter(Collider other)
@@ -256,6 +264,23 @@ public class AlienMechanicController : MonoBehaviour
             cableLoadBarObject.SetActive(true);
         }
 
+        if (other.tag == "StunProjectile")
+        {
+            Debug.Log("Alien has been slain");
+            isDead = true;
+            isHoldingFlesh = false;
+            heldFlesh.SetActive(false);
+            this.gameObject.SetActive(false);
+            this.gameObject.transform.position = spawnpoint.transform.position;
+            Invoke("Respawn", respawnTime);
+            if (isAlien01 == true)
+            { alienMovement.alien1CanMove = false; }
+            if (isAlien02 == true)
+            { alienMovement.alien2CanMove = false; }
+
+            //create skaboom
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -364,9 +389,26 @@ public class AlienMechanicController : MonoBehaviour
 
     void LayEgg()
     {
+        /*laidEggs = GameObject.FindGameObjectsWithTag("Egg");
+        foreach (GameObject laidEgg in laidEggs)
+        {
+            laidEgg.GetComponent<DoorScript>();
+            Debug.Log("Found doorscript in alphadoors");
+        }*/
+
+        laidEggs += 1;
         eggFadeOut = true;
         heldFlesh.SetActive(false);
         Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
+        CheckForEggs();
+    }
+
+    void CheckForEggs()
+    {
+        if (laidEggs >= eggsToLay)
+        {
+            AliensWinGame();
+        }
     }
 
     void Respawn()
@@ -382,5 +424,10 @@ public class AlienMechanicController : MonoBehaviour
         {
             alienMovement.alien2CanMove = true;
         }
+    }
+
+    void AliensWinGame()
+    {
+        alienWinCanvas.SetActive(true);
     }
 }

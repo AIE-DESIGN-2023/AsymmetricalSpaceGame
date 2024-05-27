@@ -49,6 +49,9 @@ TagManager:
   - StunProjectile
   - ShipAI
   - TerminalAI
+  - EscapePod
+  - AlienParent
+  - AlienWinStatus
   layers:
   - Default
   - TransparentFX
