@@ -7,6 +7,9 @@ public class CableScript : MonoBehaviour
 {
 
 
+    AIMechanicController aiMechanicController;
+    GameObject shipAI;
+
     public float disablingTime;
     public float currentDisablingTime;
 
@@ -42,6 +45,9 @@ public class CableScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        shipAI = GameObject.FindGameObjectWithTag("ShipAI");
+        aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
+
         //get AI script to disable
         red_Cable1_Active = GameObject.FindGameObjectWithTag("RCA1"); //GameObject.FindGameObjectWithTag("RCA1");
         red_Cable2_Active = GameObject.FindGameObjectWithTag("RCA2");
@@ -76,7 +82,8 @@ public class CableScript : MonoBehaviour
 
         if (redCable1Destroyed == true && redCable2Destroyed == true && redCable3Destroyed == true)
         {
-            ai_isDisabled = true;
+            aiMechanicController.DeactivateAI();
+            aiMechanicController.rebootTime += disablingTime;
             currentDisablingTime = currentDisablingTime + disablingTime;
             redCable1Destroyed = false;
             redCable2Destroyed = false;
@@ -85,7 +92,8 @@ public class CableScript : MonoBehaviour
         }
         if (blueCable1Destroyed == true && blueCable2Destroyed == true && blueCable3Destroyed == true)
         {
-            ai_isDisabled = true;
+            aiMechanicController.DeactivateAI();
+            aiMechanicController.rebootTime += disablingTime;
             currentDisablingTime = currentDisablingTime + disablingTime;
             blueCable1Destroyed = false;
             blueCable2Destroyed = false;

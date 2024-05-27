@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class AlienMechanicController : MonoBehaviour
 {
     public CableScript cableScript;
-    AlienMovement alienMovement;
+    public AlienMovement alienMovement;
     HumanMechanicController humanMechanicController;
     GameObject human;
+
 
     public bool isAlien01;
     public bool isAlien02;
@@ -72,9 +73,9 @@ public class AlienMechanicController : MonoBehaviour
         
 
         CableScript cableScript = GetComponentInParent<CableScript>();
-        AlienMovement alienMovement = GetComponent<AlienMovement>();
+        AlienMovement alienMovement = GetComponentInParent<AlienMovement>();
         human = GameObject.FindGameObjectWithTag("Human");
-        humanMechanicController = human.GetComponent<HumanMechanicController>();
+        humanMechanicController = human.GetComponentInParent<HumanMechanicController>();
 
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
@@ -146,7 +147,7 @@ public class AlienMechanicController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Human" && isHoldingFlesh == false /*&& humanMechanicController.isImmuneToKnockdown == false*/)
+        if (other.gameObject.tag == "Human" && isHoldingFlesh == false && humanMechanicController.isImmuneToKnockdown == false)
         { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
         //For Alien 1

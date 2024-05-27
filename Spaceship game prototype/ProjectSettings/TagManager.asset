@@ -43,6 +43,12 @@ TagManager:
   - BCD2
   - BCD3
   - HumanSpawnpoint
+  - AlphaDoor
+  - HumanWinStatus
+  - BetaDoor
+  - StunProjectile
+  - ShipAI
+  - TerminalAI
   layers:
   - Default
   - TransparentFX
@@ -52,7 +58,7 @@ TagManager:
   - UI
   - Terminal01
   - Human
-  - 
+  - Crosshair
   - 
   - 
   - 

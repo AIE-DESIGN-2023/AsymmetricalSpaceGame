@@ -8,6 +8,9 @@ public class HumanMechanicController : MonoBehaviour
 {
     public HumanMovement humanMovement;
 
+    AIMechanicController aiMechanicController;
+    GameObject shipAI;
+
     public float timeToHack;
     public float currentHackTime;
     public bool isHacking;
@@ -30,9 +33,10 @@ public class HumanMechanicController : MonoBehaviour
 
     [Space]
 
+    public bool isDisabling;
     public float timeToDisable;
     public float currentDisablingTime;
-    public bool isDisabling;
+    public float ai_DisableTime;
 
     [Space]
 
@@ -57,7 +61,7 @@ public class HumanMechanicController : MonoBehaviour
     public bool reactorMeltdown;
     //public GameObject reactorNormal;
     //public GameObject reactorMelting;
-    //public GameObject temporaryWinStatus;
+    public GameObject temporaryWinStatus;
 
 
     //get movement script for knockdown
@@ -66,7 +70,12 @@ public class HumanMechanicController : MonoBehaviour
     void Start()
     {
         HumanMovement humanMovement = GetComponent<HumanMovement>();
+        temporaryWinStatus = GameObject.FindGameObjectWithTag("HumanWinStatus");
+        temporaryWinStatus.SetActive(false);
 
+
+
+        currentDisablingTime = 0;
         currentHackTime = 0;
         currentChainsawDuration = chainsawDuration;
         invincibilityFrameTime = invincibilityFrameTime + knockdownTime; //this may need a different variable like invincDuration
@@ -77,10 +86,14 @@ public class HumanMechanicController : MonoBehaviour
         chainsawLoadCanvas.alpha = 0;
 
         heldChainsaw.SetActive(false);
-
+        hackFadeOut = true;
+        Debug.Log("fading out hacking bar");
         //reactorNormal.SetActive(true);
         //reactorMelting.SetActive(false);
         //temporaryWinStatus.SetActive(false);
+
+        shipAI = GameObject.FindGameObjectWithTag("ShipAI");
+        aiMechanicController = shipAI.GetComponentInParent<AIMechanicController>();
     }
 
     // Update is called once per frame
@@ -88,6 +101,9 @@ public class HumanMechanicController : MonoBehaviour
     {
         hackLoadingBarImage.fillAmount = currentHackTime / timeToHack;
         chainsawDurationImage.fillAmount = currentChainsawDuration / chainsawDuration;
+
+        if (isDisabling) { currentDisablingTime += Time.deltaTime; } //disable AI
+        if (currentDisablingTime >= timeToDisable) { aiMechanicController.DeactivateAI(); aiMechanicController.rebootTime += ai_DisableTime; currentDisablingTime = 0; isDisabling = false; }
 
         if (isHacking == true)
         {
@@ -169,7 +185,7 @@ public class HumanMechanicController : MonoBehaviour
             heldChainsaw.SetActive(false);
             //chainsawCanvasObject.SetActive(false);
             chainsawFadeOut = true;
-            Invoke("ResetChainsaw", 1f);
+            Invoke("ResetChainsaw", 0.1f);
             Debug.Log("Deactivating chainsaw");
             //could drop the chainsaw
         }
@@ -211,8 +227,9 @@ public class HumanMechanicController : MonoBehaviour
 
         if (other.tag == "TerminalAI")
         {
-            Debug.Log("Begin Disabling SHIP AI");
+            hackFadeIn = true;
             isDisabling = true;
+            Debug.Log("Begin Disabling SHIP AI");
         }
 
         if (other.tag == "Alien01" && isImmuneToKnockdown == false)
@@ -220,6 +237,10 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            isHacking = false;
+            currentHackTime = 0;
+            hackFadeOut = true;
+            terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
 
@@ -228,6 +249,10 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            isHacking = false;
+            currentHackTime = 0;
+            hackFadeOut = true;
+            terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
 
@@ -252,51 +277,65 @@ public class HumanMechanicController : MonoBehaviour
     {
         if (other.tag == "Terminal01")
         {
-            Debug.Log("Stopped Hacking Terminal 01");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal1 = false;
             //hackLoadingBarObject.SetActive(false);
             hackFadeOut = true;
+            Debug.Log("Stopped Hacking Terminal 01");
         }
 
         if (other.tag == "Terminal02")
         {
-            Debug.Log("Stopped Hacking Terminal 02");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal2 = false;
             //hackLoadingBarObject.SetActive(false);
             hackFadeOut = true;
+            Debug.Log("Stopped Hacking Terminal 02");
         }
 
         if (other.tag == "Terminal03")
         {
-            Debug.Log("Stopped Hacking Terminal 03");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal3 = false;
             //hackLoadingBarObject.SetActive(false);
             hackFadeOut = true;
+            Debug.Log("Stopped Hacking Terminal 03");
         }
 
         if (other.tag == "Terminal04")
         {
-            Debug.Log("Stopped Hacking Terminal 04");
+            
             isHacking = false;
             currentHackTime = 0;
             terminal4 = false;
             //hackLoadingBarObject.SetActive(false);
-            hackFadeOut = true;
+            if (hackFadeOut)
+            {
+                hackLoadCanvas.alpha = 0;
+                hackFadeOut = false;
+            }
+            else
+            {
+                hackFadeOut = true;
+            }
+
+            Debug.Log("Stopped Hacking Terminal 04");
         }
 
         if (other.tag == "TerminalAI")
         {
-            Debug.Log("Stopped Hacking SHIP AI");
+            
             isDisabling = false;
             currentDisablingTime = 0;
-            hackLoadingBarObject.SetActive(false);
-
+            //hackLoadingBarObject.SetActive(false);
+            hackFadeOut = true;
+            Debug.Log("Stopped Hacking SHIP AI");
         }
 
         if (other.tag == "Egg")
@@ -350,7 +389,7 @@ public class HumanMechanicController : MonoBehaviour
     void HumanWinsGame()
     {
         Debug.Log("human won the game");
-        //temporaryWinStatus.SetActive(true);
+        temporaryWinStatus.SetActive(true);
     }
 
     void ResetChainsaw()

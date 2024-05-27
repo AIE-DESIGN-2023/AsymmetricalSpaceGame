@@ -5,8 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Jake Scene.unity
     guid: 54598e6138e6ec542a29e56fe55d9c1e
+  - enabled: 1
+    path: Assets/Scenes/Playtest.unity
+    guid: c25f9aed1505f244fa053ae53bde0c24
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5e95d24c9e87cba4c9b7e8d4af7efa4b, type: 2}

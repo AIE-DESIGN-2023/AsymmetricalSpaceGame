@@ -105,6 +105,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SwapControls",
+                    "type": "Button",
+                    "id": "01e20b63-1443-47f2-9de0-08632f62c737",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -173,6 +182,17 @@
                     "action": "Move_0",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d020cb12-64a0-4e77-b0d3-f3d6e17d8e34",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -248,12 +268,12 @@
             "actions": [
                 {
                     "name": "ActivateDoorsA",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "6b45f72f-87af-48ab-9f62-13e60c2afddc",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ActivateDoorsB",
@@ -263,6 +283,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ChargeBatteryPress",
+                    "type": "Button",
+                    "id": "42f9fc76-f29e-49de-b009-cf972e3889c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerCrosshair",
+                    "type": "Button",
+                    "id": "65a6747f-49b2-47d6-ba8e-b521b4980e05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveCrosshair",
+                    "type": "Value",
+                    "id": "23dbb83b-e4a3-4d77-b658-91f68a36d94c",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -285,6 +332,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "ActivateDoorsB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "508056e3-ef3f-47a8-8f68-1eb54d0f8562",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeBatteryPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "117eed43-f319-42a2-9f6b-dca5849ae113",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerCrosshair",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b61094c3-8267-4dad-a1e9-5300510a6eba",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveCrosshair",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
