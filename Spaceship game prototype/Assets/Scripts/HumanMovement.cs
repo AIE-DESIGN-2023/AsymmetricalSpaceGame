@@ -17,7 +17,8 @@ public class HumanMovement : MonoBehaviour
 
     public GameObject stunRing;
 
-
+    public bool invertedMovement;
+    float invertedMovementSpeed;
 
 
     // Start is called before the first frame update
@@ -32,6 +33,8 @@ public class HumanMovement : MonoBehaviour
         this.gameObject.transform.position = humanSpawnpoint.transform.position;
 
         FindAnyObjectByType<InputManagerController>().Swap(1);
+
+        invertedMovementSpeed = 0 - movementSpeed;
     }
 
     // Update is called once per frame
@@ -40,7 +43,12 @@ public class HumanMovement : MonoBehaviour
         //transform.position += inputMovementVector3 * movementSpeed * Time.deltaTime;
         if (canMove == true)
         {
-            rb.AddForce(inputMovementVector3 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            if (invertedMovement == false)
+            { rb.AddForce(inputMovementVector3 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force); }
+
+            if (invertedMovement)
+            { rb.AddForce((inputMovementVector3 * invertedMovementSpeed) * Time.fixedDeltaTime, ForceMode.Force); }
+
         }
 
 

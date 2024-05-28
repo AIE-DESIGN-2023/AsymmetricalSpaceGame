@@ -3849,6 +3849,7 @@ MonoBehaviour:
   movementSpeed: 2000
   canMove: 0
   stunRing: {fileID: 2060062479}
+  invertedMovement: 0
 --- !u!54 &3205012497632842433
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3895,7 +3896,7 @@ MonoBehaviour:
   escapePodObject: {fileID: 0}
   escapePodAnim: {fileID: 0}
   isDisabling: 0
-  timeToDisable: 5
+  timeToDisable: 6
   currentDisablingTime: 0
   ai_DisableTime: 25
   chainsawActive: 0

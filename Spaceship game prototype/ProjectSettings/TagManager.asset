@@ -54,6 +54,18 @@ TagManager:
   - AlienWinStatus
   - AIWinStatus
   - EnergyFieldManager
+  - AlienUICanvas
+  - HumanUICanvas
+  - EggImage1
+  - EggImage2
+  - EggImage3
+  - EggImage4
+  - SwapImage
+  - PingImage
+  - TerminalImage1
+  - TerminalImage2
+  - TerminalImage3
+  - TerminalImage4
   layers:
   - Default
   - TransparentFX
@@ -63,7 +75,7 @@ TagManager:
   - UI
   - Terminal01
   - Human
-  - Crosshair
+  - UIClippingLayer
   - 
   - 
   - 

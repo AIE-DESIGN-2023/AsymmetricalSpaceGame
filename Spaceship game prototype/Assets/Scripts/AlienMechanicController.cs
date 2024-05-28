@@ -20,6 +20,7 @@ public class AlienMechanicController : MonoBehaviour
     public GameObject spawnpoint;
     public GameObject deathParticles;
     public float respawnTime;
+    public float recoveryTime;
     public bool isDead;
 
     [Space]
@@ -59,6 +60,7 @@ public class AlienMechanicController : MonoBehaviour
     public bool blueCable2;
     public bool blueCable3;
 
+    public GameObject stunHalo;
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +78,7 @@ public class AlienMechanicController : MonoBehaviour
             this.gameObject.transform.position = spawnpoint.transform.position;
         }
 
-
+        stunHalo.SetActive(false);
         
 
         CableScript cableScript = GetComponentInParent<CableScript>();
@@ -157,13 +159,16 @@ public class AlienMechanicController : MonoBehaviour
         { isHoldingFlesh = true; Debug.Log("Hit Human"); heldFlesh.SetActive(true); }
 
         //For Alien 1
-        if (other.gameObject.tag == "Alien02EggProximity" && isHoldingFlesh == true && isAlien01 == true)
+        if (other.gameObject.tag == "Alien02EggProximity" && isHoldingFlesh == true && isAlien01 == true && alienMovement.alien1CanMove)
         {
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
                 //eggLoadBarObject.SetActive(true);
-                eggFadeIn = true;
+                if (eggFadeIn == false)
+                { eggFadeIn = true; }
+                else
+                { eggLoadCanvas.alpha = 1; }
                 Debug.Log("Alien01 laying egg, Alien02 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -171,13 +176,16 @@ public class AlienMechanicController : MonoBehaviour
         }
 
         //for Alien 2
-        if (other.gameObject.tag == "Alien01EggProximity" && isHoldingFlesh == true && isAlien02 == true)
+        if (other.gameObject.tag == "Alien01EggProximity" && isHoldingFlesh == true && isAlien02 == true && alienMovement.alien2CanMove)
         {
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == false)
             {
                 //eggLoadBarObject.SetActive(true);
-                eggFadeIn = true;
+                if (eggFadeIn == false)
+                { eggFadeIn = true; }
+                else
+                { eggLoadCanvas.alpha = 1; }
                 Debug.Log("Alien02 laying egg, Alien01 does not have egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -185,13 +193,16 @@ public class AlienMechanicController : MonoBehaviour
         }
 
         //if both aliens have flesh
-        if (other.gameObject.tag == "Alien02EggProximity" && isHoldingFlesh == true)
+        if (other.gameObject.tag == "Alien02EggProximity" && isHoldingFlesh == true && alienMovement.alien1CanMove)
         {
             AlienMechanicController alienMechanicController = other.gameObject.GetComponent<AlienMechanicController>();
             if (alienMechanicController != null && alienMechanicController.isHoldingFlesh == true)
             {
                 //eggLoadBarObject.SetActive(true);
-                eggFadeIn = true;
+                if (eggFadeIn == false)
+                { eggFadeIn = true; }
+                else
+                { eggLoadCanvas.alpha = 1; }
                 Debug.Log("Both Aliens have flesh, Alien01 laying egg");
                 isLayingEgg = true;
                 Invoke("CheckForEggLayingTime", eggLayingTime + 0.05f);
@@ -212,59 +223,139 @@ public class AlienMechanicController : MonoBehaviour
             { alienMovement.alien1CanMove = false; }
             if (isAlien02 == true)
             { alienMovement.alien2CanMove = false; }
+            eggFadeOut = true;
+            eggLoadCanvas.alpha = 0;
         }
 
         if (other.tag == "AlphaCable01")
         {
-            isDestroyingCable = true;
-            redCable1 = true;
-            Debug.Log("Destroying Red Cable 01");
-            cableLoadBarObject.SetActive(true);
+            if (isAlien01 && alienMovement.alien1CanMove)
+            {
+                isDestroyingCable = true;
+                redCable1 = true;
+                Debug.Log("Destroying Red Cable 01");
+                cableLoadBarObject.SetActive(true);
+            }
+            if (isAlien02 && alienMovement.alien2CanMove)
+            {
+                isDestroyingCable = true;
+                redCable1 = true;
+                Debug.Log("Destroying Red Cable 01");
+                cableLoadBarObject.SetActive(true);
+            }
         }
 
         if (other.tag == "AlphaCable02")
         {
-            isDestroyingCable = true;
-            redCable2 = true;
-            Debug.Log("Destroying Red Cable 02");
-            cableLoadBarObject.SetActive(true);
+            if (isAlien01 && alienMovement.alien1CanMove)
+            {
+                isDestroyingCable = true;
+                redCable2 = true;
+                Debug.Log("Destroying Red Cable 02");
+                cableLoadBarObject.SetActive(true);
+            }
+            if (isAlien02 && alienMovement.alien2CanMove)
+            {
+                isDestroyingCable = true;
+                redCable2 = true;
+                Debug.Log("Destroying Red Cable 02");
+                cableLoadBarObject.SetActive(true);
+            }
+
         }
 
         if (other.tag == "AlphaCable03")
         {
-            isDestroyingCable = true;
-            redCable3 = true;
-            Debug.Log("Destroying Red Cable 03");
-            cableLoadBarObject.SetActive(true);
+            if (isAlien01 && alienMovement.alien1CanMove)
+            {
+                isDestroyingCable = true;
+                redCable3 = true;
+                Debug.Log("Destroying Red Cable 03");
+                cableLoadBarObject.SetActive(true);
+            }
+            if (isAlien02 && alienMovement.alien2CanMove)
+            {
+                isDestroyingCable = true;
+                redCable3 = true;
+                Debug.Log("Destroying Red Cable 03");
+                cableLoadBarObject.SetActive(true);
+            }
         }
 
         if (other.tag == "BetaCable01")
         {
-            isDestroyingCable = true;
-            blueCable1 = true;
-            Debug.Log("Destroying Blue Cable 01");
-            cableLoadBarObject.SetActive(true);
+            if (isAlien01 && alienMovement.alien1CanMove)
+            {
+                isDestroyingCable = true;
+                blueCable1 = true;
+                Debug.Log("Destroying Blue Cable 01");
+                cableLoadBarObject.SetActive(true);
+            }
+            if (isAlien02 && alienMovement.alien2CanMove)
+            {
+                isDestroyingCable = true;
+                blueCable1 = true;
+                Debug.Log("Destroying Blue Cable 01");
+                cableLoadBarObject.SetActive(true);
+            }
         }
 
         if (other.tag == "BetaCable02")
         {
-            isDestroyingCable = true;
-            blueCable2 = true;
-            Debug.Log("Destroying Blue Cable 02");
-            cableLoadBarObject.SetActive(true);
+            if (isAlien01 && alienMovement.alien1CanMove)
+            {
+                isDestroyingCable = true;
+                blueCable2 = true;
+                Debug.Log("Destroying Blue Cable 02");
+                cableLoadBarObject.SetActive(true);
+            }
+            if (isAlien02 && alienMovement.alien2CanMove)
+            {
+                isDestroyingCable = true;
+                blueCable2 = true;
+                Debug.Log("Destroying Blue Cable 02");
+                cableLoadBarObject.SetActive(true);
+            }
         }
 
         if (other.tag == "BetaCable03")
         {
-            isDestroyingCable = true;
-            blueCable3 = true;
-            Debug.Log("Destroying Blue Cable 03");
-            cableLoadBarObject.SetActive(true);
+            if (isAlien01 && alienMovement.alien1CanMove)
+            {
+                isDestroyingCable = true;
+                blueCable3 = true;
+                Debug.Log("Destroying Blue Cable 03");
+                cableLoadBarObject.SetActive(true);
+            }
+            if (isAlien02 && alienMovement.alien2CanMove)
+            {
+                isDestroyingCable = true;
+                blueCable3 = true;
+                Debug.Log("Destroying Blue Cable 03");
+                cableLoadBarObject.SetActive(true);
+            }
         }
 
         if (other.tag == "StunProjectile")
         {
-            Debug.Log("Alien has been slain");
+            Debug.Log("Alien has been stunned");
+            //isDead = true;
+            isHoldingFlesh = false;
+            heldFlesh.SetActive(false);
+            //this.gameObject.SetActive(false);
+            //this.gameObject.transform.position = spawnpoint.transform.position;
+            //Invoke("Respawn", respawnTime);
+            Invoke("Recover", recoveryTime);
+            if (isAlien01 == true)
+            { alienMovement.alien1CanMove = false; }
+            if (isAlien02 == true)
+            { alienMovement.alien2CanMove = false; }
+            if (eggFadeOut == false)
+            { eggFadeOut = true; }
+            else
+            { eggLoadCanvas.alpha = 0; }
+
+            /*Debug.Log("Alien has been slain");
             isDead = true;
             isHoldingFlesh = false;
             heldFlesh.SetActive(false);
@@ -274,7 +365,9 @@ public class AlienMechanicController : MonoBehaviour
             if (isAlien01 == true)
             { alienMovement.alien1CanMove = false; }
             if (isAlien02 == true)
-            { alienMovement.alien2CanMove = false; }
+            { alienMovement.alien2CanMove = false; }*/
+
+            stunHalo.SetActive(true);
 
             //create skaboom
         }
@@ -290,13 +383,19 @@ public class AlienMechanicController : MonoBehaviour
     {
         if (other.tag == "Alien01EggProximity")
         {
-            eggFadeOut = true;
+            if (eggFadeOut == false)
+            { eggFadeOut = true; }
+            else
+            { eggLoadCanvas.alpha = 0; }
             ResetEggLaying();
         }
 
         if (other.tag == "Alien02EggProximity")
         {
-            eggFadeOut = true;
+            if (eggFadeOut == false)
+            { eggFadeOut = true; }
+            else
+            { eggLoadCanvas.alpha = 0; }
             ResetEggLaying();
         }
 
@@ -440,4 +539,17 @@ public class AlienMechanicController : MonoBehaviour
         }
     }
 
+    void Recover()
+    {
+        stunHalo.SetActive(false);
+
+        if (isAlien01 == true)
+        {
+            alienMovement.alien1CanMove = true;
+        }
+        if (isAlien02 == true)
+        {
+            alienMovement.alien2CanMove = true;
+        }
+    }
 }

@@ -81,6 +81,8 @@ public class HumanMechanicController : MonoBehaviour
     public CanvasGroup ShieldLoadCanvas;*/
     public GameObject shieldCanvas;
 
+    public GameObject terminalImage1, terminalImage2, terminalImage3, terminalImage4;
+
     //get movement script for knockdown
 
     // Start is called before the first frame update
@@ -94,6 +96,16 @@ public class HumanMechanicController : MonoBehaviour
 
         energyFieldManager = GameObject.FindGameObjectWithTag("EnergyFieldManager");
         energyFieldScript = energyFieldManager.GetComponent<EnergyFieldScript>();
+
+        terminalImage1 = GameObject.FindGameObjectWithTag("TerminalImage1");
+        terminalImage2 = GameObject.FindGameObjectWithTag("TerminalImage2");
+        terminalImage3 = GameObject.FindGameObjectWithTag("TerminalImage3");
+        terminalImage4 = GameObject.FindGameObjectWithTag("TerminalImage4");
+
+        terminalImage1.SetActive(false);
+        terminalImage2.SetActive(false);
+        terminalImage3.SetActive(false);
+        terminalImage4.SetActive(false);
 
 
         currentDisablingTime = 0;
@@ -218,13 +230,13 @@ public class HumanMechanicController : MonoBehaviour
             isHacking = false;
 
             if (terminal1 == true)
-            { CompleteTerminal01(); terminal1Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal01(); terminal1Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage1.SetActive(true); }
             if (terminal2 == true)
-            { CompleteTerminal02(); terminal2Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal02(); terminal2Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage2.SetActive(true); }
             if (terminal3 == true)
-            { CompleteTerminal03(); terminal3Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal03(); terminal3Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage3.SetActive(true); }
             if (terminal4 == true)
-            { CompleteTerminal04(); terminal4Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal04(); terminal4Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage4.SetActive(true); }
         }
 
         if (chainsawActive == true)
@@ -345,7 +357,7 @@ public class HumanMechanicController : MonoBehaviour
         if (other.tag == "StunProjectile" && isImmuneToKnockdown == false)
         {
             GetKnockdown();
-            Invoke("KnockdownRecovery", knockdownTime * 2f);
+            Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", knockdownTime);
             isHacking = false;
             currentHackTime = 0;

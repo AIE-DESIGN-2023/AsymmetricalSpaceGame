@@ -10,6 +10,7 @@ public class AlienMovement : MonoBehaviour
     public Transform alien2ParticleSpawnpoint;
     public GameObject r_JSparticle;
     public GameObject l_JSparticle;
+    public GameObject pingParticle;
 
     private Vector2 inputMovementVector_1;
     private Vector3 inputMovementVector3_1;
@@ -38,11 +39,20 @@ public class AlienMovement : MonoBehaviour
     public int eggsToLay;
     public int laidEggs = 0;
 
+    public GameObject eggImage1, eggImage2, eggImage3, eggImage4;
+    public GameObject pingImage;
+    public GameObject swapImage;
+
+    public bool invertedMovement;
+    float invertedMovementSpeed;
+
+
     // Start is called before the first frame update
     void Start()
     {
         alien1CanMove = true;
         alien2CanMove = true;
+
 
         input = GetComponent<PlayerInput>();
 
@@ -51,6 +61,22 @@ public class AlienMovement : MonoBehaviour
         alienWinCanvas = GameObject.FindGameObjectWithTag("AlienWinStatus"); Debug.Log("Found alien win canvus");
         alienWinCanvasGroup = alienWinCanvas.GetComponent<CanvasGroup>();
         alienWinCanvasGroup.alpha = 0;
+
+        eggImage1 = GameObject.FindGameObjectWithTag("EggImage1");
+        eggImage2 = GameObject.FindGameObjectWithTag("EggImage2");
+        eggImage3 = GameObject.FindGameObjectWithTag("EggImage3");
+        eggImage4 = GameObject.FindGameObjectWithTag("EggImage4");
+        pingImage = GameObject.FindGameObjectWithTag("PingImage");
+        swapImage = GameObject.FindGameObjectWithTag("SwapImage");
+
+
+        eggImage1.SetActive(false);
+        eggImage2.SetActive(false);
+        eggImage3.SetActive(false);
+        eggImage4.SetActive(false);
+
+
+        invertedMovementSpeed = 0 - movementSpeed;
         //alienWinCanvas.SetActive(false);
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();
@@ -61,15 +87,32 @@ public class AlienMovement : MonoBehaviour
     {
         //alien0.transform.position += inputMovementVector3_1 * movementSpeed * Time.deltaTime;
         //alien2.transform.position += inputMovementVector3_2 * movementSpeed * Time.deltaTime;
-        if (alien1CanMove == true)
+        if (invertedMovement == false)
         {
-            //use the input to move
-            rb_alien1.AddForce(inputMovementVector3_1 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            if (alien1CanMove == true)
+            {
+                //use the input to move
+                rb_alien1.AddForce(inputMovementVector3_1 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            }
+            if (alien2CanMove == true)
+            {
+                rb_alien2.AddForce(inputMovementVector3_2 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            }
         }
-        if (alien2CanMove == true)
+        else
         {
-            rb_alien2.AddForce(inputMovementVector3_2 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            if (alien1CanMove == true)
+            {
+                //use the input to move
+                rb_alien1.AddForce(inputMovementVector3_1 * invertedMovementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            }
+            if (alien2CanMove == true)
+            {
+                rb_alien2.AddForce(inputMovementVector3_2 * invertedMovementSpeed * Time.fixedDeltaTime, ForceMode.Force);
+            }
         }
+
+
 
     }
 
@@ -117,6 +160,7 @@ public class AlienMovement : MonoBehaviour
             //r_JSparticle.transform.parent = alien1ParticleSpawnpoint.transform;
             Instantiate(l_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
             //l_JSparticle.transform.parent = alien2ParticleSpawnpoint.transform;
+            swapImage.SetActive(true);
             Debug.Log("controls swapped to true");
             return;
         }
@@ -127,6 +171,7 @@ public class AlienMovement : MonoBehaviour
             controlsSwapped = false;
             Instantiate(l_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
             Instantiate(r_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            swapImage.SetActive(false);
             Debug.Log("controls swapped to false");
             return;
         } 
@@ -147,8 +192,12 @@ public class AlienMovement : MonoBehaviour
             Instantiate(l_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
             //r_JSparticle.transform.parent = alien1ParticleSpawnpoint.transform;
             Instantiate(r_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            Instantiate(pingParticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            Instantiate(pingParticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
             //l_JSparticle.transform.parent = alien2ParticleSpawnpoint.transform;
+            pingImage.SetActive(true);
             Debug.Log("controls swapped to true");
+            Invoke("TurnOffPingImage", 1f);
             return;
         }
 
@@ -157,13 +206,31 @@ public class AlienMovement : MonoBehaviour
         {
             Instantiate(r_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
             Instantiate(l_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            Instantiate(pingParticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            Instantiate(pingParticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            pingImage.SetActive(true);
             Debug.Log("controls swapped to false");
+            Invoke("TurnOffPingImage", 1f);
             return;
         }
     }
 
+    void TurnOffPingImage()
+    {
+        pingImage.SetActive(false);
+    }
+
     public void CheckForEggs()
     {
+        if (laidEggs == 1)
+        { eggImage1.SetActive(true); eggImage2.SetActive(false); }
+        if (laidEggs == 2)
+        { eggImage2.SetActive(true); eggImage3.SetActive(false); }
+        if (laidEggs == 3)
+        { eggImage3.SetActive(true); eggImage4.SetActive(false); }
+        if (laidEggs == 4)
+        { eggImage4.SetActive(true); }
+
         if (laidEggs >= eggsToLay)
         {
             AliensWinGame();

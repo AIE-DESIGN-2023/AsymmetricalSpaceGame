@@ -49,18 +49,21 @@ public class EggScript : MonoBehaviour
         {
             GoSplat();
             alienMovement.laidEggs -= 1;
+            alienMovement.CheckForEggs();
         }
 
         if (other.tag == "Human" && eggArmed == false)
         {
             GoSplat();
             alienMovement.laidEggs -= 1;
+            alienMovement.CheckForEggs();
         }
 
         if (other.tag == "Chainsaw")
         {
             GoSplat();
             alienMovement.laidEggs -= 1;
+            alienMovement.CheckForEggs();
         }
     }
 
