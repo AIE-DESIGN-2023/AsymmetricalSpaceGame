@@ -590,8 +590,6 @@ MonoBehaviour:
   eggLoadCanvas: {fileID: 595586000249666316}
   heldFlesh: {fileID: 3002232216776935875}
   eggToLay: {fileID: 2608655887354516834, guid: 99ce5a6c81d34fd4c9ef7c340c41bbac, type: 3}
-  eggsToLay: 0
-  laidEggs: 0
   cableLoadBarObject: {fileID: 3002232215179360826}
   cableLoadBarImage: {fileID: 3002232216438847822}
   isDestroyingCable: 0
@@ -917,8 +915,6 @@ MonoBehaviour:
   eggLoadCanvas: {fileID: 595586000121932439}
   heldFlesh: {fileID: 3002232215668578602}
   eggToLay: {fileID: 2608655887354516834, guid: 99ce5a6c81d34fd4c9ef7c340c41bbac, type: 3}
-  eggsToLay: 0
-  laidEggs: 0
   cableLoadBarObject: {fileID: 3002232216342784581}
   cableLoadBarImage: {fileID: 3002232215567289690}
   isDestroyingCable: 0
@@ -1820,6 +1816,9 @@ MonoBehaviour:
   rb_alien2: {fileID: 3002232215424437054}
   alien1CanMove: 0
   alien2CanMove: 0
+  alienWinCanvas: {fileID: 0}
+  eggsToLay: 0
+  laidEggs: 0
 --- !u!114 &3002232216639498641
 MonoBehaviour:
   m_ObjectHideFlags: 0
