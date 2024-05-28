@@ -132,9 +132,31 @@ public class AlienMovement : MonoBehaviour
         {
             Debug.Log("Value started is true");
         }
+    }
+
+    public void PingAlienControls(InputAction.CallbackContext value)
+    {
 
 
+        if (value.started && controlsSwapped == false)
+        {
+            //show the current keybinds above alien
+            Instantiate(l_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            //r_JSparticle.transform.parent = alien1ParticleSpawnpoint.transform;
+            Instantiate(r_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            //l_JSparticle.transform.parent = alien2ParticleSpawnpoint.transform;
+            Debug.Log("controls swapped to true");
+            return;
+        }
 
+
+        if (value.started && controlsSwapped)
+        {
+            Instantiate(r_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            Instantiate(l_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            Debug.Log("controls swapped to false");
+            return;
+        }
     }
 
     public void CheckForEggs()

@@ -235,7 +235,7 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeIn = true;
         }
 
-        if (other.tag == "Terminal03" && terminal1Complete == false)
+        if (other.tag == "Terminal03" && terminal3Complete == false)
         {
             Debug.Log("Begin Hacking Terminal 03");
             isHacking = true;
@@ -243,7 +243,7 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeIn = true;
         }
 
-        if (other.tag == "Terminal04" && terminal1Complete == false)
+        if (other.tag == "Terminal04" && terminal4Complete == false)
         {
             Debug.Log("Begin Hacking Terminal 04");
             isHacking = true;
@@ -289,7 +289,15 @@ public class HumanMechanicController : MonoBehaviour
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime * 2f);
             isHacking = false;
             currentHackTime = 0;
-            hackFadeOut = true;
+            if (hackFadeOut == false)
+            {
+                hackFadeOut = true;
+            }
+            else
+            {
+                hackLoadCanvas.alpha = 0;
+            }
+
             terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
@@ -310,12 +318,12 @@ public class HumanMechanicController : MonoBehaviour
             HumanWinsGame();
         }
 
-        if (other.tag == "Egg")
+        /*if (other.tag == "Egg")
         {           
             Destroy(other.gameObject);
             alienMovement.laidEggs -= 1;
             Debug.Log("Stepped on egg");
-        }
+        }*/
     }
 
     private void OnTriggerExit(Collider other)
