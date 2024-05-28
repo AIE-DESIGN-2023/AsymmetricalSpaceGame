@@ -49,6 +49,7 @@ TagManager:
   - StunProjectile
   - ShipAI
   - TerminalAI
+  - Arrow
   layers:
   - Default
   - TransparentFX
