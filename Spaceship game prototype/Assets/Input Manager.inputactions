@@ -114,6 +114,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PingControls",
+                    "type": "Button",
+                    "id": "b12f2e8a-32e3-4fa6-adae-5e0d69760e9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -186,7 +195,7 @@
                 {
                     "name": "",
                     "id": "d020cb12-64a0-4e77-b0d3-f3d6e17d8e34",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -259,6 +268,17 @@
                     "action": "Move 3",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "c4e180ea-c621-46ff-a1ee-85d1aac8c42b",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PingControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

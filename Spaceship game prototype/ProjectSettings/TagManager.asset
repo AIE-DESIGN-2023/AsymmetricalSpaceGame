@@ -52,6 +52,7 @@ TagManager:
   - EscapePod
   - AlienParent
   - AlienWinStatus
+  - AIWinStatus
   layers:
   - Default
   - TransparentFX

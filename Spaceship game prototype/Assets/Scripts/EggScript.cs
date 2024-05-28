@@ -11,10 +11,21 @@ public class EggScript : MonoBehaviour
     [SerializeField] float currentEggArmingTime;
     public float eggArmingTime;
 
+    GameObject alien;
+    AlienMechanicController alienMechanicController;
+    AlienMovement alienMovement;
+
     // Start is called before the first frame update
     void Start()
     {
         currentEggArmingTime = 0;
+
+        if (alien == null)
+        {
+            alien = GameObject.FindGameObjectWithTag("AlienParent");
+            alienMechanicController = alien.GetComponentInParent<AlienMechanicController>();
+            alienMovement = alien.GetComponentInParent<AlienMovement>();
+        }
     }
 
     // Update is called once per frame
@@ -34,9 +45,22 @@ public class EggScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "StunBomb")
+        if (other.tag == "StunProjectile" && eggArmed == false)
         {
             GoSplat();
+            alienMovement.laidEggs -= 1;
+        }
+
+        if (other.tag == "Human" && eggArmed == false)
+        {
+            GoSplat();
+            alienMovement.laidEggs -= 1;
+        }
+
+        if (other.tag == "Chainsaw")
+        {
+            GoSplat();
+            alienMovement.laidEggs -= 1;
         }
     }
 

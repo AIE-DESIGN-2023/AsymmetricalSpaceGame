@@ -41,8 +41,8 @@ public class AlienMechanicController : MonoBehaviour
 
     public GameObject heldFlesh;
     public GameObject eggToLay;
-
-
+    public GameObject armedEggToLay;
+    bool isInNest;
     
 
     [Space]
@@ -279,6 +279,11 @@ public class AlienMechanicController : MonoBehaviour
             //create skaboom
         }
 
+        if (other.tag == "Nest")
+        {
+            isInNest = true;
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -343,6 +348,11 @@ public class AlienMechanicController : MonoBehaviour
             blueCable3 = false;
             cableLoadBarObject.SetActive(false);
         }
+
+        if (other.tag == "Nest")
+        {
+            isInNest = false;
+        }
     }
 
     public void ResetEggLaying()
@@ -393,12 +403,24 @@ public class AlienMechanicController : MonoBehaviour
             laidEgg.GetComponent<DoorScript>();
             Debug.Log("Found doorscript in alphadoors");
         }*/
+        if (isInNest == false)
+        {
+            alienMovement.laidEggs += 1;
+            eggFadeOut = true;
+            heldFlesh.SetActive(false);
+            Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
+            alienMovement.CheckForEggs();
+        }
 
-        alienMovement.laidEggs += 1;
-        eggFadeOut = true;
-        heldFlesh.SetActive(false);
-        Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
-        alienMovement.CheckForEggs();
+        if (isInNest)
+        {
+            alienMovement.laidEggs += 1;
+            eggFadeOut = true;
+            heldFlesh.SetActive(false);
+            Instantiate(armedEggToLay, this.transform.position, this.transform.rotation, null);
+            alienMovement.CheckForEggs();
+        }
+
     }
 
 

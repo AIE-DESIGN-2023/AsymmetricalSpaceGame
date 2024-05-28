@@ -31,6 +31,7 @@ public class AlienMovement : MonoBehaviour
     public bool alien2CanMove;
 
     public GameObject alienWinCanvas;
+    public CanvasGroup alienWinCanvasGroup;
 
     private PlayerInput input;
 
@@ -48,7 +49,9 @@ public class AlienMovement : MonoBehaviour
         FindAnyObjectByType<InputManagerController>().Swap(2);
 
         alienWinCanvas = GameObject.FindGameObjectWithTag("AlienWinStatus"); Debug.Log("Found alien win canvus");
-        alienWinCanvas.SetActive(false);
+        alienWinCanvasGroup = alienWinCanvas.GetComponent<CanvasGroup>();
+        alienWinCanvasGroup.alpha = 0;
+        //alienWinCanvas.SetActive(false);
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();
     }
@@ -132,9 +135,31 @@ public class AlienMovement : MonoBehaviour
         {
             Debug.Log("Value started is true");
         }
+    }
+
+    public void PingAlienControls(InputAction.CallbackContext value)
+    {
 
 
+        if (value.started && controlsSwapped == false)
+        {
+            //show the current keybinds above alien
+            Instantiate(l_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            //r_JSparticle.transform.parent = alien1ParticleSpawnpoint.transform;
+            Instantiate(r_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            //l_JSparticle.transform.parent = alien2ParticleSpawnpoint.transform;
+            Debug.Log("controls swapped to true");
+            return;
+        }
 
+
+        if (value.started && controlsSwapped)
+        {
+            Instantiate(r_JSparticle, alien1ParticleSpawnpoint.position, alien1ParticleSpawnpoint.rotation, alien1ParticleSpawnpoint);
+            Instantiate(l_JSparticle, alien2ParticleSpawnpoint.position, alien2ParticleSpawnpoint.rotation, alien2ParticleSpawnpoint);
+            Debug.Log("controls swapped to false");
+            return;
+        }
     }
 
     public void CheckForEggs()
@@ -147,6 +172,7 @@ public class AlienMovement : MonoBehaviour
 
     public void AliensWinGame()
     {
-        alienWinCanvas.SetActive(true);
+        //alienWinCanvas.SetActive(true);
+        alienWinCanvasGroup.alpha = 1;
     }
 }

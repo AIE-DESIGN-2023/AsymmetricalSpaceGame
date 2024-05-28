@@ -592,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   humanMovement: {fileID: 3205012497632842432}
-  timeToHack: 5
+  timeToHack: 8
   currentHackTime: 0
   isHacking: 0
   terminal1: 0
