@@ -86,6 +86,9 @@ public class AIMechanicController : MonoBehaviour
     private float crosshairTimeToFade = 3f;
     public CanvasGroup crosshairCanvasGroup;
 
+    TimerScript timerScript;
+    public GameObject aiWinCanvas;
+    public CanvasGroup aiWinCanvasGroup;
 
 
     //transition stuff
@@ -105,6 +108,13 @@ public class AIMechanicController : MonoBehaviour
 
         human = GameObject.FindGameObjectWithTag("Human");
         humanMechanicController = human.GetComponentInParent<HumanMechanicController>();
+
+        timerScript = GetComponentInParent<TimerScript>();
+        timerScript.timerOn = true;
+
+        aiWinCanvas = GameObject.FindGameObjectWithTag("AIWinStatus");
+        aiWinCanvasGroup = aiWinCanvas.GetComponent<CanvasGroup>();
+        aiWinCanvasGroup.alpha = 0;
 
         stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.position;
         //stunLauncherCrosshair.SetActive(false);
@@ -377,5 +387,10 @@ public class AIMechanicController : MonoBehaviour
         deactivationCanvas.SetActive(false);
         currentRebootTime = 0;
         rebootTime = 0;
+    }
+
+    public void AIWinGame()
+    {
+        aiWinCanvasGroup.alpha = 1;
     }
 }

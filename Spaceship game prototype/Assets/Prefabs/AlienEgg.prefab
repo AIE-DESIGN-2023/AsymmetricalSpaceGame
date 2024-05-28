@@ -105,7 +105,7 @@ MonoBehaviour:
   splatImageSpawnpoint: {fileID: 6952865020282025312}
   eggArmed: 0
   currentEggArmingTime: 0
-  eggArmingTime: 20
+  eggArmingTime: 15
 --- !u!95 &280136658389811498
 Animator:
   serializedVersion: 5

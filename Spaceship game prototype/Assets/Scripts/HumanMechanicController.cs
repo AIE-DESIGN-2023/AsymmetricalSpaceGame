@@ -68,7 +68,8 @@ public class HumanMechanicController : MonoBehaviour
     public bool reactorMeltdown;
     //public GameObject reactorNormal;
     //public GameObject reactorMelting;
-    public GameObject WinStatusCanvas;
+    public GameObject humanWinCanvas;
+    public CanvasGroup humanWinCanvasGroup;
 
 
     //get movement script for knockdown
@@ -77,8 +78,10 @@ public class HumanMechanicController : MonoBehaviour
     void Start()
     {
         HumanMovement humanMovement = GetComponent<HumanMovement>();
-        WinStatusCanvas = GameObject.FindGameObjectWithTag("HumanWinStatus");
-        WinStatusCanvas.SetActive(false); Debug.Log("Turned off human win text");
+        humanWinCanvas = GameObject.FindGameObjectWithTag("HumanWinStatus");
+        humanWinCanvasGroup = humanWinCanvas.GetComponent<CanvasGroup>();
+        humanWinCanvasGroup.alpha = 0;
+        //humanWinCanvas.SetActive(false); Debug.Log("Turned off human win text");
 
 
 
@@ -497,8 +500,9 @@ public class HumanMechanicController : MonoBehaviour
 
     void HumanWinsGame()
     {
+        humanWinCanvasGroup.alpha = 1;
         Debug.Log("human won the game");
-        WinStatusCanvas.SetActive(true);
+        //WinStatusCanvas.SetActive(true);
         //temporaryWinStatus.SetActive(true);
     }
 

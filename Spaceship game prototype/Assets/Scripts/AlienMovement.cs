@@ -31,6 +31,7 @@ public class AlienMovement : MonoBehaviour
     public bool alien2CanMove;
 
     public GameObject alienWinCanvas;
+    public CanvasGroup alienWinCanvasGroup;
 
     private PlayerInput input;
 
@@ -48,7 +49,9 @@ public class AlienMovement : MonoBehaviour
         FindAnyObjectByType<InputManagerController>().Swap(2);
 
         alienWinCanvas = GameObject.FindGameObjectWithTag("AlienWinStatus"); Debug.Log("Found alien win canvus");
-        alienWinCanvas.SetActive(false);
+        alienWinCanvasGroup = alienWinCanvas.GetComponent<CanvasGroup>();
+        alienWinCanvasGroup.alpha = 0;
+        //alienWinCanvas.SetActive(false);
         //rb_alien1 = GetComponentInChildren<Rigidbody>();
         //rb_alien2 = GetComponentInChildren<Rigidbody>();
     }
@@ -169,6 +172,7 @@ public class AlienMovement : MonoBehaviour
 
     public void AliensWinGame()
     {
-        alienWinCanvas.SetActive(true);
+        //alienWinCanvas.SetActive(true);
+        alienWinCanvasGroup.alpha = 1;
     }
 }
