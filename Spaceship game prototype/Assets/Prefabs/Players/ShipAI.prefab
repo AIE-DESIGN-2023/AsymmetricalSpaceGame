@@ -1107,6 +1107,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 01e20b63-1443-47f2-9de0-08632f62c737
     m_ActionName: Player2/SwapControls
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b12f2e8a-32e3-4fa6-adae-5e0d69760e9d
+    m_ActionName: Player2/PingControls[/XInputControllerWindows1/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player3
@@ -1137,7 +1141,7 @@ MonoBehaviour:
   rebootText: {fileID: 1959518078902460159}
   currentBattery: 0
   batteryCapacity: 100
-  batteryChargeSpeed: 1
+  batteryChargeSpeed: 2
   chargePerPress: 0.5
   batteryImage: {fileID: 2005924469640130697}
   batteryText: {fileID: 2005924469190234861}

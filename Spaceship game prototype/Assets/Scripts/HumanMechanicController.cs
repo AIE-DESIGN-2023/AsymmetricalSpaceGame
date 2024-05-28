@@ -219,7 +219,7 @@ public class HumanMechanicController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Terminal01" && terminal1Complete == false)
+        if (other.tag == "Terminal01" && terminal1Complete == false && humanMovement.canMove == true)
         {
             Debug.Log("Begin Hacking Terminal 01");
             isHacking = true;
@@ -227,7 +227,7 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeIn = true;
         }
 
-        if (other.tag == "Terminal02" && terminal2Complete == false)
+        if (other.tag == "Terminal02" && terminal2Complete == false && humanMovement.canMove == true)
         {
             Debug.Log("Begin Hacking Terminal 02");
             isHacking = true;
@@ -235,7 +235,7 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeIn = true;
         }
 
-        if (other.tag == "Terminal03" && terminal3Complete == false)
+        if (other.tag == "Terminal03" && terminal3Complete == false && humanMovement.canMove == true)
         {
             Debug.Log("Begin Hacking Terminal 03");
             isHacking = true;
@@ -243,7 +243,7 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeIn = true;
         }
 
-        if (other.tag == "Terminal04" && terminal4Complete == false)
+        if (other.tag == "Terminal04" && terminal4Complete == false && humanMovement.canMove == true)
         {
             Debug.Log("Begin Hacking Terminal 04");
             isHacking = true;
@@ -251,7 +251,7 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeIn = true;
         }
 
-        if (other.tag == "TerminalAI")
+        if (other.tag == "TerminalAI" && humanMovement.canMove == true)
         {
             hackFadeIn = true;
             isDisabling = true;
@@ -263,9 +263,19 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            isDisabling = false;
             isHacking = false;
             currentHackTime = 0;
-            hackFadeOut = true;
+            currentDisablingTime = 0;
+            if (hackFadeOut == false)
+            {
+                hackFadeOut = true;
+            }
+            else
+            {
+                hackLoadCanvas.alpha = 0;
+            }
+
             terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
@@ -277,7 +287,15 @@ public class HumanMechanicController : MonoBehaviour
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
             isHacking = false;
             currentHackTime = 0;
-            hackFadeOut = true;
+            currentDisablingTime = 0;
+            if (hackFadeOut == false)
+            {
+                hackFadeOut = true;
+            }
+            else
+            {
+                hackLoadCanvas.alpha = 0;
+            }
             terminal1 = false; terminal2 = false; terminal3 = false; terminal4 = false;
             isImmuneToKnockdown = true;
         }
@@ -289,6 +307,7 @@ public class HumanMechanicController : MonoBehaviour
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime * 2f);
             isHacking = false;
             currentHackTime = 0;
+            currentDisablingTime = 0;
             if (hackFadeOut == false)
             {
                 hackFadeOut = true;
