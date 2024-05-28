@@ -15,6 +15,9 @@ public class HumanMechanicController : MonoBehaviour
     AlienMovement alienMovement;
     GameObject alien;
 
+    EnergyFieldScript energyFieldScript;
+    GameObject energyFieldManager;
+
     public float timeToHack;
     public float currentHackTime;
     public bool isHacking;
@@ -72,6 +75,12 @@ public class HumanMechanicController : MonoBehaviour
     public CanvasGroup humanWinCanvasGroup;
 
 
+    /*private bool ShieldFadeIn;
+    private bool ShieldFadeOut;
+    float ShieldTimeToFade;
+    public CanvasGroup ShieldLoadCanvas;*/
+    public GameObject shieldCanvas;
+
     //get movement script for knockdown
 
     // Start is called before the first frame update
@@ -83,6 +92,8 @@ public class HumanMechanicController : MonoBehaviour
         humanWinCanvasGroup.alpha = 0;
         //humanWinCanvas.SetActive(false); Debug.Log("Turned off human win text");
 
+        energyFieldManager = GameObject.FindGameObjectWithTag("EnergyFieldManager");
+        energyFieldScript = energyFieldManager.GetComponent<EnergyFieldScript>();
 
 
         currentDisablingTime = 0;
@@ -94,6 +105,9 @@ public class HumanMechanicController : MonoBehaviour
         hackLoadCanvas.alpha = 0;
         //chainsawCanvasObject.SetActive(false);
         chainsawLoadCanvas.alpha = 0;
+        //ShieldLoadCanvas.alpha = 0;
+        shieldCanvas.SetActive(false);
+
 
         heldChainsaw.SetActive(false);
         hackFadeOut = true;
@@ -173,6 +187,29 @@ public class HumanMechanicController : MonoBehaviour
                 }
             }
         }
+
+        /*if (ShieldFadeIn)
+        {
+            if (ShieldLoadCanvas.alpha < 1)
+            {
+                ShieldLoadCanvas.alpha += ShieldTimeToFade * Time.deltaTime;
+                if (ShieldLoadCanvas.alpha >= 1)
+                {
+                    ShieldFadeIn = false;
+                }
+            }
+        }
+        if (ShieldFadeOut)
+        {
+            if (ShieldLoadCanvas.alpha >= 0)
+            {
+                ShieldLoadCanvas.alpha -= ShieldTimeToFade * Time.deltaTime;
+                if (ShieldLoadCanvas.alpha <= 0)
+                {
+                    ShieldFadeOut = false;
+                }
+            }
+        }*/
 
 
         if (currentHackTime >= timeToHack)
@@ -266,6 +303,7 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            Invoke("RemoveKnockdownCanvas", (invincibilityFrameTime - 0.5f));
             isDisabling = false;
             isHacking = false;
             currentHackTime = 0;
@@ -288,6 +326,7 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            Invoke("RemoveKnockdownCanvas", (invincibilityFrameTime - 0.5f));
             isHacking = false;
             currentHackTime = 0;
             currentDisablingTime = 0;
@@ -307,7 +346,7 @@ public class HumanMechanicController : MonoBehaviour
         {
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime * 2f);
-            Invoke("RemoveKnockdownImmunity", invincibilityFrameTime * 2f);
+            Invoke("RemoveKnockdownImmunity", knockdownTime);
             isHacking = false;
             currentHackTime = 0;
             currentDisablingTime = 0;
@@ -332,6 +371,7 @@ public class HumanMechanicController : MonoBehaviour
             heldChainsaw.SetActive(true);
             //chainsawCanvasObject.SetActive(true);
             chainsawFadeIn = true;
+            energyFieldScript.pickupActive = false;
             Debug.Log("Picked up chainsaw");
         }
 
@@ -477,6 +517,7 @@ public class HumanMechanicController : MonoBehaviour
     void KnockdownRecovery()
     {
         humanMovement.ResumeMovement();
+        shieldCanvas.SetActive(true);
         Debug.Log("Recovering from knopckdown");
         //unpause movement
         //humanMovement.canMove = true;
@@ -485,6 +526,12 @@ public class HumanMechanicController : MonoBehaviour
     void RemoveKnockdownImmunity()
     {
         isImmuneToKnockdown = false;
+        shieldCanvas.SetActive(false);
+    }
+
+    void RemoveKnockdownCanvas()
+    {
+        
     }
 
     void CheckForReactorMeltdown()

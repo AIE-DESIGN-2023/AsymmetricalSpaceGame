@@ -53,6 +53,7 @@ TagManager:
   - AlienParent
   - AlienWinStatus
   - AIWinStatus
+  - EnergyFieldManager
   layers:
   - Default
   - TransparentFX

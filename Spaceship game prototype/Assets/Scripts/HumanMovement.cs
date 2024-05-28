@@ -15,11 +15,18 @@ public class HumanMovement : MonoBehaviour
 
     public bool canMove;
 
+    public GameObject stunRing;
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         canMove = true;
+
+        stunRing.SetActive(false);
 
         humanSpawnpoint = GameObject.FindGameObjectWithTag("HumanSpawnpoint");
         this.gameObject.transform.position = humanSpawnpoint.transform.position;
@@ -35,7 +42,10 @@ public class HumanMovement : MonoBehaviour
         {
             rb.AddForce(inputMovementVector3 * movementSpeed * Time.fixedDeltaTime, ForceMode.Force);
         }
-        
+
+
+
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -53,11 +63,13 @@ public class HumanMovement : MonoBehaviour
     public void PauseMovement()
     {
         canMove = false;
+        stunRing.SetActive(true);
     }
 
     public void ResumeMovement()
     {
         canMove = true;
+        stunRing.SetActive(false);
     }
 
 }
