@@ -66,6 +66,15 @@ TagManager:
   - TerminalImage2
   - TerminalImage3
   - TerminalImage4
+  - TerminalIncomplete1
+  - TerminalIncomplete2
+  - TerminalIncomplete3
+  - TerminalIncomplete4
+  - TerminalComplete1
+  - TerminalComplete2
+  - TerminalComplete3
+  - TerminalComplete4
+  - HumanUIKiller
   layers:
   - Default
   - TransparentFX
