@@ -161,6 +161,7 @@ public class AIMechanicController : MonoBehaviour
         currentAlphaDoorDuration = alphaDoorActiveDuration;
         currentBetaDoorDuration = betaDoorActiveDuration;
         currentStunAmmo = stunLauncherAmmoCount;
+        currentGravityInversionTime = gravityInversionTime;
     }
 
     // Update is called once per frame
@@ -224,9 +225,13 @@ public class AIMechanicController : MonoBehaviour
         if (gravityInversionActive)
         { currentGravityInversionTime -= Time.deltaTime; }
         if (currentGravityInversionTime <= 0.05 && gravityInversionOnCooldown == false)
-        { currentGravityInversionTime += Time.deltaTime; gravityInversionOnCooldown = true; }
+        { gravityInversionActive = false; gravityInversionOnCooldown = true; }
+        if (gravityInversionOnCooldown)
+        {
+            currentGravityInversionTime += Time.deltaTime;
+        }
         if (currentGravityInversionTime >= gravityInversionCooldownDuration)
-        { gravityInversionActive = false; currentGravityInversionTime = gravityInversionTime; }
+        { gravityInversionOnCooldown = false; currentGravityInversionTime = gravityInversionTime; }
 
 
 
@@ -262,7 +267,7 @@ public class AIMechanicController : MonoBehaviour
     public void ActivateDoorA(InputAction.CallbackContext value)
     {
 
-        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && betaDoorsActive == false)
+        if (value.started && alphaDoorOnCooldown == false && alphaDoorsActive == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && betaDoorsActive == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -277,7 +282,7 @@ public class AIMechanicController : MonoBehaviour
 
     public void ActivateDoorB(InputAction.CallbackContext value)
     {
-        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && alphaDoorsActive == false)
+        if (value.started && betaDoorOnCooldown == false && betaDoorsActive == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && alphaDoorsActive == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -372,7 +377,7 @@ public class AIMechanicController : MonoBehaviour
             //stunLauncherCrosshair.SetActive(true);
             crosshairFadeIn = true;
             Instantiate(crosshairActivationParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
-
+            stunLauncherCount_Text.text = "3";
             currentStunAmmo = stunLauncherAmmoCount;
             //crosshair fires 3 rounds //must stun players
             return;
@@ -414,6 +419,7 @@ public class AIMechanicController : MonoBehaviour
     {
         if (value.started && gravityInversionActive == false && gravityInversionOnCooldown == false && currentBattery >= gravityInversionCost)
         {
+            currentBattery -= gravityInversionCost;
             gravityInversionActive = true;
             humanMovement.invertedMovement = true;
             alienMovement.invertedMovement = true;
@@ -423,7 +429,7 @@ public class AIMechanicController : MonoBehaviour
 
     void RevertControls()
     {
-        gravityInversionOnCooldown = true;
+        //gravityInversionOnCooldown = true;
         gravityInversionActive = false;
         humanMovement.invertedMovement = false;
         alienMovement.invertedMovement = false;

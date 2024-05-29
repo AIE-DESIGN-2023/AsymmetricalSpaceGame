@@ -90,7 +90,7 @@ Material:
     - _fade_distance: 75
     - _thicc_outline: 0.489
     m_Colors:
-    - _Color: {r: 0.28195083, g: 0.2675329, b: 0.33962262, a: 1}
+    - _Color: {r: 0.35580888, g: 0.34251514, b: 0.4056604, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _outline_colour: {r: 0.7389911, g: 0.8584906, b: 0.71675867, a: 0}
   m_BuildTextureStacks: []

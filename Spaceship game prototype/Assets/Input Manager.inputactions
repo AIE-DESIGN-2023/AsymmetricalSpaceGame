@@ -366,50 +366,6 @@
                 },
                 {
                     "name": "",
-                    "id": "508056e3-ef3f-47a8-8f68-1eb54d0f8562",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChargeBatteryPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "763ea0b6-5dba-4aac-971a-c0034014a923",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChargeBatteryPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2bb3db0a-7bc3-4cca-aeff-1a9d0f6a6d5d",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChargeBatteryPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "36728e78-c147-4919-b388-f64630c2f088",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChargeBatteryPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "117eed43-f319-42a2-9f6b-dca5849ae113",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -438,6 +394,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "InvertControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "508056e3-ef3f-47a8-8f68-1eb54d0f8562",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeBatteryPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "763ea0b6-5dba-4aac-971a-c0034014a923",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeBatteryPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
