@@ -507,7 +507,7 @@ public class AlienMechanicController : MonoBehaviour
             alienMovement.laidEggs += 1;
             eggFadeOut = true;
             heldFlesh.SetActive(false);
-            Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
+            Instantiate(eggToLay, this.transform.position, this.transform.rotation, null); 
             alienMovement.CheckForEggs();
         }
 

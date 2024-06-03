@@ -18,6 +18,7 @@ public class HumanMechanicController : MonoBehaviour
     EnergyFieldScript energyFieldScript;
     GameObject energyFieldManager;
 
+
     public float timeToHack;
     public float currentHackTime;
     public bool isHacking;

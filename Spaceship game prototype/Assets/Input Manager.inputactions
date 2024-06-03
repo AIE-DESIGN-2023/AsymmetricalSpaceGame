@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Ball",
+                    "type": "Button",
+                    "id": "0c100101-0744-4eaa-bd7f-e56ea1220376",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -81,6 +90,50 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f48ada91-74c1-46ff-b58a-188c84c3c091",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8c53acc7-2cae-4373-a2b3-6ea1c8372074",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e9637b0-ef0a-4889-a0a0-d590b2a2fdf5",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2251da21-c607-4a8d-93d4-6af5816c92d6",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -119,6 +172,15 @@
                     "name": "PingControls",
                     "type": "Button",
                     "id": "b12f2e8a-32e3-4fa6-adae-5e0d69760e9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ball",
+                    "type": "Button",
+                    "id": "8e2ffc75-4987-4613-8664-86740f1c8c16",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -279,6 +341,50 @@
                     "action": "PingControls",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54c2a0c9-f954-42a6-94f9-f39ed47b2f0b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f358cc4c-a280-489c-8b3a-a51a2b9592b0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7a4d8ca-bb26-4f66-8fdd-1646c0e936ea",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b8d8a7e-e83c-4410-8b37-fa68aa95a66c",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -335,6 +441,15 @@
                     "name": "InvertControls",
                     "type": "Button",
                     "id": "a1f7ece0-b93c-4e82-b085-2f68b3dd926d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ball",
+                    "type": "Button",
+                    "id": "8e17ffb9-150b-4aed-b614-e1dfa1b0868e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -416,6 +531,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChargeBatteryPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47d16b32-bd48-43b6-ae05-683397114e4e",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec78c54f-10bc-46ae-a692-491a010c0444",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "997b984b-b09a-4e3a-9152-2eb6873b22e0",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7a3d8e1-9a7d-475c-8952-0730cc97247f",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ball",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

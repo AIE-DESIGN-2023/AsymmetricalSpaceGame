@@ -116,6 +116,19 @@ public class AIMechanicController : MonoBehaviour
     //public CanvasGroup aDLoadCanvas;
 
     // Start is called before the first frame update
+
+    [SerializeField] GameObject blackImage;
+    [SerializeField] GameObject shipAIImage;
+    [SerializeField] GameObject player3Controller;
+    [SerializeField] GameObject ball;
+    [SerializeField] CanvasGroup blackImageCanvasGroup;
+    [SerializeField] CanvasGroup player3ControllerCanvasGroup;
+    [SerializeField] GameObject playerHolder;
+    [SerializeField] CanvasGroup playerHolderCanvasGroup;
+    bool BCFadeIn;
+    bool BCFadeOut;
+     
+
     void Start()
     {
         input = GetComponent<PlayerInput>();
@@ -130,11 +143,25 @@ public class AIMechanicController : MonoBehaviour
         alienMovement = alienParent.GetComponentInParent<AlienMovement>();
 
         timerScript = GetComponentInParent<TimerScript>();
-        timerScript.timerOn = true;
+        //timerScript.timerOn = true;
+        Invoke("StartTimer", 3f);
 
         aiWinCanvas = GameObject.FindGameObjectWithTag("AIWinStatus");
         aiWinCanvasGroup = aiWinCanvas.GetComponent<CanvasGroup>();
         aiWinCanvasGroup.alpha = 0;
+
+        blackImage = GameObject.FindGameObjectWithTag("BlackImage");
+        shipAIImage = GameObject.FindGameObjectWithTag("ShipAIImage");
+        player3Controller = GameObject.FindGameObjectWithTag("Player3ControllerImage");
+        ball = GameObject.FindGameObjectWithTag("AIBall");
+        blackImageCanvasGroup = blackImage.GetComponent<CanvasGroup>();
+        player3ControllerCanvasGroup = player3Controller.GetComponent<CanvasGroup>();
+        playerHolder = GameObject.FindGameObjectWithTag("PlayerHolder");
+        playerHolderCanvasGroup = playerHolder.GetComponent<CanvasGroup>();
+        blackImageCanvasGroup.alpha = 1;
+        player3ControllerCanvasGroup.alpha = 1;
+        playerHolderCanvasGroup.alpha = 1;
+        ball.SetActive(false);
 
         stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.position;
         //stunLauncherCrosshair.SetActive(false);
@@ -262,8 +289,53 @@ public class AIMechanicController : MonoBehaviour
                 }
             }
         }
+
+        if (BCFadeIn)
+        {
+            if (blackImageCanvasGroup.alpha < 1)
+            {
+                blackImageCanvasGroup.alpha += crosshairTimeToFade * Time.deltaTime;
+                playerHolderCanvasGroup.alpha += crosshairTimeToFade * Time.deltaTime;
+                if (blackImageCanvasGroup.alpha >= 1)
+                {
+                    BCFadeIn = false;
+                }
+            }
+        }
+        if (BCFadeOut)
+        {
+            if (blackImageCanvasGroup.alpha >= 0)
+            {
+                blackImageCanvasGroup.alpha -= crosshairTimeToFade * Time.deltaTime;
+                playerHolderCanvasGroup.alpha -= crosshairTimeToFade * Time.deltaTime;
+                if (blackImageCanvasGroup.alpha <= 0)
+                {
+                    BCFadeOut = false;
+                }
+            }
+        }
     }
 
+    void StartTimer()
+    {
+
+        BCFadeOut = true;
+        timerScript.timerOn = true;
+    }
+
+    public void Ball(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            ball.SetActive(true);
+            Invoke("Unball", 0.1f);
+        }
+    }
+
+    void Unball()
+    {
+        ball.SetActive(false);
+    }
     public void ActivateDoorA(InputAction.CallbackContext value)
     {
 

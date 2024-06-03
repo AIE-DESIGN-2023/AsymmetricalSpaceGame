@@ -75,6 +75,17 @@ TagManager:
   - TerminalComplete3
   - TerminalComplete4
   - HumanUIKiller
+  - HumanImage
+  - AliensImage
+  - ShipAIImage
+  - Player1ControllerImage
+  - Player2ControllerImage
+  - Player3ControllerImage
+  - HumanBall
+  - AlienBall
+  - AIBall
+  - BlackImage
+  - PlayerHolder
   layers:
   - Default
   - TransparentFX
@@ -85,7 +96,7 @@ TagManager:
   - Terminal01
   - Human
   - UIClippingLayer
-  - 
+  - Ball
   - 
   - 
   - 

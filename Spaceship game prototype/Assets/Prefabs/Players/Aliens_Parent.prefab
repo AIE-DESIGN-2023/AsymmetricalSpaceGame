@@ -8449,6 +8449,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: a1f7ece0-b93c-4e82-b085-2f68b3dd926d
     m_ActionName: Player3/InvertControls
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0c100101-0744-4eaa-bd7f-e56ea1220376
+    m_ActionName: Player1/Ball[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/XInputControllerWindows2/buttonEast,/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth,/XInputControllerWindows2/buttonNorth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows2/buttonSouth,/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest,/XInputControllerWindows2/buttonWest]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3002232216639498652}
+        m_TargetAssemblyTypeName: AlienMovement, Assembly-CSharp
+        m_MethodName: Ball
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8e2ffc75-4987-4613-8664-86740f1c8c16
+    m_ActionName: Player2/Ball[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/XInputControllerWindows2/buttonEast,/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth,/XInputControllerWindows2/buttonNorth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows2/buttonSouth,/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest,/XInputControllerWindows2/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8e17ffb9-150b-4aed-b614-e1dfa1b0868e
+    m_ActionName: Player3/Ball[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/XInputControllerWindows2/buttonEast,/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth,/XInputControllerWindows2/buttonNorth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows2/buttonSouth,/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest,/XInputControllerWindows2/buttonWest]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player2
@@ -8492,6 +8516,12 @@ MonoBehaviour:
   pingImage: {fileID: 0}
   swapImage: {fileID: 0}
   invertedMovement: 0
+  blackImage: {fileID: 0}
+  alienImage: {fileID: 0}
+  player2Controller: {fileID: 0}
+  ball: {fileID: 0}
+  blackImageCanvasGroup: {fileID: 0}
+  player2ControllerCanvasGroup: {fileID: 0}
 --- !u!114 &3002232216639498641
 MonoBehaviour:
   m_ObjectHideFlags: 0

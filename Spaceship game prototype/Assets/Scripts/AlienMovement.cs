@@ -46,6 +46,13 @@ public class AlienMovement : MonoBehaviour
     public bool invertedMovement;
     float invertedMovementSpeed;
 
+    [SerializeField] GameObject blackImage;
+    [SerializeField] GameObject alienImage;
+    [SerializeField] GameObject player2Controller;
+    [SerializeField] GameObject ball;
+    [SerializeField] CanvasGroup blackImageCanvasGroup;
+    [SerializeField] CanvasGroup player2ControllerCanvasGroup;
+
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +76,14 @@ public class AlienMovement : MonoBehaviour
         pingImage = GameObject.FindGameObjectWithTag("PingImage");
         swapImage = GameObject.FindGameObjectWithTag("SwapImage");
 
+        blackImage = GameObject.FindGameObjectWithTag("BlackImage");
+        alienImage = GameObject.FindGameObjectWithTag("AliensImage");
+        player2Controller = GameObject.FindGameObjectWithTag("Player2ControllerImage");
+        ball = GameObject.FindGameObjectWithTag("AlienBall");
+        blackImageCanvasGroup = blackImage.GetComponent<CanvasGroup>();
+        player2ControllerCanvasGroup = player2Controller.GetComponent<CanvasGroup>();
+        player2ControllerCanvasGroup.alpha = 1;
+        ball.SetActive(false);
 
         eggImage1.SetActive(false);
         eggImage2.SetActive(false);
@@ -236,6 +251,21 @@ public class AlienMovement : MonoBehaviour
             AliensWinGame();
         }
     }
+
+    public void Ball(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            ball.SetActive(true);
+            Invoke("Unball", 0.1f);
+        }
+    }
+
+    void Unball()
+    {
+        ball.SetActive(false);
+    }
+
 
     public void AliensWinGame()
     {

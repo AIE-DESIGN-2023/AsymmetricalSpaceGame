@@ -20,6 +20,12 @@ public class HumanMovement : MonoBehaviour
     public bool invertedMovement;
     float invertedMovementSpeed;
 
+    [SerializeField] GameObject blackImage;
+    [SerializeField] GameObject humanImage;
+    [SerializeField] GameObject player1Controller;
+    [SerializeField] GameObject ball;
+    [SerializeField] CanvasGroup blackImageCanvasGroup;
+    [SerializeField] CanvasGroup player1ControllerCanvasGroup;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +41,15 @@ public class HumanMovement : MonoBehaviour
         FindAnyObjectByType<InputManagerController>().Swap(1);
 
         invertedMovementSpeed = 0 - movementSpeed;
+
+        blackImage = GameObject.FindGameObjectWithTag("BlackImage");
+        humanImage = GameObject.FindGameObjectWithTag("HumanImage");
+        player1Controller = GameObject.FindGameObjectWithTag("Player1ControllerImage");
+        ball = GameObject.FindGameObjectWithTag("HumanBall");
+        blackImageCanvasGroup = blackImage.GetComponent<CanvasGroup>();
+        player1ControllerCanvasGroup = player1Controller.GetComponent<CanvasGroup>();
+        player1ControllerCanvasGroup.alpha = 1;
+        ball.SetActive(false);
     }
 
     // Update is called once per frame
@@ -66,6 +81,20 @@ public class HumanMovement : MonoBehaviour
 
         //Debug.LogError("nah id win");
         //Debug.Log(context);
+    }
+
+    public void Ball(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            ball.SetActive(true);
+            Invoke("Unball", 0.1f);
+        }
+    }
+
+    void Unball()
+    {
+        ball.SetActive(false);
     }
 
     public void PauseMovement()
