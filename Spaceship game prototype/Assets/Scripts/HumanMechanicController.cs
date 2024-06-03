@@ -15,6 +15,10 @@ public class HumanMechanicController : MonoBehaviour
     AlienMovement alienMovement;
     GameObject alien;
 
+    EnergyFieldScript energyFieldScript;
+    GameObject energyFieldManager;
+
+
     public float timeToHack;
     public float currentHackTime;
     public bool isHacking;
@@ -72,6 +76,16 @@ public class HumanMechanicController : MonoBehaviour
     public CanvasGroup humanWinCanvasGroup;
 
 
+    /*private bool ShieldFadeIn;
+    private bool ShieldFadeOut;
+    float ShieldTimeToFade;
+    public CanvasGroup ShieldLoadCanvas;*/
+    public GameObject shieldCanvas;
+
+    public GameObject terminalImage1, terminalImage2, terminalImage3, terminalImage4;
+    public GameObject terminalIncompleteImage1, terminalIncompleteImage2, terminalIncompleteImage3, terminalIncompleteImage4;
+    public GameObject terminalCompleteImage1, terminalCompleteImage2, terminalCompleteImage3, terminalCompleteImage4;
+
     //get movement script for knockdown
 
     // Start is called before the first frame update
@@ -83,6 +97,33 @@ public class HumanMechanicController : MonoBehaviour
         humanWinCanvasGroup.alpha = 0;
         //humanWinCanvas.SetActive(false); Debug.Log("Turned off human win text");
 
+        energyFieldManager = GameObject.FindGameObjectWithTag("EnergyFieldManager");
+        energyFieldScript = energyFieldManager.GetComponent<EnergyFieldScript>();
+
+        terminalImage1 = GameObject.FindGameObjectWithTag("TerminalImage1");
+        terminalImage2 = GameObject.FindGameObjectWithTag("TerminalImage2");
+        terminalImage3 = GameObject.FindGameObjectWithTag("TerminalImage3");
+        terminalImage4 = GameObject.FindGameObjectWithTag("TerminalImage4");
+
+        terminalIncompleteImage1 = GameObject.FindGameObjectWithTag("TerminalIncomplete1");
+        terminalIncompleteImage2 = GameObject.FindGameObjectWithTag("TerminalIncomplete2");
+        terminalIncompleteImage3 = GameObject.FindGameObjectWithTag("TerminalIncomplete3");
+        terminalIncompleteImage4 = GameObject.FindGameObjectWithTag("TerminalIncomplete4");
+
+        terminalCompleteImage1 = GameObject.FindGameObjectWithTag("TerminalComplete1");
+        terminalCompleteImage2 = GameObject.FindGameObjectWithTag("TerminalComplete2");
+        terminalCompleteImage3 = GameObject.FindGameObjectWithTag("TerminalComplete3");
+        terminalCompleteImage4 = GameObject.FindGameObjectWithTag("TerminalComplete4");
+
+        terminalCompleteImage1.SetActive(false);
+        terminalCompleteImage2.SetActive(false);
+        terminalCompleteImage3.SetActive(false);
+        terminalCompleteImage4.SetActive(false);
+
+        terminalImage1.SetActive(false);
+        terminalImage2.SetActive(false);
+        terminalImage3.SetActive(false);
+        terminalImage4.SetActive(false);
 
 
         currentDisablingTime = 0;
@@ -94,6 +135,9 @@ public class HumanMechanicController : MonoBehaviour
         hackLoadCanvas.alpha = 0;
         //chainsawCanvasObject.SetActive(false);
         chainsawLoadCanvas.alpha = 0;
+        //ShieldLoadCanvas.alpha = 0;
+        shieldCanvas.SetActive(false);
+
 
         heldChainsaw.SetActive(false);
         hackFadeOut = true;
@@ -174,6 +218,29 @@ public class HumanMechanicController : MonoBehaviour
             }
         }
 
+        /*if (ShieldFadeIn)
+        {
+            if (ShieldLoadCanvas.alpha < 1)
+            {
+                ShieldLoadCanvas.alpha += ShieldTimeToFade * Time.deltaTime;
+                if (ShieldLoadCanvas.alpha >= 1)
+                {
+                    ShieldFadeIn = false;
+                }
+            }
+        }
+        if (ShieldFadeOut)
+        {
+            if (ShieldLoadCanvas.alpha >= 0)
+            {
+                ShieldLoadCanvas.alpha -= ShieldTimeToFade * Time.deltaTime;
+                if (ShieldLoadCanvas.alpha <= 0)
+                {
+                    ShieldFadeOut = false;
+                }
+            }
+        }*/
+
 
         if (currentHackTime >= timeToHack)
         {
@@ -181,13 +248,13 @@ public class HumanMechanicController : MonoBehaviour
             isHacking = false;
 
             if (terminal1 == true)
-            { CompleteTerminal01(); terminal1Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal01(); terminal1Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage1.SetActive(true); terminalCompleteImage1.SetActive(true); terminalIncompleteImage1.SetActive(false); }
             if (terminal2 == true)
-            { CompleteTerminal02(); terminal2Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal02(); terminal2Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage2.SetActive(true); terminalCompleteImage2.SetActive(true); terminalIncompleteImage2.SetActive(false); }
             if (terminal3 == true)
-            { CompleteTerminal03(); terminal3Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal03(); terminal3Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage3.SetActive(true); terminalCompleteImage3.SetActive(true); terminalIncompleteImage3.SetActive(false); }
             if (terminal4 == true)
-            { CompleteTerminal04(); terminal4Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; }
+            { CompleteTerminal04(); terminal4Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage4.SetActive(true); terminalCompleteImage4.SetActive(true); terminalIncompleteImage4.SetActive(false); }
         }
 
         if (chainsawActive == true)
@@ -222,6 +289,19 @@ public class HumanMechanicController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "HumanUIKiller")
+        {
+            isHacking = false;
+            isDisabling = false;
+            currentHackTime = 0;
+            currentDisablingTime = 0;
+            terminal1 = false;
+            terminal2 = false;
+            terminal3 = false;
+            terminal4 = false;
+            hackLoadCanvas.alpha = 0;
+        }
+
         if (other.tag == "Terminal01" && terminal1Complete == false && humanMovement.canMove == true)
         {
             Debug.Log("Begin Hacking Terminal 01");
@@ -266,6 +346,7 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            Invoke("RemoveKnockdownCanvas", (invincibilityFrameTime - 0.5f));
             isDisabling = false;
             isHacking = false;
             currentHackTime = 0;
@@ -288,6 +369,7 @@ public class HumanMechanicController : MonoBehaviour
             GetKnockdown();
             Invoke("KnockdownRecovery", knockdownTime);
             Invoke("RemoveKnockdownImmunity", invincibilityFrameTime);
+            Invoke("RemoveKnockdownCanvas", (invincibilityFrameTime - 0.5f));
             isHacking = false;
             currentHackTime = 0;
             currentDisablingTime = 0;
@@ -306,8 +388,8 @@ public class HumanMechanicController : MonoBehaviour
         if (other.tag == "StunProjectile" && isImmuneToKnockdown == false)
         {
             GetKnockdown();
-            Invoke("KnockdownRecovery", knockdownTime * 2f);
-            Invoke("RemoveKnockdownImmunity", invincibilityFrameTime * 2f);
+            Invoke("KnockdownRecovery", knockdownTime);
+            Invoke("RemoveKnockdownImmunity", knockdownTime);
             isHacking = false;
             currentHackTime = 0;
             currentDisablingTime = 0;
@@ -332,6 +414,7 @@ public class HumanMechanicController : MonoBehaviour
             heldChainsaw.SetActive(true);
             //chainsawCanvasObject.SetActive(true);
             chainsawFadeIn = true;
+            energyFieldScript.pickupActive = false;
             Debug.Log("Picked up chainsaw");
         }
 
@@ -346,6 +429,7 @@ public class HumanMechanicController : MonoBehaviour
             alienMovement.laidEggs -= 1;
             Debug.Log("Stepped on egg");
         }*/
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -477,6 +561,7 @@ public class HumanMechanicController : MonoBehaviour
     void KnockdownRecovery()
     {
         humanMovement.ResumeMovement();
+        shieldCanvas.SetActive(true);
         Debug.Log("Recovering from knopckdown");
         //unpause movement
         //humanMovement.canMove = true;
@@ -485,6 +570,12 @@ public class HumanMechanicController : MonoBehaviour
     void RemoveKnockdownImmunity()
     {
         isImmuneToKnockdown = false;
+        shieldCanvas.SetActive(false);
+    }
+
+    void RemoveKnockdownCanvas()
+    {
+        
     }
 
     void CheckForReactorMeltdown()

@@ -23,6 +23,7 @@ public class StunProjectile : MonoBehaviour
     void Update()
     {
         Invoke("ActivateExplosion", explosionDelay);
+        Invoke("DeactivateHitbox", explosionDelay + 0.05f);
         Invoke("DestroyGameObject", 2f);
     }
 
@@ -30,6 +31,11 @@ public class StunProjectile : MonoBehaviour
     void ActivateExplosion()
     {
         hitbox.SetActive(true);
+    }
+
+    void DeactivateHitbox()
+    {
+        hitbox.SetActive(false);
     }
 
     void DestroyGameObject()

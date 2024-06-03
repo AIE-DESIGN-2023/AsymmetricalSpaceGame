@@ -53,6 +53,39 @@ TagManager:
   - AlienParent
   - AlienWinStatus
   - AIWinStatus
+  - EnergyFieldManager
+  - AlienUICanvas
+  - HumanUICanvas
+  - EggImage1
+  - EggImage2
+  - EggImage3
+  - EggImage4
+  - SwapImage
+  - PingImage
+  - TerminalImage1
+  - TerminalImage2
+  - TerminalImage3
+  - TerminalImage4
+  - TerminalIncomplete1
+  - TerminalIncomplete2
+  - TerminalIncomplete3
+  - TerminalIncomplete4
+  - TerminalComplete1
+  - TerminalComplete2
+  - TerminalComplete3
+  - TerminalComplete4
+  - HumanUIKiller
+  - HumanImage
+  - AliensImage
+  - ShipAIImage
+  - Player1ControllerImage
+  - Player2ControllerImage
+  - Player3ControllerImage
+  - HumanBall
+  - AlienBall
+  - AIBall
+  - BlackImage
+  - PlayerHolder
   layers:
   - Default
   - TransparentFX
@@ -62,8 +95,8 @@ TagManager:
   - UI
   - Terminal01
   - Human
-  - Crosshair
-  - 
+  - UIClippingLayer
+  - Ball
   - 
   - 
   - 

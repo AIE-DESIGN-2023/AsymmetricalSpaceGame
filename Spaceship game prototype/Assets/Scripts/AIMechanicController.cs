@@ -11,6 +11,11 @@ public class AIMechanicController : MonoBehaviour
     PlayerInput input;
     public GameObject human;
     HumanMechanicController humanMechanicController;
+    HumanMovement humanMovement;
+
+    public GameObject alienParent;
+    AlienMechanicController alienMechanicController;
+    AlienMovement alienMovement;
 
     public bool ai_isDeactivated;
     public float rebootTime;
@@ -86,6 +91,16 @@ public class AIMechanicController : MonoBehaviour
     private float crosshairTimeToFade = 3f;
     public CanvasGroup crosshairCanvasGroup;
 
+    [Space]
+    [Header("Gravity Inversion")]
+    [SerializeField] bool gravityInversionActive;
+    bool gravityInversionOnCooldown;
+    public float gravityInversionCost;
+    public float gravityInversionTime;
+    [SerializeField] float currentGravityInversionTime;
+    public float gravityInversionCooldownDuration;
+    public Image gravityInversionImage;
+
     TimerScript timerScript;
     public GameObject aiWinCanvas;
     public CanvasGroup aiWinCanvasGroup;
@@ -101,6 +116,19 @@ public class AIMechanicController : MonoBehaviour
     //public CanvasGroup aDLoadCanvas;
 
     // Start is called before the first frame update
+
+    [SerializeField] GameObject blackImage;
+    [SerializeField] GameObject shipAIImage;
+    [SerializeField] GameObject player3Controller;
+    [SerializeField] GameObject ball;
+    [SerializeField] CanvasGroup blackImageCanvasGroup;
+    [SerializeField] CanvasGroup player3ControllerCanvasGroup;
+    [SerializeField] GameObject playerHolder;
+    [SerializeField] CanvasGroup playerHolderCanvasGroup;
+    bool BCFadeIn;
+    bool BCFadeOut;
+     
+
     void Start()
     {
         input = GetComponent<PlayerInput>();
@@ -108,13 +136,32 @@ public class AIMechanicController : MonoBehaviour
 
         human = GameObject.FindGameObjectWithTag("Human");
         humanMechanicController = human.GetComponentInParent<HumanMechanicController>();
+        humanMovement = human.GetComponentInParent<HumanMovement>();
+
+        alienParent = GameObject.FindGameObjectWithTag("AlienParent");
+        alienMechanicController = alienParent.GetComponentInParent<AlienMechanicController>();
+        alienMovement = alienParent.GetComponentInParent<AlienMovement>();
 
         timerScript = GetComponentInParent<TimerScript>();
-        timerScript.timerOn = true;
+        //timerScript.timerOn = true;
+        Invoke("StartTimer", 3f);
 
         aiWinCanvas = GameObject.FindGameObjectWithTag("AIWinStatus");
         aiWinCanvasGroup = aiWinCanvas.GetComponent<CanvasGroup>();
         aiWinCanvasGroup.alpha = 0;
+
+        blackImage = GameObject.FindGameObjectWithTag("BlackImage");
+        shipAIImage = GameObject.FindGameObjectWithTag("ShipAIImage");
+        player3Controller = GameObject.FindGameObjectWithTag("Player3ControllerImage");
+        ball = GameObject.FindGameObjectWithTag("AIBall");
+        blackImageCanvasGroup = blackImage.GetComponent<CanvasGroup>();
+        player3ControllerCanvasGroup = player3Controller.GetComponent<CanvasGroup>();
+        playerHolder = GameObject.FindGameObjectWithTag("PlayerHolder");
+        playerHolderCanvasGroup = playerHolder.GetComponent<CanvasGroup>();
+        blackImageCanvasGroup.alpha = 1;
+        player3ControllerCanvasGroup.alpha = 1;
+        playerHolderCanvasGroup.alpha = 1;
+        ball.SetActive(false);
 
         stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.position;
         //stunLauncherCrosshair.SetActive(false);
@@ -141,6 +188,7 @@ public class AIMechanicController : MonoBehaviour
         currentAlphaDoorDuration = alphaDoorActiveDuration;
         currentBetaDoorDuration = betaDoorActiveDuration;
         currentStunAmmo = stunLauncherAmmoCount;
+        currentGravityInversionTime = gravityInversionTime;
     }
 
     // Update is called once per frame
@@ -196,6 +244,24 @@ public class AIMechanicController : MonoBehaviour
         { betaDoorOnCooldown = false; currentBetaDoorDuration = betaDoorActiveDuration; }
 
 
+        if (gravityInversionOnCooldown)
+        { gravityInversionImage.fillAmount = currentGravityInversionTime / gravityInversionCooldownDuration; }
+        else
+        { gravityInversionImage.fillAmount = currentGravityInversionTime / gravityInversionTime; }
+
+        if (gravityInversionActive)
+        { currentGravityInversionTime -= Time.deltaTime; }
+        if (currentGravityInversionTime <= 0.05 && gravityInversionOnCooldown == false)
+        { gravityInversionActive = false; gravityInversionOnCooldown = true; }
+        if (gravityInversionOnCooldown)
+        {
+            currentGravityInversionTime += Time.deltaTime;
+        }
+        if (currentGravityInversionTime >= gravityInversionCooldownDuration)
+        { gravityInversionOnCooldown = false; currentGravityInversionTime = gravityInversionTime; }
+
+
+
         if (crosshairCanMove == true)
         {
             rb_crosshair.AddForce(inputMovementVector3A * crosshairMovementSpeed * Time.fixedDeltaTime, ForceMode.Force);
@@ -223,12 +289,57 @@ public class AIMechanicController : MonoBehaviour
                 }
             }
         }
+
+        if (BCFadeIn)
+        {
+            if (blackImageCanvasGroup.alpha < 1)
+            {
+                blackImageCanvasGroup.alpha += crosshairTimeToFade * Time.deltaTime;
+                playerHolderCanvasGroup.alpha += crosshairTimeToFade * Time.deltaTime;
+                if (blackImageCanvasGroup.alpha >= 1)
+                {
+                    BCFadeIn = false;
+                }
+            }
+        }
+        if (BCFadeOut)
+        {
+            if (blackImageCanvasGroup.alpha >= 0)
+            {
+                blackImageCanvasGroup.alpha -= crosshairTimeToFade * Time.deltaTime;
+                playerHolderCanvasGroup.alpha -= crosshairTimeToFade * Time.deltaTime;
+                if (blackImageCanvasGroup.alpha <= 0)
+                {
+                    BCFadeOut = false;
+                }
+            }
+        }
     }
 
+    void StartTimer()
+    {
+
+        BCFadeOut = true;
+        timerScript.timerOn = true;
+    }
+
+    public void Ball(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            ball.SetActive(true);
+            Invoke("Unball", 0.1f);
+        }
+    }
+
+    void Unball()
+    {
+        ball.SetActive(false);
+    }
     public void ActivateDoorA(InputAction.CallbackContext value)
     {
 
-        if (value.started && alphaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && betaDoorsActive == false)
+        if (value.started && alphaDoorOnCooldown == false && alphaDoorsActive == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && betaDoorsActive == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -243,7 +354,7 @@ public class AIMechanicController : MonoBehaviour
 
     public void ActivateDoorB(InputAction.CallbackContext value)
     {
-        if (value.started && betaDoorOnCooldown == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && alphaDoorsActive == false)
+        if (value.started && betaDoorOnCooldown == false && betaDoorsActive == false && currentBattery >= doorActivationCost && ai_isDeactivated == false && alphaDoorsActive == false)
         {
             //do the doors
             //invoke doors, telegraph duration
@@ -338,19 +449,29 @@ public class AIMechanicController : MonoBehaviour
             //stunLauncherCrosshair.SetActive(true);
             crosshairFadeIn = true;
             Instantiate(crosshairActivationParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
-
+            stunLauncherCount_Text.text = "3";
             currentStunAmmo = stunLauncherAmmoCount;
             //crosshair fires 3 rounds //must stun players
             return;
         }
 
-        if (value.started && stunLauncherActive && currentStunAmmo >= 2 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
+        if (value.started && stunLauncherActive && currentStunAmmo == 3 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
         {
             //fire stun bomb with delay
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
             Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
             currentStunAmmo -= 1;
-            stunLauncherCount_Text.text = "" + stunLauncherAmmoCount;
+            stunLauncherCount_Text.text = "2";
+            Debug.Log("Updating ammo count");
+            return;
+        }
+        if (value.started && stunLauncherActive && currentStunAmmo == 2 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
+        {
+            //fire stun bomb with delay
+            Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
+            Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
+            currentStunAmmo -= 1;
+            stunLauncherCount_Text.text = "1";
             Debug.Log("Updating ammo count");
             return;
         }
@@ -366,6 +487,26 @@ public class AIMechanicController : MonoBehaviour
         }
     }
 
+    public void InvertControls(InputAction.CallbackContext value)
+    {
+        if (value.started && gravityInversionActive == false && gravityInversionOnCooldown == false && currentBattery >= gravityInversionCost)
+        {
+            currentBattery -= gravityInversionCost;
+            gravityInversionActive = true;
+            humanMovement.invertedMovement = true;
+            alienMovement.invertedMovement = true;
+            Invoke("RevertControls", gravityInversionTime);
+        }
+    }
+
+    void RevertControls()
+    {
+        //gravityInversionOnCooldown = true;
+        gravityInversionActive = false;
+        humanMovement.invertedMovement = false;
+        alienMovement.invertedMovement = false;
+    }
+
     void TurnOffCrosshair()
     {
         crosshairFadeOut = true;
@@ -378,6 +519,10 @@ public class AIMechanicController : MonoBehaviour
         if (alphaDoorsActive) { DeactivateAlphaDoors(); }
         if (betaDoorsActive) { DeactivateBetaDoors(); }
         currentRebootTime = 0;
+        crosshairCanMove = false;
+        stunLauncherActive = false;
+        Invoke("TurnOffCrosshair", 0.5f);
+        timerScript.timerOn = false;
     }
 
     public void ReactivateAI()
@@ -387,6 +532,7 @@ public class AIMechanicController : MonoBehaviour
         deactivationCanvas.SetActive(false);
         currentRebootTime = 0;
         rebootTime = 0;
+        timerScript.timerOn = true;
     }
 
     public void AIWinGame()
