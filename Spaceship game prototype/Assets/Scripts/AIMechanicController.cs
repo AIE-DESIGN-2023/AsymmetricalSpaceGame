@@ -127,10 +127,17 @@ public class AIMechanicController : MonoBehaviour
     [SerializeField] CanvasGroup playerHolderCanvasGroup;
     bool BCFadeIn;
     bool BCFadeOut;
-     
+
+    AudioSource audioSource;
+    [SerializeField] AudioClip DoorActivationSound;
+    [SerializeField] AudioClip AIDeactivatedSound;
+    [SerializeField] AudioClip ExplosionSOund;
+    [SerializeField] AudioClip GravActivateSound;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         input = GetComponent<PlayerInput>();
         FindAnyObjectByType<InputManagerController>().Swap(3);
 
@@ -168,7 +175,7 @@ public class AIMechanicController : MonoBehaviour
         crosshairCanvasGroup.alpha = 0;
 
         currentRebootTime = 0;
-        currentBattery = batteryCapacity;
+        currentBattery = 0;
 
         alphaDoors = GameObject.FindGameObjectsWithTag("AlphaDoor");
         foreach (GameObject alphaDoor in alphaDoors)
@@ -189,6 +196,10 @@ public class AIMechanicController : MonoBehaviour
         currentBetaDoorDuration = betaDoorActiveDuration;
         currentStunAmmo = stunLauncherAmmoCount;
         currentGravityInversionTime = gravityInversionTime;
+
+        humanMovement.canMove = false;
+        alienMovement.alien2CanMove = false;
+        alienMovement.alien1CanMove = true;
     }
 
     // Update is called once per frame
@@ -321,6 +332,10 @@ public class AIMechanicController : MonoBehaviour
 
         BCFadeOut = true;
         timerScript.timerOn = true;
+        humanMovement.canMove = true;
+        alienMovement.alien1CanMove = true;
+        alienMovement.alien2CanMove = true;
+        currentBattery = batteryCapacity;
     }
 
     public void Ball(InputAction.CallbackContext value)
@@ -369,6 +384,8 @@ public class AIMechanicController : MonoBehaviour
 
     void ActivateAlphaDoors()
     {
+        audioSource.clip = DoorActivationSound;
+        audioSource.Play();
         Debug.Log("Activating alpha doors phase1");
         foreach (GameObject alphaDoor in alphaDoors)
         {
@@ -390,6 +407,8 @@ public class AIMechanicController : MonoBehaviour
 
     void ActivateBetaDoors()
     {
+        audioSource.clip = DoorActivationSound;
+        audioSource.Play();
         Debug.Log("Activating beta doors phase1");
         foreach (GameObject betaDoor in betaDoors)
         {
@@ -440,6 +459,8 @@ public class AIMechanicController : MonoBehaviour
 
     public void TriggerCrosshair(InputAction.CallbackContext value)
     {
+        audioSource.clip = ExplosionSOund;
+
         if (value.started && currentBattery >= stunLauncherCost && stunLauncherActive == false && ai_isDeactivated == false) //turn the launcher ON
         {
             stunLauncherCrosshair.transform.position = stunLauncherSpawnpoint.transform.position;
@@ -457,6 +478,7 @@ public class AIMechanicController : MonoBehaviour
 
         if (value.started && stunLauncherActive && currentStunAmmo == 3 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
         {
+            audioSource.Play();
             //fire stun bomb with delay
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
             Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
@@ -467,6 +489,7 @@ public class AIMechanicController : MonoBehaviour
         }
         if (value.started && stunLauncherActive && currentStunAmmo == 2 && ai_isDeactivated == false) //fire a shot now that crosshair is activated
         {
+            audioSource.Play();
             //fire stun bomb with delay
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
             Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
@@ -477,6 +500,7 @@ public class AIMechanicController : MonoBehaviour
         }
         else if (value.started && stunLauncherActive && currentStunAmmo == 1 && ai_isDeactivated == false) //turn off crosshair after firing last round
         {
+            audioSource.Play();
             Instantiate(stunProjectile, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, null);
             Instantiate(crosshairFiringParticle, stunLauncherCrosshair.transform.position, stunLauncherCrosshair.transform.rotation, stunLauncherCrosshair.transform);
             currentStunAmmo -= 1;
@@ -491,10 +515,12 @@ public class AIMechanicController : MonoBehaviour
     {
         if (value.started && gravityInversionActive == false && gravityInversionOnCooldown == false && currentBattery >= gravityInversionCost)
         {
+            audioSource.clip = GravActivateSound;
+            audioSource.Play();
             currentBattery -= gravityInversionCost;
             gravityInversionActive = true;
             humanMovement.invertedMovement = true;
-            alienMovement.invertedMovement = true;
+            //alienMovement.invertedMovement = true;
             Invoke("RevertControls", gravityInversionTime);
         }
     }
@@ -514,6 +540,8 @@ public class AIMechanicController : MonoBehaviour
 
     public void DeactivateAI()
     {
+        audioSource.clip = AIDeactivatedSound;
+        audioSource.Play();
         ai_isDeactivated = true;
         deactivationCanvas.SetActive(true);
         if (alphaDoorsActive) { DeactivateAlphaDoors(); }

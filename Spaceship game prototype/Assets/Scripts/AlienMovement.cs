@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class AlienMovement : MonoBehaviour
 {
@@ -53,6 +54,11 @@ public class AlienMovement : MonoBehaviour
     [SerializeField] CanvasGroup blackImageCanvasGroup;
     [SerializeField] CanvasGroup player2ControllerCanvasGroup;
 
+    public GameObject alien1SpriteMoving;
+    public Image alien1SpriteStill;
+
+    public GameObject alien2SpriteMoving;
+    public Image alien2SpriteStill;
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +96,8 @@ public class AlienMovement : MonoBehaviour
         eggImage3.SetActive(false);
         eggImage4.SetActive(false);
 
+        alien1CanMove = false;
+        alien2CanMove = true;
 
         invertedMovementSpeed = 0 - movementSpeed;
         //alienWinCanvas.SetActive(false);
@@ -146,6 +154,49 @@ public class AlienMovement : MonoBehaviour
             inputMovementVector3_2 = new Vector3(inputMovementVector_2.x, 0, inputMovementVector_2.y);
         }
 
+        //alien 1
+        if (inputMovementVector_1.x < 0)
+        {
+            alien1SpriteStill.transform.localScale = new Vector3(1, 1, 1);
+            alien1SpriteMoving.transform.localScale = new Vector3(6, 6, 6);
+        }
+        if (inputMovementVector_1.x > 0)
+        {
+            alien1SpriteStill.transform.localScale = new Vector3(-1, 1, 1);
+            alien1SpriteMoving.transform.localScale = new Vector3(-6, 6, 6);
+        }
+        if (inputMovementVector_1.x == 0 && inputMovementVector_1.y == 0)
+        {
+            alien1SpriteStill.fillAmount = 1;
+            alien1SpriteMoving.SetActive(false);
+        }
+        else
+        {
+            alien1SpriteStill.fillAmount = 0;
+            alien1SpriteMoving.SetActive(true);
+        }
+
+        //alien 2
+        if (inputMovementVector_2.x < 0)
+        {
+            alien2SpriteStill.transform.localScale = new Vector3(1, 1, 1);
+            alien2SpriteMoving.transform.localScale = new Vector3(6,6, 6);
+        }
+        if (inputMovementVector_2.x > 0)
+        {
+            alien2SpriteStill.transform.localScale = new Vector3(-1, 1, 1);
+            alien2SpriteMoving.transform.localScale = new Vector3(-6, 6, 6);
+        }
+        if (inputMovementVector_2.x == 0 && inputMovementVector_2.y == 0)
+        {
+            alien2SpriteStill.fillAmount = 1;
+            alien2SpriteMoving.SetActive(false);
+        }
+        else
+        {
+            alien2SpriteStill.fillAmount = 0;
+            alien2SpriteMoving.SetActive(true);
+        }
     }
 
     public void MoveRightJoysick(InputAction.CallbackContext context)

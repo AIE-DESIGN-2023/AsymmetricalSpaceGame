@@ -86,6 +86,14 @@ public class HumanMechanicController : MonoBehaviour
     public GameObject terminalIncompleteImage1, terminalIncompleteImage2, terminalIncompleteImage3, terminalIncompleteImage4;
     public GameObject terminalCompleteImage1, terminalCompleteImage2, terminalCompleteImage3, terminalCompleteImage4;
 
+    AudioSource audioSource;
+    [SerializeField] AudioClip StunnedSound;
+    [SerializeField] AudioClip TerminalSound;
+    [SerializeField] AudioClip BarrierSound1;
+    [SerializeField] AudioClip EscapePodActivateSound;
+    [SerializeField] AudioClip EggSquishSound;
+
+
     //get movement script for knockdown
 
     // Start is called before the first frame update
@@ -148,6 +156,8 @@ public class HumanMechanicController : MonoBehaviour
 
         escapePodObject = GameObject.FindGameObjectWithTag("EscapePod");
         escapePodAnim = escapePodObject.GetComponentInParent<Animator>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -246,6 +256,8 @@ public class HumanMechanicController : MonoBehaviour
         {
             currentHackTime = 0;
             isHacking = false;
+            audioSource.clip = TerminalSound;
+            audioSource.Play();
 
             if (terminal1 == true)
             { CompleteTerminal01(); terminal1Complete = true; CheckForReactorMeltdown(); hackFadeOut = true; terminalImage1.SetActive(true); terminalCompleteImage1.SetActive(true); terminalIncompleteImage1.SetActive(false); }
@@ -408,6 +420,9 @@ public class HumanMechanicController : MonoBehaviour
 
         if (other.tag == "ChainsawPickup")
         {
+            audioSource.clip = BarrierSound1;
+            audioSource.Play();
+
             isImmuneToKnockdown = true;
             chainsawActive = true;
             Destroy(other.gameObject);
@@ -423,12 +438,11 @@ public class HumanMechanicController : MonoBehaviour
             HumanWinsGame();
         }
 
-        /*if (other.tag == "Egg")
-        {           
-            Destroy(other.gameObject);
-            alienMovement.laidEggs -= 1;
-            Debug.Log("Stepped on egg");
-        }*/
+        if (other.tag == "Egg")
+        {
+            audioSource.clip = EggSquishSound;
+            audioSource.Play();
+        }
 
     }
 
@@ -552,6 +566,8 @@ public class HumanMechanicController : MonoBehaviour
             hackFadeOut = true;
         }
 
+        audioSource.clip = StunnedSound;
+        audioSource.Play();
         humanMovement.PauseMovement();
         //pause movement
         //humanMovement.canMove = false;
@@ -582,11 +598,18 @@ public class HumanMechanicController : MonoBehaviour
     {
         if (terminal1Complete == true && terminal2Complete == true && terminal3Complete == true && terminal4Complete == true)
         {
+            Invoke("PlayDropshipSFX", 1.5f);
             escapePodAnim.Play("EscapePodDrop");
             reactorMeltdown = true;
             //reactorNormal.SetActive(false);
             //reactorMelting.SetActive(true);
         }
+    }
+
+    void PlayDropshipSFX()
+    {
+        audioSource.clip = EscapePodActivateSound;
+        audioSource.Play();
     }
 
     void HumanWinsGame()

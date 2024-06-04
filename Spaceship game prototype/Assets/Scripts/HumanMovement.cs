@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class HumanMovement : MonoBehaviour
 {
@@ -27,6 +28,12 @@ public class HumanMovement : MonoBehaviour
     [SerializeField] CanvasGroup blackImageCanvasGroup;
     [SerializeField] CanvasGroup player1ControllerCanvasGroup;
 
+    public GameObject humanSpriteMoving;
+    public Image humanSpriteStill;
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +57,10 @@ public class HumanMovement : MonoBehaviour
         player1ControllerCanvasGroup = player1Controller.GetComponent<CanvasGroup>();
         player1ControllerCanvasGroup.alpha = 1;
         ball.SetActive(false);
+        canMove = false;
+
+        humanSpriteStill.fillAmount = 1;
+        humanSpriteMoving.SetActive(false);
     }
 
     // Update is called once per frame
@@ -77,6 +88,29 @@ public class HumanMovement : MonoBehaviour
         {
         inputMovementVector = context.ReadValue<Vector2>();
         inputMovementVector3 = new Vector3(inputMovementVector.x, 0, inputMovementVector.y);
+        }
+
+        if (inputMovementVector.x < 0)
+        {
+            humanSpriteStill.transform.localScale = new Vector3(1, 1, 1);
+            humanSpriteMoving.transform.localScale = new Vector3(6, 6, 6);
+            Debug.Log("going left");
+        }
+        if (inputMovementVector.x > 0)
+        {
+            humanSpriteStill.transform.localScale = new Vector3(-1, 1, 1);
+            humanSpriteMoving.transform.localScale = new Vector3(-6, 6, 6);
+        }
+
+        if (inputMovementVector.x == 0 && inputMovementVector.y == 0)
+        {
+            humanSpriteStill.fillAmount = 1;
+            humanSpriteMoving.SetActive(false);
+        }
+        else
+        {
+            humanSpriteMoving.SetActive(true);
+            humanSpriteStill.fillAmount = 0;
         }
 
         //Debug.LogError("nah id win");

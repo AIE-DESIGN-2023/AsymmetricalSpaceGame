@@ -61,6 +61,11 @@ public class AlienMechanicController : MonoBehaviour
     public bool blueCable3;
 
     public GameObject stunHalo;
+    public GameObject alienImageDead;
+    private AudioSource audioSource;
+    [SerializeField] AudioClip WireDestroySound;
+    [SerializeField] AudioClip DeathSound;
+    [SerializeField] AudioClip EggSound;
 
     // Start is called before the first frame update
     void Start()
@@ -85,6 +90,8 @@ public class AlienMechanicController : MonoBehaviour
         AlienMovement alienMovement = GetComponentInParent<AlienMovement>();
         human = GameObject.FindGameObjectWithTag("Human");
         humanMechanicController = human.GetComponentInParent<HumanMechanicController>();
+
+        audioSource = GetComponent<AudioSource>();
 
         currentEggLayingTime = 0;
         currentCableDestroyTime = 0;
@@ -111,6 +118,8 @@ public class AlienMechanicController : MonoBehaviour
 
         if (currentCableDestroyTime >= cableDestroyTime)
         {
+            audioSource.clip = WireDestroySound; audioSource.Play();
+
             currentCableDestroyTime = 0;
             isDestroyingCable = false;
 
@@ -212,11 +221,13 @@ public class AlienMechanicController : MonoBehaviour
 
         if (other.tag == "Chainsaw")
         {
+            audioSource.clip = DeathSound;
+            audioSource.Play();
             Debug.Log("Alien has been slain");
             isDead = true;
             isHoldingFlesh = false;
             heldFlesh.SetActive(false);
-            this.gameObject.SetActive(false);
+            alienImageDead.SetActive(false);
             this.gameObject.transform.position = spawnpoint.transform.position;
             Invoke("Respawn", respawnTime);
             if (isAlien01 == true)
@@ -502,12 +513,16 @@ public class AlienMechanicController : MonoBehaviour
             laidEgg.GetComponent<DoorScript>();
             Debug.Log("Found doorscript in alphadoors");
         }*/
+        audioSource.clip = EggSound;
+        audioSource.Play();
+
         if (isInNest == false)
         {
             alienMovement.laidEggs += 1;
             eggFadeOut = true;
             heldFlesh.SetActive(false);
-            Instantiate(eggToLay, this.transform.position, this.transform.rotation, null); 
+            Instantiate(eggToLay, this.transform.position, this.transform.rotation, null);
+            
             alienMovement.CheckForEggs();
         }
 
@@ -528,7 +543,7 @@ public class AlienMechanicController : MonoBehaviour
     {
         Debug.Log("Alien is respawning");
         isDead = false;
-        this.gameObject.SetActive(true);
+        alienImageDead.SetActive(true);
         if (isAlien01 == true)
         {
             alienMovement.alien1CanMove = true;

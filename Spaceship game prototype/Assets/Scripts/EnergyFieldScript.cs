@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class EnergyFieldScript : MonoBehaviour
@@ -13,9 +14,14 @@ public class EnergyFieldScript : MonoBehaviour
     public float spawnDelay;
     public float currentSpawnDelayCounter;
 
+    AudioSource audioSource;
+    [SerializeField] AudioClip createSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         currentSpawnDelayCounter = 0;
 
         Instantiate(energyFieldPickup, spawnpoints[Random.Range(0, spawnpoints.Length)]);
@@ -34,6 +40,8 @@ public class EnergyFieldScript : MonoBehaviour
 
         if (currentSpawnDelayCounter >= spawnDelay && pickupActive == false)
         {
+            audioSource.clip = createSound;
+            audioSource.Play();
             Instantiate(energyFieldPickup, spawnpoints[Random.Range(0, spawnpoints.Length)]);
             currentSpawnDelayCounter = 0;
             pickupActive = true;

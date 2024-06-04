@@ -5,10 +5,11 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
     public GameObject characterObjectivesGroup;
-    public GameObject PlayerManager;
+    //public GameObject PlayerManager;
     public GameObject blackImage;
     [SerializeField] CanvasGroup characterObjectivesCanvasGroup;
-    [SerializeField] GameObject playersCanvasGroup;
+    //[SerializeField] GameObject playersCanvas;
+    [SerializeField] CanvasGroup playersCanvasGroup;
     bool fadeOut;
 
     // Start is called before the first frame update
@@ -16,8 +17,8 @@ public class GameManagerScript : MonoBehaviour
     {
         blackImage.SetActive(true);
         Invoke("FadeOuttaHere", 6f);
-        PlayerManager.SetActive(false);
-        playersCanvasGroup.SetActive(false);
+        //PlayerManager.SetActive(false);
+        playersCanvasGroup.alpha = 0 ;
         characterObjectivesCanvasGroup.alpha = 1;
     }
 
@@ -58,7 +59,7 @@ public class GameManagerScript : MonoBehaviour
 
     void ActivateOuttaHere()
     {
-        PlayerManager.SetActive(true);
-        playersCanvasGroup.SetActive(true);
+        //PlayerManager.SetActive(true);
+        playersCanvasGroup.alpha = 1;
     }
 }
