@@ -128,6 +128,8 @@ public class AIMechanicController : MonoBehaviour
     bool BCFadeIn;
     bool BCFadeOut;
 
+    public GameObject gravityVFX;
+
     AudioSource audioSource;
     [SerializeField] AudioClip DoorActivationSound;
     [SerializeField] AudioClip AIDeactivatedSound;
@@ -515,6 +517,7 @@ public class AIMechanicController : MonoBehaviour
     {
         if (value.started && gravityInversionActive == false && gravityInversionOnCooldown == false && currentBattery >= gravityInversionCost)
         {
+            Instantiate(gravityVFX);
             audioSource.clip = GravActivateSound;
             audioSource.Play();
             currentBattery -= gravityInversionCost;

@@ -1601,6 +1601,7 @@ MonoBehaviour:
   player3ControllerCanvasGroup: {fileID: 0}
   playerHolder: {fileID: 0}
   playerHolderCanvasGroup: {fileID: 0}
+  gravityVFX: {fileID: 6355182638504863403, guid: f76e794b9a605674e86286a82ed9f553, type: 3}
   DoorActivationSound: {fileID: 8300000, guid: 48d9c45e5eddc2c49aa7707694fc06d3, type: 3}
   AIDeactivatedSound: {fileID: 8300000, guid: f201a2907d1db0e4b8bc899d467758d9, type: 3}
   ExplosionSOund: {fileID: 8300000, guid: 6aadfd31172b9c449ba35d882720c221, type: 3}
