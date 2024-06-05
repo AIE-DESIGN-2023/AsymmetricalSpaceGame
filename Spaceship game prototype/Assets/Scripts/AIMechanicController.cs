@@ -135,6 +135,8 @@ public class AIMechanicController : MonoBehaviour
     [SerializeField] AudioClip AIDeactivatedSound;
     [SerializeField] AudioClip ExplosionSOund;
     [SerializeField] AudioClip GravActivateSound;
+    [SerializeField] AudioClip AIWinSound;
+    public GameObject MusicTrack;
 
     void Start()
     {
@@ -331,7 +333,7 @@ public class AIMechanicController : MonoBehaviour
 
     void StartTimer()
     {
-
+        Instantiate(MusicTrack);
         BCFadeOut = true;
         timerScript.timerOn = true;
         humanMovement.canMove = true;
@@ -569,5 +571,7 @@ public class AIMechanicController : MonoBehaviour
     public void AIWinGame()
     {
         aiWinCanvasGroup.alpha = 1;
+        audioSource.clip = AIWinSound;
+        audioSource.Play();
     }
 }
