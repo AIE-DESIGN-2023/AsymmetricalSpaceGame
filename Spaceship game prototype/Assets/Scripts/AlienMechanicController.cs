@@ -60,6 +60,8 @@ public class AlienMechanicController : MonoBehaviour
     public bool blueCable2;
     public bool blueCable3;
 
+    GameObject blackImage;
+
     public GameObject stunHalo;
     public GameObject alienImageDead;
     private AudioSource audioSource;
@@ -101,6 +103,8 @@ public class AlienMechanicController : MonoBehaviour
         //eggLoadBarObject.SetActive(false);
         eggLoadCanvas.alpha = 0;
         cableLoadBarObject.SetActive(false);
+
+        blackImage = GameObject.FindGameObjectWithTag("BlackImage");
     }
 
     // Update is called once per frame

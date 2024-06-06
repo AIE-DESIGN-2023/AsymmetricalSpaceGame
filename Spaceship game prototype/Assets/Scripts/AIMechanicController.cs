@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class AIMechanicController : MonoBehaviour
 {
@@ -573,5 +574,12 @@ public class AIMechanicController : MonoBehaviour
         aiWinCanvasGroup.alpha = 1;
         audioSource.clip = AIWinSound;
         audioSource.Play();
+        BCFadeIn = true;
+        Invoke("ReloadScene", 3.5f);
+    }
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene("Playtest");
     }
 }

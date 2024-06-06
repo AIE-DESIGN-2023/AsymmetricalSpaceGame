@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Transactions;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HumanMechanicController : MonoBehaviour
 {
@@ -93,6 +94,9 @@ public class HumanMechanicController : MonoBehaviour
     [SerializeField] AudioClip EscapePodActivateSound;
     [SerializeField] AudioClip EggSquishSound;
 
+    GameObject blackImage;
+    CanvasGroup blackImageCanvas;
+
 
     //get movement script for knockdown
 
@@ -158,6 +162,8 @@ public class HumanMechanicController : MonoBehaviour
         escapePodAnim = escapePodObject.GetComponentInParent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        blackImage = GameObject.FindGameObjectWithTag("BlackImage");
+        blackImageCanvas = blackImage.GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame
@@ -615,9 +621,16 @@ public class HumanMechanicController : MonoBehaviour
     void HumanWinsGame()
     {
         humanWinCanvasGroup.alpha = 1;
+        blackImageCanvas.alpha = 1;
+        Invoke("ReloadScene", 3.5f);
         Debug.Log("human won the game");
         //WinStatusCanvas.SetActive(true);
         //temporaryWinStatus.SetActive(true);
+    }
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene("Playtest");
     }
 
     void ResetChainsaw()

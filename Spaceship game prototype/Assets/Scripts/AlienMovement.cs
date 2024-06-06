@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class AlienMovement : MonoBehaviour
 {
@@ -59,6 +60,7 @@ public class AlienMovement : MonoBehaviour
 
     public GameObject alien2SpriteMoving;
     public Image alien2SpriteStill;
+
 
     // Start is called before the first frame update
     void Start()
@@ -322,5 +324,12 @@ public class AlienMovement : MonoBehaviour
     {
         //alienWinCanvas.SetActive(true);
         alienWinCanvasGroup.alpha = 1;
+        blackImageCanvasGroup.alpha = 1;
+        Invoke("ReloadScene", 3.5f);
+    }
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene("Playtest");
     }
 }
